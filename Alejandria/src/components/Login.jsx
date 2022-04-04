@@ -2,11 +2,6 @@ import { Link } from 'react-router-dom'
 
 const Login = () => {
 
-  const [nombre,setNombre] = useState('')
-  const [passwd,setPasswd] = useState('')
-
-
-  
 
   return (
     <div className="md:w-3/5 bg-carne">
@@ -29,8 +24,7 @@ const Login = () => {
                   type="Nombre de usuario o email"
                   placeholder="Introduzca su nombre de usuario o email"
                   className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
-                  value={nombre}
-                  onChange={e => setNombre(e.target.value)}
+                  
                 />
               </div>
 

@@ -7,7 +7,6 @@ const Registrar = () => {
   const [email,setEmail] = useState('')
   const [passwd,setPasswd] = useState('')
 
-
   return (
     <div className="md:w-3/5 bg-carne">
       <h1 className='text-verde text-5xl
@@ -70,6 +69,7 @@ const Registrar = () => {
                 value="Crear cuenta"
                 className="bg-verde w-full py-3 text-white uppercase rounded-xl 
                 font-roboto mt-5 hover:bg-green-800"
+                
               />
           </form>
 
