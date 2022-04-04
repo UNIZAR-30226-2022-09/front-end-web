@@ -64,13 +64,15 @@ const Registrar = () => {
                 />
               </div>
 
-              <input 
-                type="submit"
-                value="Crear cuenta"
-                className="bg-verde w-full py-3 text-white uppercase rounded-xl 
-                font-roboto mt-5 hover:bg-green-800"
-                
-              />
+              <Link to="/myAccount/perfil">
+                <input 
+                  type="submit"
+                  value="Crear cuenta"
+                  className="bg-verde w-full py-3 text-white uppercase rounded-xl 
+                  font-roboto mt-5 hover:bg-green-800"
+                  
+                />
+              </Link>
           </form>
 
           <nav className="lg:flex lg:justify-center my-2">

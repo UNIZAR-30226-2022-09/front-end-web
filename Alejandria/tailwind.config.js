@@ -10,7 +10,8 @@ module.exports = {
 
       colors: {
         verde: '#447258',
-        carne: '#F4F1EA'
+        carne: '#F4F1EA',
+        verdeClaro: '#98bda8'
       },
 
       backgroundImage: (theme) =>({

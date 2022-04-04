@@ -41,13 +41,16 @@ const Login = () => {
                 />
               </div>
 
-              <input 
-                type="submit"
-                value="Iniciar sesion"
-                className="bg-verde w-full py-3 text-white uppercase rounded-xl 
-                font-roboto mt-5 hover:bg-green-800"
+              <Link to="/myAccount">
+                <input 
+                  type="submit"
+                  value="Iniciar sesion"
+                  className="bg-verde w-full py-3 text-white uppercase rounded-xl 
+                  font-roboto mt-5 hover:bg-green-800"
 
-              />
+                />
+              </Link>
+              
           </form>
 
           <nav className="lg:flex lg:justify-center mb-5">

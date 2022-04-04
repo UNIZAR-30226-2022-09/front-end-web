@@ -1,7 +1,15 @@
 import Login from "./components/Login"
 import Presentacion from "./layout/Presentacion"
+import LayoutNavegacion from "./layout/LayoutNavegacion"
+
 import Registrar from "./Paginas/Registrar"
 import { BrowserRouter, Routes, Route} from "react-router-dom"
+import HomePage from "./Paginas/HomePage"
+import ExplorarPage from "./Paginas/ExplorarPage"
+import PublicarPage from "./Paginas/PublicarPage"
+import ChatPage from "./Paginas/ChatPage"
+import PerfilPage from "./Paginas/PerfilPage"
+
 
 function App() {
 
@@ -10,8 +18,17 @@ function App() {
         <Routes>
           <Route path='/' element={<Presentacion />}>
             <Route index element={<Login />} />
-            <Route path="registrar" element={<Registrar />} />
-          </Route> 
+            <Route path="registrar" element={<Registrar />} />                
+          </Route>
+
+          <Route path="/myAccount" element={<LayoutNavegacion />}>
+            <Route index element={<HomePage />}/>
+            <Route path="explorar" index element={<ExplorarPage />}/>
+            <Route path="publicar" index element={<PublicarPage />}/>
+            <Route path="chat" index element={<ChatPage />}/>
+            <Route path="perfil" index element={<PerfilPage />}/>
+          </Route>
+
         </Routes>
       </BrowserRouter>
   )
