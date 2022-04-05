@@ -7,6 +7,13 @@ const Registrar = () => {
   const [email,setEmail] = useState('')
   const [passwd,setPasswd] = useState('')
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    
+  }
+
+
+
   return (
     <div className="md:w-3/5 bg-carne">
       <h1 className='text-verde text-5xl
@@ -18,7 +25,10 @@ const Registrar = () => {
 
       <div className="p-2 md:flex md:justify-center">
         <div className="md:w-2/3 lg:w-2/3">
-          <form className="my-5 bg-white shadow rounded-lg p-6">
+          <form 
+            className="my-5 bg-white shadow rounded-lg p-6"
+            onSubmit={handleSubmit}
+          >
               <div className="my-3">
                     <label 
                       className="uppercase text-verde font-roboto block text-xl"

@@ -50,7 +50,7 @@ const Login = () => {
               />
           </form>
 
-          <nav className="lg:flex lg:justify-center mb-5">
+          <nav className="lg:flex lg:justify-center mb-5 h-max">
             <Link
               className='block text-center my-5 text-verde text-sm uppercase'
               to="registrar"
