@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["index.html","./src/**/*.jsx"],
+  content: ["index.html","./src/**/*.jsx",'./src/**/*.{html,js}', './node_modules/tw-elements/dist/js/**/*.js'],
   theme: {
     extend: {
 
@@ -20,5 +20,5 @@ module.exports = {
       }),
     },
   },
-  plugins: [],
+  plugins: [require('tw-elements/dist/plugin')],
 }

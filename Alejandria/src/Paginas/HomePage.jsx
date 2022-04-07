@@ -1,13 +1,13 @@
 
 import Publicaciones from "../components/Publicaciones"
-import Recomendaciones from "../components/Recomendaciones"
+import Explorar from "../components/Explorar"
 
 function HomePage() {
   return (
     
-    <div className="mt-4 flex">
+    <div className="flex">
       <Publicaciones />
-      <Recomendaciones />
+      <Explorar />
     </div>
     
   )

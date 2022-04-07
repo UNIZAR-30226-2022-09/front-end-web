@@ -5,7 +5,7 @@ import LayoutNavegacion from "./layout/LayoutNavegacion"
 import Registrar from "./Paginas/Registrar"
 import { BrowserRouter, Routes, Route} from "react-router-dom"
 import HomePage from "./Paginas/HomePage"
-import ExplorarPage from "./Paginas/ExplorarPage"
+import NotificacionPage from "./Paginas/NotificacionPage"
 import PublicarPage from "./Paginas/PublicarPage"
 import ChatPage from "./Paginas/ChatPage"
 import PerfilPage from "./Paginas/PerfilPage"
@@ -23,7 +23,7 @@ function App() {
 
           <Route path="/myAccount" element={<LayoutNavegacion />}>
             <Route index element={<HomePage />}/>
-            <Route path="explorar" index element={<ExplorarPage />}/>
+            <Route path="notificaciones" index element={<NotificacionPage />}/>
             <Route path="publicar" index element={<PublicarPage />}/>
             <Route path="chat" index element={<ChatPage />}/>
             <Route path="perfil" index element={<PerfilPage />}/>

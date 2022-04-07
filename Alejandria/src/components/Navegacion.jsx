@@ -14,7 +14,7 @@ function Navegacion() {
             <Link to="/myAccount">
               <button
                 type="submit"
-                className="px-2 py-2 flex gap-2 text-2xl bg-transparent cursor-pointer transition-al focus:text-3xl hover:bg-verdeClaro rounded-xl hover:opacity-80"
+                className="px-2 py-2 flex gap-2 text-2xl bg-transparent cursor-pointer transition-al hover:bg-verdeClaro rounded-xl hover:opacity-80"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" 
                       className= { urlActual === "/myAccount" ? "text-verde h-7 w-7  fill-current" : "text-black h-7 w-7  fill-current"}
@@ -22,19 +22,6 @@ function Navegacion() {
                   <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                 </svg>
                 Home
-              </button>
-            </Link>
-            
-            <Link to="/myAccount/explorar">
-              <button
-                type="submit"
-                className="px-2 py-2 flex gap-2 text-2xl bg-transparent cursor-pointer transition-al hover:bg-verdeClaro rounded-xl hover:opacity-80"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className={ urlActual === "/myAccount/explorar" ? "text-verde h-7 w-7  fill-current" : "text-black h-7 w-7  fill-current"} viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                </svg>
-                
-                Explorar
               </button>
             </Link>
                 
@@ -63,14 +50,26 @@ function Navegacion() {
             </Link>
 
             <Link to="perfil">
-                  <button
+                <button
                 type="submit"
                 className="px-2 py-2 flex gap-2 text-2xl bg-transparent cursor-pointer transition-al hover:bg-verdeClaro rounded-xl hover:opacity-80"
-              >
+                >
                 <svg xmlns="http://www.w3.org/2000/svg" className={ urlActual === "/myAccount/perfil" ? "text-verde h-7 w-7  fill-current" : "text-black h-7 w-7  fill-current"} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
                 Perfil
+              </button>
+            </Link>
+
+            <Link to="notificaciones">
+                <button
+                type="submit"
+                className="px-2 py-2 flex gap-2 text-2xl bg-transparent cursor-pointer transition-al hover:bg-verdeClaro rounded-xl hover:opacity-80"
+                >
+                <svg xmlns="http://www.w3.org/2000/svg" className={ urlActual === "/myAccount/notificaciones" ? "text-verde h-7 w-7  fill-current" : "text-black h-7 w-7  fill-current"} viewBox="0 0 20 20" fill="none">
+                  <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                </svg>
+                Notificaciones
               </button>
             </Link>
 

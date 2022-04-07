@@ -1,9 +1,15 @@
 import CardPubli from "./CardPubli"
+import CardRecomend from "./CardRecomend"
 
 function ListarCardPubli() {
   return (
-    <div className="  border-black border-opacity-25">
+    <div className="">
       <CardPubli />
+      <CardRecomend />
+      <CardRecomend />
+      <CardPubli />
+      <CardPubli />
+      <CardRecomend />
     </div>
   )
 }
