@@ -57,13 +57,13 @@ function PerfilPage() {
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quia incidunt id in fugit 
           eos maxime? Mollitia sequi illo, eligendi pariatur, quibusdam recusandae, repellat rem ullam iste ut quas architecto!
         </h1>
-        <h1 className="py-2 text-justify font-roboto">
-          http://kjbhsdfkjlbsdajkfbsajdkbsd
+        <h1 className="py-2 text-justify font-roboto text-blue-600">
+          <a target="_blank" href="https://google.es">https://google.es</a>
         </h1>
       </div>
       
       <div>
-        <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white">
+        <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white">
           EDITAR PERFIL
         </button>
       </div>
@@ -138,8 +138,8 @@ function PerfilPage() {
         <div className="tab-content" id="tabs-tabContentJustify">
           <div className="tab-pane fade show active" id="tabs-homeJustify" role="tabpanel"
             aria-labelledby="tabs-home-tabJustify">
-            <div className="h-screen overflow-y-scroll">
-            <div className="grid grid-cols-3 gap-4">
+            <div className="h-[60vh] overflow-y-scroll">
+              <div className="grid grid-cols-3 gap-4">
                 <div>
                   <CardPubli />
                 </div>
@@ -190,14 +190,101 @@ function PerfilPage() {
 
           </div>
           <div className="tab-pane fade" id="tabs-profileJustify" role="tabpanel" aria-labelledby="tabs-profile-tabJustify">
-            <div className=" overflow-y-scroll scrollbar-hide">
+            <div className="h-[60vh] overflow-y-scroll scrollbar-hide">
               <div className="grid grid-cols-3 gap-4">
-                nkdsafkl
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+
               </div>
             </div>
           </div>
           <div className="tab-pane fade" id="tabs-messagesJustify" role="tabpanel" aria-labelledby="tabs-profile-tabJustify">
-            Tab 3 content justify
+          <div className="h-[60vh] overflow-y-scroll">
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <CardPubli />
+                </div>
+                <div>
+                  <CardPubli />
+                </div>
+                <div>
+                  <CardPubli />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardPubli />
+                </div>
+                <div>
+                  <CardPubli />
+                </div>
+                <div>
+                  <CardPubli />
+                </div>
+                <div>
+                  <CardPubli />
+                </div>
+                <div>
+                  <CardPubli />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardPubli />
+                </div>
+                <div>
+                  <CardRecomend />
+                </div>
+                <div>
+                  <CardPubli />
+                </div>
+                <div>
+                  <CardPubli />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
