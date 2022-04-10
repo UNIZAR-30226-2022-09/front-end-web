@@ -10,6 +10,24 @@ function ListarCardPubli() {
       <CardPubli />
       <CardPubli />
       <CardRecomend />
+      <CardPubli />
+      <CardRecomend />
+      <CardRecomend />
+      <CardPubli />
+      <CardPubli />
+      <CardRecomend />
+      <CardPubli />
+      <CardRecomend />
+      <CardRecomend />
+      <CardPubli />
+      <CardPubli />
+      <CardRecomend />
+      <CardPubli />
+      <CardRecomend />
+      <CardRecomend />
+      <CardPubli />
+      <CardPubli />
+      <CardRecomend />
     </div>
   )
 }

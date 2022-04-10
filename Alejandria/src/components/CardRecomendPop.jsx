@@ -1,6 +1,6 @@
 
 
-function CardRecomend() {
+function CardRecomendPop() {
   return (
     <div className="bg-gray-200 px-5 py-5 mb-3 rounded-2xl border-2 border-verde">
        
@@ -65,4 +65,4 @@ function CardRecomend() {
   )
 }
 
-export default CardRecomend
+export default CardRecomendPop
