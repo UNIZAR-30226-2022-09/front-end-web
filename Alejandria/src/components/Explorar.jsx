@@ -9,13 +9,13 @@ function Explorar() {
           className="font-roboto text-verde"> {''}conocimiento</span></h1>
       
       <div className="flex justify-between px-10">
-        <form class="flex">
-          <input class="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white" placeholder="Filtrar por palabra"/>
-          <button class="font-roboto rounded-r-lg bg-verde p-1 text-white uppercase">Buscar</button>
+        <form className="flex">
+          <input className="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white" placeholder="Filtrar por palabra"/>
+          <button className="font-roboto rounded-r-lg bg-verde p-1 text-white uppercase">Buscar</button>
         </form>
-        <form class="flex">
-          <input class="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white" placeholder="Buscar Usuario"/>
-          <button class="font-roboto rounded-r-lg bg-verde p-1 text-white uppercase">Buscar</button>
+        <form className="flex">
+          <input className="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white" placeholder="Buscar Usuario"/>
+          <button className="font-roboto rounded-r-lg bg-verde p-1 text-white uppercase">Buscar</button>
         </form>
       </div>
       
@@ -122,7 +122,7 @@ function Explorar() {
       </div>
       <div className="">
         <h1 className="mt-2 mb-1 text-lg text-left font-noto">Explora <span className="uppercase text-verde">Populares - Publicaciones</span></h1>
-        <div class="flex overflow-x-auto space-x-4">
+        <div className="flex overflow-x-auto space-x-4">
           <CardPubliPop />
           <CardPubliPop />          
           <CardPubliPop />          

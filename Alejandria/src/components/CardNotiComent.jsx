@@ -20,7 +20,7 @@ function CardNotiComent() {
         
 
         <h1 className="mt-2 text-justify font-roboto">
-          <spam className="text-lg">@nombreUsuario</spam> te ha comentado en una publicación.
+          <span className="text-lg">@nombreUsuario</span> te ha comentado en una publicación.
         </h1>
 
       </div>

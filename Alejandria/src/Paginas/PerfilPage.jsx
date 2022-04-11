@@ -1,73 +1,92 @@
 import CardPubli from "../components/CardPubli"
 import CardRecomend from "../components/CardRecomend"
+import ModalPerfil from "../components/ModalPerfil"
+
+import {useEffect, useState} from 'react'
  
 function PerfilPage() {
+  
+  const [modal, setModal] = useState(true);
+  const [datos, setDatos] = useState({});
+
+  const handleModal = () => {
+    console.log('Ocultando...')
+    setModal(true)
+  }
+
+  const guardarDatos = dato => {
+    console.log('dato:', dato);
+    setDatos(dato)
+  }
+
   return (
       <div className="border-l-2 ">
         <div className="mx-3 mt-3 ">
         <div className="flex space-x-5 items-center">
-        <div className="">
-            <img className="w-30 h-30 rounded-full border border-gray-100 shadow-sm" 
-              src="https://randomuser.me/api/portraits/women/81.jpg" 
-              alt="" 
-            />
-            
-            <div className="text-2xl font-roboto">Nombre_Usuario</div>
-            <button
-              type="submit"
-              className="text-1xl gap-2 cursor-pointer transition-all items-center"
-            > 
-              <div className="font-roboto">@nombreUsuario</div>
-            </button>
-        </div>
-        <div className=" flex space-x-14">
-            <div className="font-roboto text-center text-2xl">
-              <div>
-                10
-              </div>
-              <div>
-                Posts
-              </div>
+            <div className="">
+                <img className="w-30 h-30 rounded-full border border-gray-100 shadow-sm" 
+                  src="https://randomuser.me/api/portraits/women/81.jpg" 
+                  alt="" 
+                />
+                
+                <div className="text-2xl font-roboto">{datos.nombre}</div>
+                <button
+                  type="submit"
+                  className="text-1xl gap-2 cursor-pointer transition-all items-center"
+                > 
+                  <div className="font-roboto">@nombreUsuario</div>
+                </button>
             </div>
+            <div className=" flex space-x-14">
+                <div className="font-roboto text-center text-2xl">
+                  <div>
+                    10
+                  </div>
+                  <div>
+                    Posts
+                  </div>
+                </div>
 
-            <div className="font-roboto text-center text-2xl">
-              <div>
-                235
-              </div>
-              <div>
-                Seguidores
-              </div>
-            </div>
+                <div className="font-roboto text-center text-2xl">
+                  <div>
+                    235
+                  </div>
+                  <div>
+                    Seguidores
+                  </div>
+                </div>
 
-            <div className="font-roboto text-center text-2xl">
-              <div>
-                176
-              </div>
-              <div>
-                Siguiendo
-              </div>
-            </div>
-        </div>
-        
-
+                <div className="font-roboto text-center text-2xl">
+                  <div>
+                    176
+                  </div>
+                  <div>
+                    Siguiendo
+                  </div>
+                </div>
+          </div>
       </div>
       
       <div className="">
-        <h1 className="mt-2 text-justify font-roboto">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quia incidunt id in fugit 
-          eos maxime? Mollitia sequi illo, eligendi pariatur, quibusdam recusandae, repellat rem ullam iste ut quas architecto!
+        <h1 className="mt-2 text-justify font-roboto"> 
+          {datos.descripcion}
         </h1>
         <h1 className="py-2 text-justify font-roboto text-blue-600">
-          <a target="_blank" href="https://google.es">https://google.es</a>
+          <a target="_blank" href="{datos.link}">{datos.link}</a>
         </h1>
       </div>
       
       <div>
-        <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white">
+        <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white"
+                type="button"
+                data-modal-toggle="modalEditarPerfil"
+                onClick={handleModal}
+        >
           EDITAR PERFIL
         </button>
       </div>
-      
+      {modal && <ModalPerfil  setModal={setModal} guardarDatos={guardarDatos}/> }
+
       <div>
         <ul className="
             nav nav-tabs nav-justified
