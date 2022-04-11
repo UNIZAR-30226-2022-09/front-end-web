@@ -10,7 +10,7 @@ function PerfilPage() {
   const [datos, setDatos] = useState({});
 
   const handleModal = () => {
-    console.log('Ocultando...')
+    console.log('handleModal: modal=true');
     setModal(true)
   }
 
@@ -85,7 +85,7 @@ function PerfilPage() {
           EDITAR PERFIL
         </button>
       </div>
-      {modal && <ModalPerfil  setModal={setModal} guardarDatos={guardarDatos}/> }
+      {modal && <ModalPerfil  setModal={setModal} guardarDatos={guardarDatos} datos={datos} />}
 
       <div>
         <ul className="
