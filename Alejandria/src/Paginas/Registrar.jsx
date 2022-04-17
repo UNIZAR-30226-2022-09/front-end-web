@@ -1,11 +1,22 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
+import { faSmile } from "@fortawesome/free-regular-svg-icons"
 
 const Registrar = () => {
 
   const [nombre,setNombre] = useState('')
   const [email,setEmail] = useState('')
   const [passwd,setPasswd] = useState('')
+
+  let primeraVez = false
+
+  const funcLS = () => {
+    console.log('PRE PrimeraVez:', primeraVez);
+    primeraVez = true
+    console.log('POST PrimeraVez:', primeraVez);
+    localStorage.setItem('primeraVez', JSON.stringify(primeraVez))
+    localStorage.setItem('nikUser', JSON.stringify(nombre))
+  }
 
   return (
     <div className="md:w-3/5 bg-carne">
@@ -70,6 +81,7 @@ const Registrar = () => {
                   value="Crear cuenta"
                   className="bg-verde w-full py-3 text-white uppercase rounded-xl 
                   font-roboto mt-5 hover:bg-green-800"
+                  onClick={funcLS}
                   
                 />
               </Link>

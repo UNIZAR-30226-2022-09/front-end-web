@@ -1,46 +1,42 @@
 import {useEffect, useState} from 'react'
 
-function ModalPerfil({setModal, guardarDatos, datos}) {
+function ModalPerfil({setModal, guardarDatos}) {
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [link, setLink] = useState('');
   const [foto, setFoto] = useState('');
- 
+
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const nombre = JSON.parse(localStorage.getItem('nomUser'))
+    setNombre(nombre)
+    const desc = JSON.parse(localStorage.getItem('descripcion'))
+    setDescripcion(desc)
+    const lk = JSON.parse(localStorage.getItem('link'))
+    setLink(lk)
+  }, []);
 
  function uploadImg(){
    console.log('from uploadImg')
  }
 
   const handleSubmit = (e) => {
-    console.log('parentData>', datos)
-    
     e.preventDefault();    
     
-    console.log('handleSubmit:', error);
-    
-    if([nombre, descripcion, link].includes('')){
-      console.log('hay error')
-        setError(true)
+    if([nombre].includes(null) || [nombre].includes('')){
+      setError(true)
       // }  
     }else{
-      console.log('NO hay error')
       setError(false)
       setModal(false)
+      localStorage.setItem('primeraVez', JSON.stringify(false))
+      localStorage.setItem('nomUser', JSON.stringify(nombre))
+      localStorage.setItem('descripcion', JSON.stringify(descripcion))
+      localStorage.setItem('link', JSON.stringify(link))
       guardarDatos({nombre, descripcion, link})
       
     }
-    console.log('nombre:', nombre)
-    console.log('descripcion:', descripcion)
-    console.log('link:', link)
-    console.log('foito:', foto)
-
-    console.log("-----")
-    console.log('dn',datos.nombre)
-    console.log('dd',datos.descripcion)
-    console.log('dl',datos.link)
-
-    console.log('###########################3')
   }
 
   return (
@@ -83,15 +79,15 @@ function ModalPerfil({setModal, guardarDatos, datos}) {
                         <div>
                           <input
                             className="font-roboto y-0p rounded-lg pl-2 border border-verde bg-white" placeholder="Nombre Usuario *"
-                            defaultValue={datos.nombre}
+                            defaultValue={nombre}
                             onChange={(e) => setNombre(e.target.value)}
 
                           />
                         </div>
                         <div>
                           <input
-                            className="font-roboto y-0p rounded-lg pl-2 border border-verde bg- h-10" placeholder="Biografía *"
-                            defaultValue={datos.descripcion}
+                            className="font-roboto y-0p rounded-lg pl-2 border border-verde bg- h-10" placeholder="Biografía"
+                            defaultValue={descripcion}
                             onChange={(e) => 
                               setDescripcion(e.target.value)
                               
@@ -101,8 +97,8 @@ function ModalPerfil({setModal, guardarDatos, datos}) {
                         </div>
                         <div>
                           <input
-                            className="font-roboto y-0p rounded-lg pl-2 border border-verde bg-white" placeholder="Link *"
-                            defaultValue={datos.link}
+                            className="font-roboto y-0p rounded-lg pl-2 border border-verde bg-white" placeholder="Link"
+                            defaultValue={link}
                             onChange={(e) => setLink(e.target.value)}
 
                           />

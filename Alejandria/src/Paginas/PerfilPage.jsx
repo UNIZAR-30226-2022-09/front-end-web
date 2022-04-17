@@ -6,12 +6,32 @@ import {useEffect, useState} from 'react'
  
 function PerfilPage() {
   
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
   const [datos, setDatos] = useState({});
+  const [nick, setNick] = useState(false);
+
+  useEffect(() => {
+    const primeraVez = JSON.parse(localStorage.getItem('primeraVez'))
+    setModal(primeraVez)
+    console.log('valor de modal tras ls', primeraVez);
+    const nomUser = JSON.parse(localStorage.getItem('nikUser'))
+    setNick(nomUser)
+    
+    const nom = JSON.parse(localStorage.getItem('nomUser'))
+    const desc = JSON.parse(localStorage.getItem('descripcion'))
+    const lk = JSON.parse(localStorage.getItem('link'))
+
+    setDatos({
+      nombre: nom,
+      descripcion: desc,
+      link: lk
+    })
+
+  }, []);
 
   const handleModal = () => {
-    console.log('handleModal: modal=true');
     setModal(true)
+    
   }
 
   const guardarDatos = dato => {
@@ -30,12 +50,9 @@ function PerfilPage() {
                 />
                 
                 <div className="text-2xl font-roboto">{datos.nombre}</div>
-                <button
-                  type="submit"
-                  className="text-1xl gap-2 cursor-pointer transition-all items-center"
-                > 
-                  <div className="font-roboto">@nombreUsuario</div>
-                </button>
+                
+                <div className="text-1xl gap-2 cursor-pointer transition-all items-center font-roboto">@{nick}</div>
+                
             </div>
             <div className=" flex space-x-14">
                 <div className="font-roboto text-center text-2xl">
@@ -85,7 +102,7 @@ function PerfilPage() {
           EDITAR PERFIL
         </button>
       </div>
-      {modal && <ModalPerfil  setModal={setModal} guardarDatos={guardarDatos} datos={datos} />}
+      {modal && <ModalPerfil  setModal={setModal} guardarDatos={guardarDatos} />}
 
       <div>
         <ul className="
