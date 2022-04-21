@@ -36,8 +36,10 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
       setNombre(datosUser.nombre)
       setDescripcion(datosUser.descripcion)
       setLink(datosUser.link)
-      setSelected(datosUser.preferencias)
+      const preferencias = JSON.parse(localStorage.getItem('preferencias'))
+      setSelected(preferencias)
     }
+
   }, []);
 
   // function uploadImg(){
@@ -46,19 +48,18 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-          
-    console.log(selected);
-    console.log(JSON.stringify(selected)); 
+    
+    
 
     //selected.length
-
-    if( 1 === 0){
+    if( selected.length === 0){
       setError(true)  
     }else{
       setError(false)
       localStorage.setItem('primeraVez', JSON.stringify(false))
       setModal(false)
-
+      localStorage.setItem('preferencias', JSON.stringify(selected))
+      setSelected(JSON.stringify(selected)); 
 
       
       // console.log(nombre);
@@ -69,12 +70,18 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
       // localStorage.setItem('link', JSON.stringify(link))
       // localStorage.setItem('preferencias', JSON.stringify(selected))
       // guardarDatos({nombre, descripcion, link})
-      
+      //-----------------------------------------------------------
       const prueba = {...datosUser}
-      console.log('Objeto prueba con valores de datoUser', prueba);
       prueba.nombre = nombre
       prueba.descripcion = descripcion
       prueba.link = link
+
+      const preferencias = []
+      for (var i = 0; i < selected.length; i++) {
+        preferencias[i] = selected[i].value
+      }
+      prueba.preferencias = preferencias
+
       console.log('Objeto prueba con valores modificados', prueba);
 
       const url = `http://localhost:4000/profile/${prueba.id}`

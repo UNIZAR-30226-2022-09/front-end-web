@@ -2,6 +2,11 @@ import { Link } from 'react-router-dom'
 
 const Login = () => {
 
+  let primeraVez = false
+
+  const funcLS = () => {
+    localStorage.setItem('primeraVez', JSON.stringify(primeraVez))
+  }
 
   return (
     <div className="md:w-3/5 bg-carne">
@@ -47,7 +52,7 @@ const Login = () => {
                   value="Iniciar sesion"
                   className="bg-verde w-full py-3 text-white uppercase rounded-xl 
                   font-roboto mt-5 hover:bg-green-800"
-
+                  onClick={funcLS}
                 />
               </Link>
               

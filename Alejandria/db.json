@@ -2,11 +2,13 @@
   "profile": [
     {
       "id": 1,
-      "nombre": "Raul Lopez",
+      "nombre": "DADFASDF",
       "nick": "raullopezz",
-      "descripcion": "Hola mundo",
-      "link": "www.google.es",
-      "preferencias": [],
+      "descripcion": "SADFADS",
+      "link": "ASDFASD",
+      "preferencias": [
+        "Biologia"
+      ],
       "nPost": 2,
       "nSeguidores": 20,
       "nSiguiendo": 10,
