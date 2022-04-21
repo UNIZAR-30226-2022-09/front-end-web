@@ -3,29 +3,76 @@ import CardRecomend from "../components/CardRecomend"
 import ModalPerfil from "../components/ModalPerfil"
 
 import {useEffect, useState} from 'react'
- 
+
 function PerfilPage() {
   
   const [modal, setModal] = useState(false);
   const [datos, setDatos] = useState({});
   const [nick, setNick] = useState(false);
 
+  const [publicaciones, setPublicaciones] = useState([])
+  const [datosUser, setDatosUser] = useState([])
+  const [recomendaciones, setRecomendaciones] = useState([])
+
+  function refreshPage() {
+    window.location.reload(false);
+  }
+  
+  const obtenerPubliApi = async () => {
+    try {
+      const urlPubli = 'http://localhost:4000/publicaciones'
+      const resPubli = await fetch(urlPubli)
+      const resultPubli = await resPubli.json()
+      setPublicaciones(resultPubli);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const obtenerRecomendApi = async () => {
+    try {
+      const urlRecomend = 'http://localhost:4000/recomendaciones'
+      const resRecomend = await fetch(urlRecomend)
+      const resultRecomend = await resRecomend.json()
+      setRecomendaciones(resultRecomend);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const obtenerDatosUserApi = async () => {
+    try {
+      const urlDatos = 'http://localhost:4000/profile/1'
+      const resDatos = await fetch(urlDatos)
+      const resultDatos = await resDatos.json()
+      setDatosUser(resultDatos);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
+
+    obtenerDatosUserApi()
+    obtenerPubliApi()
+    obtenerRecomendApi()
+
     const primeraVez = JSON.parse(localStorage.getItem('primeraVez'))
     setModal(primeraVez)
-    console.log('valor de modal tras ls', primeraVez);
-    const nomUser = JSON.parse(localStorage.getItem('nikUser'))
-    setNick(nomUser)
-    
-    const nom = JSON.parse(localStorage.getItem('nomUser'))
-    const desc = JSON.parse(localStorage.getItem('descripcion'))
-    const lk = JSON.parse(localStorage.getItem('link'))
 
-    setDatos({
-      nombre: nom,
-      descripcion: desc,
-      link: lk
-    })
+    // const nomUser = JSON.parse(localStorage.getItem('nikUser'))
+    // setNick(nomUser)
+    
+    // const nom = JSON.parse(localStorage.getItem('nomUser'))
+    // const desc = JSON.parse(localStorage.getItem('descripcion'))
+    // const lk = JSON.parse(localStorage.getItem('link'))
+
+    // setDatos({
+    //   nombre: nom,
+    //   descripcion: desc,
+    //   link: lk
+    // })
 
   }, []);
 
@@ -35,8 +82,7 @@ function PerfilPage() {
   }
 
   const guardarDatos = dato => {
-    console.log('dato:', dato);
-    setDatos(dato)
+    setDatos(dato)    
   }
 
   return (
@@ -45,19 +91,19 @@ function PerfilPage() {
         <div className="flex space-x-5 items-center">
             <div className="">
                 <img className="w-30 h-30 rounded-full border border-gray-100 shadow-sm" 
-                  src="https://randomuser.me/api/portraits/women/81.jpg" 
+                  src={datosUser.fotoPerfil} 
                   alt="" 
                 />
                 
-                <div className="text-2xl font-roboto">{datos.nombre}</div>
+                <div className="text-2xl font-roboto">{datosUser.nombre}</div>
                 
-                <div className="text-1xl gap-2 cursor-pointer transition-all items-center font-roboto">@{nick}</div>
+                <div className="text-1xl gap-2 cursor-pointer transition-all items-center font-roboto">@{datosUser.nick}</div>
                 
             </div>
             <div className=" flex space-x-14">
                 <div className="font-roboto text-center text-2xl">
                   <div>
-                    10
+                    {datosUser.nPost}
                   </div>
                   <div>
                     Posts
@@ -66,7 +112,7 @@ function PerfilPage() {
 
                 <div className="font-roboto text-center text-2xl">
                   <div>
-                    235
+                  {datosUser.nSeguidores}
                   </div>
                   <div>
                     Seguidores
@@ -75,7 +121,7 @@ function PerfilPage() {
 
                 <div className="font-roboto text-center text-2xl">
                   <div>
-                    176
+                  {datosUser.nSiguiendo}
                   </div>
                   <div>
                     Siguiendo
@@ -86,10 +132,10 @@ function PerfilPage() {
       
       <div className="">
         <h1 className="mt-2 text-justify font-roboto"> 
-          {datos.descripcion}
+          {datosUser.descripcion}
         </h1>
         <h1 className="py-2 text-justify font-roboto text-blue-600">
-          <a target="_blank" href="{datos.link}">{datos.link}</a>
+          <a target="_blank" href="{datos.link}">{datosUser.link}</a>
         </h1>
       </div>
       
@@ -102,7 +148,7 @@ function PerfilPage() {
           EDITAR PERFIL
         </button>
       </div>
-      {modal && <ModalPerfil  setModal={setModal} guardarDatos={guardarDatos} />}
+      {modal && <ModalPerfil  setModal={setModal} guardarDatos={guardarDatos} datosUser={datosUser} obtenerDatosUserApi={obtenerDatosUserApi} refreshPage={refreshPage}/>}
 
       <div>
         <ul className="
@@ -176,51 +222,19 @@ function PerfilPage() {
             aria-labelledby="tabs-home-tabJustify">
             <div className="h-[60vh] overflow-y-scroll">
               <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
+                  {publicaciones.map( publicacion => (
+                    <CardPubli
+                      key={publicacion.id}
+                      id={publicacion.id}
+                      fotoPerfil={publicacion.fotoPerfil}
+                      nick={publicacion.nick}
+                      portada={publicacion.portada}
+                      comentario={publicacion.comentario}
+                      nLikes={publicacion.nLikes}
+                      nComents={publicacion.nComents}
+                      nGuardados={publicacion.nGuardados}
+                    />  
+                  ))}    
               </div>
             </div>
 
@@ -228,45 +242,20 @@ function PerfilPage() {
           <div className="tab-pane fade" id="tabs-profileJustify" role="tabpanel" aria-labelledby="tabs-profile-tabJustify">
             <div className="h-[60vh] overflow-y-scroll scrollbar-hide">
               <div className="grid grid-cols-3 gap-4">
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
+              {recomendaciones.map( recomendacion => (
+                    <CardRecomend
+                      key={recomendacion.id}
+                      id={recomendacion.id}
+                      fotoPerfil={recomendacion.fotoPerfil}
+                      nick={recomendacion.nick}
+                      titArticulo={recomendacion.titArticulo}
+                      autorArticulo={recomendacion.autorArticulo}
+                      comentario={recomendacion.comentario}
+                      nLikes={recomendacion.nLikes}
+                      nComents={recomendacion.nComents}
+                      nGuardados={recomendacion.nGuardados}
+                    />  
+                  ))} 
 
               </div>
             </div>

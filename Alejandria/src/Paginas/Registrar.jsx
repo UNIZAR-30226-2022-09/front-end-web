@@ -11,11 +11,8 @@ const Registrar = () => {
   let primeraVez = false
 
   const funcLS = () => {
-    console.log('PRE PrimeraVez:', primeraVez);
     primeraVez = true
-    console.log('POST PrimeraVez:', primeraVez);
     localStorage.setItem('primeraVez', JSON.stringify(primeraVez))
-    localStorage.setItem('nikUser', JSON.stringify(nombre))
   }
 
   return (
