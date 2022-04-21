@@ -3,9 +3,10 @@ import CardRecomend from "../components/CardRecomend"
 import ModalPerfil from "../components/ModalPerfil"
 
 import {useEffect, useState} from 'react'
+import useDarkmode from "../hook/useDarkmode";
 
 function PerfilPage() {
-  
+  const [colorTheme, setTheme] = useDarkmode();
   const [modal, setModal] = useState(false);
   const [datos, setDatos] = useState({});
   const [nick, setNick] = useState(false);
@@ -86,22 +87,17 @@ function PerfilPage() {
   }
 
   return (
-      <div className="border-l-2 ">
-        <div className="mx-3 mt-3 ">
-        <div className="flex space-x-5 items-center">
-            <div className="">
+      <div className="border-l-2 dark:bg-black dark:text-white dark:border-l-dorado transition duration-500">
+        <div className="px-3 pt-3 ">
+        <div className="h-[13vh] flex space-x-5 items-center">
+            <div className="w-1/5">
                 <img className="w-30 h-30 rounded-full border border-gray-100 shadow-sm" 
                   src={datosUser.fotoPerfil} 
                   alt="" 
-                />
-                
-                <div className="text-2xl font-roboto">{datosUser.nombre}</div>
-                
-                <div className="text-1xl gap-2 cursor-pointer transition-all items-center font-roboto">@{datosUser.nick}</div>
-                
+                />                
             </div>
-            <div className=" flex space-x-14">
-                <div className="font-roboto text-center text-2xl">
+            <div className="w-4/5 flex space-x-10">
+                <div className="font-roboto text-center text-2xl ">
                   <div>
                     {datosUser.nPost}
                   </div>
@@ -127,20 +123,28 @@ function PerfilPage() {
                     Siguiendo
                   </div>
                 </div>
+            </div>
+          <div>
+              <button onClick={() => setTheme(colorTheme)}>
+                {colorTheme === 'light' ? "Modo Claro" : "Modo Oscuro"}
+                
+              </button>
           </div>
       </div>
       
-      <div className="">
+      <div className="h-[15vh]">
+        <div className="text-2xl font-roboto">{datosUser.nombre}</div>
+        <div className="text-1xl gap-2 transition-all items-center font-roboto">@{datosUser.nick}</div>
         <h1 className="mt-2 text-justify font-roboto"> 
           {datosUser.descripcion}
         </h1>
-        <h1 className="py-2 text-justify font-roboto text-blue-600">
+        <h1 className="py-2 text-justify font-roboto text-blue-400">
           <a target="_blank" href="{datos.link}">{datosUser.link}</a>
         </h1>
       </div>
       
-      <div>
-        <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white"
+      <div className="h-[3vh] ">
+        <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white dark:border-dorado dark:text-dorado dark:hover:bg-doradoClaro dark:hover:text-white dark:hover:opacity-70"
                 type="button"
                 data-modal-toggle="modalEditarPerfil"
                 onClick={handleModal}
@@ -150,7 +154,7 @@ function PerfilPage() {
       </div>
       {modal && <ModalPerfil  setModal={setModal} guardarDatos={guardarDatos} datosUser={datosUser} obtenerDatosUserApi={obtenerDatosUserApi} refreshPage={refreshPage}/>}
 
-      <div>
+      <div className="">
         <ul className="
             nav nav-tabs nav-justified
             flex flex-col
@@ -159,8 +163,8 @@ function PerfilPage() {
             list-none
             border-b-0
             pl-0
-            mb-4
-          " id="tabs-tabJustify" role="tablist">
+            mb-2" 
+            id="tabs-tabJustify" role="tablist">
           <li className="nav-item flex-grow text-center" role="presentation">
             <a href="#tabs-homeJustify" className="
               nav-link

@@ -1,6 +1,6 @@
-function CardNotiLike() {
+function CardNotiLike(props) {
   return (
-    <div className="w-full bg-gray-200 px-5 py-5 mb-3 rounded-2xl border-2 border-verde">
+    <div className="bg-gray-200 px-5 py-5 mb-3 rounded-2xl border-2 border-verde dark:border-dorado dark:bg-black dark:text-white">
        
         <div className="mb-2 gap-2 items-center hover:underline ">
             
@@ -8,11 +8,11 @@ function CardNotiLike() {
               type="submit"
               className=" px-2 flex text-1xl gap-2 cursor-pointer transition-all items-center"
             >
-            <img className="w-10 h-10 rounded-full border border-gray-100 shadow-sm" 
-             src="https://randomuser.me/api/portraits/women/81.jpg" 
+            <img className="w-10 h-10 rounded-full shadow-sm" 
+             src= {props.fotoPerfil} 
              alt="" 
             /> 
-            <div className="font-roboto">@nombreUsuario</div>
+            <div className="font-roboto">@{props.nickUser} </div>
             </button>
 
         </div>
@@ -20,7 +20,7 @@ function CardNotiLike() {
         
 
         <h1 className="mt-2 text-justify font-roboto">
-          <span className="text-lg">@nombreUsuario</span> te ha dado me gusta en una publicación.
+          <span className="text-lg cursor-pointer transition-all hover:underline font-noto">@{props.nickOtroUser}</span> le ha dado me gusta a tu <span className="text-blue-400">publicacion{ }{props.idPubli}XCAMBIAR</span>.
         </h1>
 
       </div>

@@ -109,29 +109,29 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
     <div>
       <div id="modalEditarPerfil" tabIndex="-1" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full bg-zinc-600 bg-opacity-50">
           <div className="relative p-4 w-full max-w-5xl h-full md:h-auto text-center mx-auto my-auto">
-              <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+              <div className="relative bg-white rounded-lg shadow dark:bg-gray-900 dark:text-black">
                   <div className=" p-5 rounded-t border-b dark:border-gray-600">
                       <h3 className="text-2xl font-roboto text-gray-900 dark:text-white">
-                          Configura tu<span className="font-noto text-verde">{' '}Perfil!!</span>
+                          Configura tu<span className="font-noto text-verde dark:text-dorado">{' '}Perfil!!</span>
                       </h3>
                   </div>
                   <form 
                     onSubmit={handleSubmit}
                     className="">
-                      <div className="my-5 flex">
+                      <div className="my-5 flex ">
                         <div className="w-1/2">
-                            <div className="pl-5 max-w-xl">
+                            <div className="pl-5 max-w-xl ">
                               <label
-                                  className={ foto === '' ? "flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none" : "flex justify-center w-full h-32 px-4 transition bg-white border-2 border-green-300 border-dashed rounded-md appearance-none focus:outline-none"}>
+                                  className={ foto === '' ? "flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none dark:bg-gray-500" : "flex justify-center w-full h-32 px-4 transition bg-white border-2 border-green-300 border-dashed rounded-md appearance-none focus:outline-none dark:bg-gray-500 dark:border-dorado"}>
                                   <span className="flex items-center space-x-2">
-                                      <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24"
+                                      <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-600 dark:text-white" fill="none" viewBox="0 0 24 24"
                                           stroke="currentColor" strokeWidth="2">
                                           <path strokeLinecap="round" strokeLinejoin="round"
                                               d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                       </svg>
-                                      <span className="font-medium text-gray-600">
+                                      <span className="font-medium text-gray-600 dark:text-white">
                                           Drop files to Attach, or {' '}
-                                          <span className="text-blue-600 underline">browse</span>
+                                          <span className="text-blue-400 underline">browse</span>
                                           
                                       </span>
                                   </span>
@@ -145,7 +145,7 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
                         <div className="w-1/2 space-y-5 pb-3">
                           <div>
                             <input
-                              className="font-roboto y-0p rounded-lg pl-2 border border-verde bg-white" placeholder="Nombre Usuario"
+                              className="font-roboto y-0p rounded-lg pl-2 border-2 border-verde bg-white dark:border-dorado dark:bg-gray-500 dark:text-white" placeholder="Nombre Usuario"
                               defaultValue={nombre}
                               onChange={(e) => 
                                 setNombre(e.target.value)}
@@ -155,7 +155,7 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
                           </div>
                           <div>
                             <input
-                              className="font-roboto y-0p rounded-lg pl-2 border border-verde bg- h-10" placeholder="Descripción"
+                              className="font-roboto y-0p rounded-lg pl-2 border-2 border-verde bg- h-10 dark:border-dorado dark:bg-gray-500 dark:text-white" placeholder="Descripción"
                               defaultValue={descripcion}
                               onChange={(e) => 
                                 setDescripcion(e.target.value)}
@@ -164,7 +164,7 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
                           </div>
                           <div>
                             <input
-                              className="font-roboto y-0p rounded-lg pl-2 border border-verde bg-white" placeholder="Link"
+                              className="font-roboto y-0p rounded-lg pl-2 border-2 border-verde bg-white dark:border-dorado dark:bg-gray-500 dark:text-white" placeholder="Link"
                               defaultValue={link}
                               onChange={(e) => 
                               setLink(e.target.value)}
@@ -173,7 +173,7 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
                             />
                           </div>
                           <div>
-                              <input type="submit" className="p-3 space-x-2 rounded-b border-t text-white uppercase bg-verde hover:bg-green-800  font-roboto rounded-lg text-sm px-5 py-2.5 text-center"
+                              <input type="submit" className="p-3 space-x-2 rounded-b border-t text-white uppercase bg-verde hover:bg-green-800  font-roboto rounded-lg text-sm px-5 py-2.5 text-center dark:bg-dorado"
                                   value="ACEPTAR"
                               />
                           </div>
@@ -181,9 +181,10 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
                       </div>
                       <div>
                         <h3 className="pl-5 pb-3 text-left text-xl font-roboto text-gray-900 dark:text-white">
-                            Selecciona tus <span className="font-noto text-verde">{' '}Temáticas!!</span>
+                            Selecciona tus <span className="font-noto text-verde dark:text-dorado">{' '}Temáticas!!</span>
                         </h3>
                         <MultiSelect
+                          className=''
                           options={options}
                           value={selected}
                           onChange={setSelected}

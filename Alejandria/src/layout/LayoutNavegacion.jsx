@@ -6,7 +6,7 @@ import Navegacion from "../components/Navegacion"
 function LayoutNavegacion() {
   return (
     <div className="flex">
-      <div className="">
+      <div className="dark:bg-black transition duration-500">
         <Navegacion />
       </div>
       <div className="">

@@ -14,7 +14,9 @@ module.exports = {
       colors: {
         verde: '#447258',
         carne: '#F4F1EA',
-        verdeClaro: '#98bda8'
+        verdeClaro: '#98bda8',
+        dorado: '#d69b41',
+        doradoClaro: '#f3ca4c',
       },
 
       backgroundImage: (theme) =>({
@@ -27,4 +29,5 @@ module.exports = {
             require('tailwind-scrollbar-hide'),
             require('flowbite/plugin')  
            ],
+  darkMode: 'class',
 }

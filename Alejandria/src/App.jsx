@@ -11,8 +11,10 @@ import ChatPage from "./Paginas/ChatPage"
 import PerfilPage from "./Paginas/PerfilPage"
 
 
-function App() {
+//import useDarkmode from "./hook/useDarkmode"
 
+
+function App() {
   return (
       <BrowserRouter>
         <Routes>

@@ -2,10 +2,10 @@
   "profile": [
     {
       "id": 1,
-      "nombre": "DADFASDF",
+      "nombre": "RAUL LOPEZ",
       "nick": "raullopezz",
-      "descripcion": "SADFADS",
-      "link": "ASDFASD",
+      "descripcion": "Soy el puto amo",
+      "link": "www.google.es",
       "preferencias": [
         "Biologia"
       ],
@@ -129,6 +129,36 @@
       "nLikes": 10,
       "nComents": 8,
       "nGuardados": 5
+    }
+  ],
+  "notificaciones" : [
+    {
+      "nick": "pepito",
+      "tipo" : 1,
+      "idPublicacion" : 1
+    },
+    {
+      "nick": "juanito",
+      "tipo" : 2,
+      "comentario" : "Eres el puto amo tio, muy bonito crack",
+      "idPublicacion" : 1
+    },
+    {
+      "nick": "pablo",
+      "tipo" : 2,
+      "comentario" : "Sos un makina",
+      "idPublicacion" : 1
+    },
+    {
+      "nick": "miki",
+      "tipo" : 1,
+      "idPublicacion" : 1
+    },
+    {
+      "nick": "manolo",
+      "tipo" : 2,
+      "comentario" : "TONTAAa",
+      "idPublicacion" : 1
     }
   ]
 }

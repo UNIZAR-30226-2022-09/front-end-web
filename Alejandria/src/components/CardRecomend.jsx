@@ -2,7 +2,7 @@
 
 function CardRecomend(props) {
   return (
-    <div className="bg-gray-200 px-5 py-5 mb-3 rounded-2xl border-2 border-verde">
+    <div className="bg-gray-200 px-5 py-5 mb-3 rounded-2xl border-2 border-verde dark:border-dorado dark:bg-black">
        
         <div className="mb-2 gap-2 items-center hover:underline ">
             
@@ -10,7 +10,7 @@ function CardRecomend(props) {
               type="submit"
               className=" px-2 flex text-1xl gap-2 cursor-pointer transition-all items-center"
             >
-            <img className="w-10 h-10 rounded-full border border-gray-100 shadow-sm" 
+            <img className="w-10 h-10 rounded-full shadow-sm" 
              src={props.fotoPerfil}  
              alt="" 
             />
