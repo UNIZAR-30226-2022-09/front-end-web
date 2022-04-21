@@ -6,10 +6,13 @@ import Alerta from './Alerta'
 import axios from 'axios'
 import { useState } from 'react'
 
+
+
 const FormularioReg = () => {
 
     const navigate = useNavigate()
     const [error,setError] = useState(false)
+    const [mensaje,setMensaje] = useState('')
 
     const nuevoUsuarioSchema = Yup.object().shape({
         nick: Yup.string()
@@ -29,27 +32,32 @@ const FormularioReg = () => {
 
     const handleSubmit = async (valores) => {
         try {
-            const url = 'http://51.255.50.27:5000/register'
+            const url = 'http://51.255.50.207:5000/register'
 
-            const { data } = await axios.post(url, {
-                nick,
-                e_mail,
-                password
-            });
+            const respuesta = await fetch (url, {
+                method: 'POST',
+                body: JSON.stringify(valores),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            const resultado = await respuesta.json()
             
-            if (data === 'token'){
-                localStorage.setItem(data)
+
+            if (resultado.error == null){ //Si todo ha ido bien
+                localStorage.setItem('token',JSON.stringify(resultado.token))
+                setError(false)
                 navigate('/myAccount')
                 return 
             }
             else {
                 setError(true)
+                setMensaje(resultado.error)
             }
-
         } catch(error){
             console.log(error)
         }
-    }
+    }   
 
 
 
@@ -64,7 +72,6 @@ const FormularioReg = () => {
                 }}
                 onSubmit={ async (values, {resetForm}) => {
                     await handleSubmit(values)
-
                     resetForm()
                 }}
                 validationSchema={nuevoUsuarioSchema}
@@ -75,7 +82,7 @@ const FormularioReg = () => {
                     className='mt-5'
                 >
                     {error ? (
-                            <Alerta>El usuario ya existe</Alerta>
+                            <Alerta>{mensaje}</Alerta>
                         ) : null }
                     <div className='mb-4'>
                         <label 
