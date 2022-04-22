@@ -93,7 +93,7 @@ const FormularioReg = () => {
                         <Field
                             id="nombre"  
                             type='text'
-                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg"
+                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent"
                             placeholder="Introduza su nombre de usuario"
                             name="nick"
                         />
@@ -106,13 +106,13 @@ const FormularioReg = () => {
 
                     <div className='mb-4'>
                         <label 
-                            className='text-verde font-roboto uppercase text-xl rounded-lg'
+                            className='text-verde font-roboto uppercase text-xl'
                             htmlFor='email'
                         >Correo Electrónico</label>
                         <Field
                             id="email"  
                             type='text'
-                            className="mt-4 block w-full p-3 bg-gray-50"
+                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent"
                             placeholder="Introduza su correo electrónico"
                             name="e_mail"
                         />
@@ -123,13 +123,13 @@ const FormularioReg = () => {
 
                     <div className='mb-4'>
                         <label 
-                            className='text-verde font-roboto uppercase text-xl rounded-lg'
+                            className='text-verde font-roboto uppercase text-xl'
                             htmlFor='passwd'
                         >Contraseña</label>
                         <Field
                             id="passwd"  
                             type='password'
-                            className="mt-4 block w-full p-3 bg-gray-50"
+                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent"
                             placeholder="Introduza su correo contraseña"
                             name="password"
                         />

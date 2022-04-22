@@ -85,7 +85,7 @@ const FormularioLog = () => {
                         <Field
                             id="nombre"  
                             type='text'
-                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg"
+                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent"
                             placeholder="Introduza su nombre de usuario"
                             name="nickOcorreo"
                         />
@@ -104,7 +104,7 @@ const FormularioLog = () => {
                         <Field
                             id="passwd"  
                             type='password'
-                            className="mt-4 block w-full p-3 bg-gray-50"
+                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent"
                             placeholder="Introduza su correo electrónico"
                             name="password"
                         />
