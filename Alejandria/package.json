@@ -19,7 +19,10 @@
     "react-multi-select-component": "^4.2.4",
     "react-router-dom": "^6.2.2",
     "tailwind-scrollbar-hide": "^1.1.7",
-    "tw-elements": "^1.0.0-alpha12"
+    "tw-elements": "^1.0.0-alpha12",
+    "axios": "^0.26.1",
+    "formik": "^2.2.9",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.7",

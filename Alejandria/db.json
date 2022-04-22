@@ -2,12 +2,14 @@
   "profile": [
     {
       "id": 1,
-      "nombre": "RAUL LOPEZ",
+      "nombre": "RAUL LOPEZ Franco",
       "nick": "raullopezz",
-      "descripcion": "Soy el puto amo",
+      "descripcion": "Soy el puto amo GG",
       "link": "www.google.es",
       "preferencias": [
-        "Biologia"
+        "Biologia",
+        "Matematicas",
+        "Geologia"
       ],
       "nPost": 2,
       "nSeguidores": 20,
@@ -131,34 +133,34 @@
       "nGuardados": 5
     }
   ],
-  "notificaciones" : [
+  "notificaciones": [
     {
       "nick": "pepito",
-      "tipo" : 1,
-      "idPublicacion" : 1
+      "tipo": 1,
+      "idPublicacion": 1
     },
     {
       "nick": "juanito",
-      "tipo" : 2,
-      "comentario" : "Eres el puto amo tio, muy bonito crack",
-      "idPublicacion" : 1
+      "tipo": 2,
+      "comentario": "Eres el puto amo tio, muy bonito crack",
+      "idPublicacion": 1
     },
     {
       "nick": "pablo",
-      "tipo" : 2,
-      "comentario" : "Sos un makina",
-      "idPublicacion" : 1
+      "tipo": 2,
+      "comentario": "Sos un makina",
+      "idPublicacion": 1
     },
     {
       "nick": "miki",
-      "tipo" : 1,
-      "idPublicacion" : 1
+      "tipo": 1,
+      "idPublicacion": 1
     },
     {
       "nick": "manolo",
-      "tipo" : 2,
-      "comentario" : "TONTAAa",
-      "idPublicacion" : 1
+      "tipo": 2,
+      "comentario": "TONTAAa",
+      "idPublicacion": 1
     }
   ]
 }

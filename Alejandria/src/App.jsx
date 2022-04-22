@@ -1,7 +1,6 @@
-import Login from "./components/Login"
+import Login from "./Paginas/Login"
 import Presentacion from "./layout/Presentacion"
 import LayoutNavegacion from "./layout/LayoutNavegacion"
-
 import Registrar from "./Paginas/Registrar"
 import { BrowserRouter, Routes, Route} from "react-router-dom"
 import HomePage from "./Paginas/HomePage"
