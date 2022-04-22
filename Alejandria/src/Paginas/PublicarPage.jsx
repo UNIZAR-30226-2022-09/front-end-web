@@ -2,7 +2,7 @@
 function PublicarPage() {
   return (
     <div>
-      PublicarPage
+      <h1>Creando publicar</h1>
     </div>
   )
 }
