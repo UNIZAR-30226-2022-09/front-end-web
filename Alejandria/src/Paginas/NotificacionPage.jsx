@@ -65,23 +65,12 @@ function NotificacionPage() {
   }, []);
 
   return (
-    <div className="">
-        <div className=" border-l-2 border-r-2 dark:bg-black dark:border-l-dorado dark:border-r-dorado">
+    <div className="flex">
+        <div className="w-3/5 border-l-2 border-r-2 dark:bg-black dark:border-l-dorado dark:border-r-dorado">
           <div className="h-screen overflow-y-scroll scrollbar-hide w-[90hw]">
             <div className="ml-3 mr-2 mt-3 items-center justify-center">
               <div className="w-full">
-                {notificaciones.map(myFunct)}
-                
-
-                {/*  
-                notificacion => (
-                     
-                   
-                    
-                )
-                
-                  */}
-                 
+                {notificaciones.map(myFunct)}                
               </div>         
             </div>
           </div>

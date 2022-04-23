@@ -15,6 +15,22 @@
       "nSeguidores": 20,
       "nSiguiendo": 10,
       "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg"
+    },
+    {
+      "id": 2,
+      "nombre": "Jorge Sanclemente",
+      "nick": "jorgito",
+      "descripcion": "Amante de la literatura española",
+      "link": "www.jorge.es",
+      "preferencias": [
+        "Biologia",
+        "Matematicas",
+        "Geologia"
+      ],
+      "nPost": 2,
+      "nSeguidores": 20,
+      "nSiguiendo": 10,
+      "fotoPerfil": "https://randomuser.me/api/portraits/men/80.jpg"
     }
   ],
   "publicaciones": [
