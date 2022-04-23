@@ -86,7 +86,7 @@ const FormularioLog = () => {
                             id="nombre"  
                             type='text'
                             className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent"
-                            placeholder="Introduza su nombre de usuario"
+                            placeholder="Introduzca su nombre de usuario"
                             name="nickOcorreo"
                         />
 
@@ -105,7 +105,7 @@ const FormularioLog = () => {
                             id="passwd"  
                             type='password'
                             className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent"
-                            placeholder="Introduza su correo electrónico"
+                            placeholder="Introduzca su correo electrónico"
                             name="password"
                         />
                         {errors.password && touched.password ? (
