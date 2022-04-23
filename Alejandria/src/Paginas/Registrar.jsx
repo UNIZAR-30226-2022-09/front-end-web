@@ -11,7 +11,7 @@ const Registrar = () => {
   const [passwd,setPasswd] = useState('')
 
   return (
-    <div className="md:w-3/5 bg-carne overflow-auto">
+    <div>
       <h1 className='text-verde text-5xl
       ml-7 mt-5 font-noto'>Alejandria</h1>
 

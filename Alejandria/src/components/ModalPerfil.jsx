@@ -54,7 +54,7 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
     //selected.length
     if( selected.length === 0){
       setError(true)  
-    }else{
+    } else {
       setError(false)
       localStorage.setItem('primeraVez', JSON.stringify(false))
       setModal(false)

@@ -113,7 +113,7 @@ const FormularioReg = () => {
                             id="email"  
                             type='text'
                             className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent"
-                            placeholder="Introduza su correo electrónico"
+                            placeholder="Introduzca su correo electrónico"
                             name="e_mail"
                         />
                         {errors.e_mail && touched.e_mail ? (
@@ -130,7 +130,7 @@ const FormularioReg = () => {
                             id="passwd"  
                             type='password'
                             className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent"
-                            placeholder="Introduza su correo contraseña"
+                            placeholder="Introduzca su contraseña"
                             name="password"
                         />
                         {errors.password && touched.password ? (
