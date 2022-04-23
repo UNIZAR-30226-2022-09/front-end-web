@@ -4,7 +4,7 @@ import icon from "../public/nobck-icon.png"
 
 const Presentacion = () => {
   return (
-    <>
+    <div className="flex">
         <div className="md:w-2/5 bg-bck-img bg-cover h-screen">
             <div className='h-screen px-4 py-12'>
                 <div className='container rounded-xl bg-slate-50/75 h-full'>
@@ -27,8 +27,12 @@ const Presentacion = () => {
                 </div>
             </div>
         </div>
-        <Outlet />
-    </>
+
+        <div className="md:w-3/5 h-screen bg-carne overflow-auto">
+            <Outlet />
+        </div>
+        
+    </div>
   )
 }
 
