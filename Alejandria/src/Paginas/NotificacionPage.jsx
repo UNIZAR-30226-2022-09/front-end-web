@@ -1,33 +1,45 @@
 import {useEffect, useState} from 'react'
 import CardNotiLike from "../components/CardNotiLike"
 import CardNotiComent from "../components/CardNotiComent"
+import ModalPubli from "../components/ModalPubli"
+import useDarkmode from "../hook/useDarkmode";
 
 function NotificacionPage() {
   const [notificaciones, setNotificaciones] = useState([])
   const [datosUser, setDatosUser] = useState([])
+  const [colorTheme, setTheme] = useDarkmode();
+
+  const [modal, setModal] = useState(false)
+  const [idPubliAMostrar, setIdPubliAMostrar] = useState(0)
 
 
-  function myFunct(noti){
+  function myFunct(noti, i){
     if(noti.tipo === 1){
       return  <CardNotiLike
-                key={noti.tipo}
+                key={i}
                 
                 nickUser={datosUser.nick}
                 fotoPerfil={datosUser.fotoPerfil}
 
+                idOtroUser={noti.idUser}
                 nickOtroUser={noti.nick}
                 idPubli={noti.idPublicacion}
+
+                abrirModal={abrirModal}
               />
     }else{
       return <CardNotiComent 
-                key={noti.tipo}
+                key={i}
 
                 nickUser={datosUser.nick}
                 fotoPerfil={datosUser.fotoPerfil}
-
+                
+                idOtroUser={noti.idUser}
                 nickOtroUser={noti.nick}
                 comentario={noti.comentario}
                 idPubli={noti.idPublicacion}
+
+                abrirModal={abrirModal}
               />
     }
   }
@@ -56,12 +68,16 @@ function NotificacionPage() {
       console.log(error);
     }
   }
-
+  const abrirModal = id =>{
+    console.log('id:',id);
+    setIdPubliAMostrar(id)
+    setModal(true)
+  }
+  
   useEffect(() => {
 
     obtenerDatosUserApi() 
     obtenerNotificacionesApi()   
-
   }, []);
 
   return (
@@ -70,7 +86,8 @@ function NotificacionPage() {
           <div className="h-screen overflow-y-scroll scrollbar-hide w-[90hw]">
             <div className="ml-3 mr-2 mt-3 items-center justify-center">
               <div className="w-full">
-                {notificaciones.map(myFunct)}                
+                {notificaciones.map(myFunct)}
+                {modal && <ModalPubli idPubliAMostrar={idPubliAMostrar} />}
               </div>         
             </div>
           </div>

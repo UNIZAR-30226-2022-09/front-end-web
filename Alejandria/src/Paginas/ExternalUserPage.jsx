@@ -4,20 +4,17 @@ import ModalPerfil from "../components/ModalPerfil"
 
 import {useEffect, useState} from 'react'
 import useDarkmode from "../hook/useDarkmode";
+import { useParams } from "react-router-dom";
 
 function PerfilPage() {
-  const [colorTheme, setTheme] = useDarkmode();
-  const [modal, setModal] = useState(false);
-  const [datos, setDatos] = useState({});
-  const [nick, setNick] = useState(false);
+  // const [colorTheme, setTheme] = useDarkmode();
+  // const [modal, setModal] = useState(false);
+  // const [datos, setDatos] = useState({});
+  // const [nick, setNick] = useState(false);
 
   const [publicaciones, setPublicaciones] = useState([])
   const [datosUser, setDatosUser] = useState([])
   const [recomendaciones, setRecomendaciones] = useState([])
-
-  function refreshPage() {
-    window.location.reload(false);
-  }
   
   const obtenerPubliApi = async () => {
     try {
@@ -41,11 +38,13 @@ function PerfilPage() {
     }
   }
 
+  const {id} = useParams()
   const obtenerDatosUserApi = async () => {
     try {
-      const urlDatos = 'http://localhost:4000/profile/1'
+      const urlDatos = `http://localhost:4000/profile/${id}`
       const resDatos = await fetch(urlDatos)
       const resultDatos = await resDatos.json()
+      console.log(resultDatos);
       setDatosUser(resultDatos);
 
     } catch (error) {
@@ -58,33 +57,9 @@ function PerfilPage() {
     obtenerDatosUserApi()
     obtenerPubliApi()
     obtenerRecomendApi()
-
-    const primeraVez = JSON.parse(localStorage.getItem('primeraVez'))
-    setModal(primeraVez)
-
-    // const nomUser = JSON.parse(localStorage.getItem('nikUser'))
-    // setNick(nomUser)
     
-    // const nom = JSON.parse(localStorage.getItem('nomUser'))
-    // const desc = JSON.parse(localStorage.getItem('descripcion'))
-    // const lk = JSON.parse(localStorage.getItem('link'))
-
-    // setDatos({
-    //   nombre: nom,
-    //   descripcion: desc,
-    //   link: lk
-    // })
-
   }, []);
 
-  const handleModal = () => {
-    setModal(true)
-    
-  }
-
-  const guardarDatos = dato => {
-    setDatos(dato)    
-  }
 
   return (
       <div className="border-l-2 dark:bg-black dark:text-white dark:border-l-dorado transition duration-500">
@@ -124,12 +99,6 @@ function PerfilPage() {
                   </div>
                 </div>
             </div>
-          <div>
-              <button onClick={() => setTheme(colorTheme)}>
-                {colorTheme === 'light' ? "Modo Claro" : "Modo Oscuro"}
-                
-              </button>
-          </div>
       </div>
       
       <div className="h-[15vh]">
@@ -144,15 +113,14 @@ function PerfilPage() {
       </div>
       
       <div className="h-[3vh] ">
-        <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white dark:border-dorado dark:text-dorado dark:hover:bg-doradoClaro dark:hover:text-white dark:hover:opacity-70"
+        {/* <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white dark:border-dorado dark:text-dorado dark:hover:bg-doradoClaro dark:hover:text-white dark:hover:opacity-70"
                 type="button"
                 data-modal-toggle="modalEditarPerfil"
                 onClick={handleModal}
         >
           EDITAR PERFIL
-        </button>
+        </button> */}
       </div>
-      {modal && <ModalPerfil  setModal={setModal} guardarDatos={guardarDatos} datosUser={datosUser} obtenerDatosUserApi={obtenerDatosUserApi} refreshPage={refreshPage}/>}
 
       <div className="">
         <ul className="
@@ -202,24 +170,6 @@ function PerfilPage() {
             " id="tabs-profile-tabJustify" data-bs-toggle="pill" data-bs-target="#tabs-profileJustify" role="tab"
               aria-controls="tabs-profileJustify" aria-selected="false">Recomendaciones</a>
           </li>
-          <li className="nav-item flex-grow text-center" role="presentation">
-            <a href="#tabs-messagesJustify" className="
-              nav-link
-              w-full
-              block
-              font-roboto
-              text-lg
-              leading-tight
-              uppercase
-              border-x-0 border-t-0 border-b-2 border-transparent
-              px-6
-              py-3
-              my-2
-              hover:border-transparent hover:bg-gray-100
-              focus:border-transparent
-            " id="tabs-messages-tabJustify" data-bs-toggle="pill" data-bs-target="#tabs-messagesJustify" role="tab"
-              aria-controls="tabs-messagesJustify" aria-selected="false">Publi&Recom Guardadas</a>
-          </li>
         </ul>
         <div className="tab-content" id="tabs-tabContentJustify">
           <div className="tab-pane fade show active" id="tabs-homeJustify" role="tabpanel"
@@ -246,7 +196,7 @@ function PerfilPage() {
           <div className="tab-pane fade" id="tabs-profileJustify" role="tabpanel" aria-labelledby="tabs-profile-tabJustify">
             <div className="h-[60vh] overflow-y-scroll scrollbar-hide">
               <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
-              {recomendaciones.map( recomendacion => (
+                  {recomendaciones.map( recomendacion => (
                     <CardRecomend
                       key={recomendacion.id}
                       id={recomendacion.id}
@@ -261,57 +211,6 @@ function PerfilPage() {
                     />  
                   ))} 
 
-              </div>
-            </div>
-          </div>
-          <div className="tab-pane fade" id="tabs-messagesJustify" role="tabpanel" aria-labelledby="tabs-profile-tabJustify">
-          <div className="h-[60vh] overflow-y-scroll">
-              <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
               </div>
             </div>
           </div>

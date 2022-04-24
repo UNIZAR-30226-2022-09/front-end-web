@@ -1,4 +1,7 @@
+import { useNavigate } from 'react-router-dom'
+
 function CardPubli(props) {
+  const navigate = useNavigate()
 
 
   return (
@@ -7,8 +10,9 @@ function CardPubli(props) {
         <div className="mb-2 gap-2 items-center hover:underline ">
             
             <button
-              type="submit"
+              type="button"
               className=" px-2 flex text-1xl gap-2 cursor-pointer transition-all items-center"
+              onClick={() => navigate('/myAccount/perfil')}
             >
             <img className="w-10 h-10 rounded-full shadow-sm" 
              src={props.fotoPerfil} 

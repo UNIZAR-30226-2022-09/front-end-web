@@ -151,32 +151,37 @@
   ],
   "notificaciones": [
     {
-      "nick": "pepito",
+      "nick": "jorgito",
+      "idUser": 2,
       "tipo": 1,
       "idPublicacion": 1
     },
     {
       "nick": "juanito",
+      "idUser": 4,
       "tipo": 2,
       "comentario": "Eres el puto amo tio, muy bonito crack",
       "idPublicacion": 1
     },
     {
       "nick": "pablo",
+      "idUser": 5,
       "tipo": 2,
       "comentario": "Sos un makina",
-      "idPublicacion": 1
+      "idPublicacion": 2
     },
     {
       "nick": "miki",
+      "idUser": 6,
       "tipo": 1,
-      "idPublicacion": 1
+      "idPublicacion": 4
     },
     {
       "nick": "manolo",
+      "idUser": 7,
       "tipo": 2,
       "comentario": "TONTAAa",
-      "idPublicacion": 1
+      "idPublicacion": 25
     }
   ]
 }
