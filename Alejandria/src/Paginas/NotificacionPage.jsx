@@ -10,6 +10,7 @@ function NotificacionPage() {
   const [colorTheme, setTheme] = useDarkmode();
 
   const [modal, setModal] = useState(false)
+  const [tipoPubli, setTipoPubli] = useState() //false recomendacion, true publicación
   const [idPubliAMostrar, setIdPubliAMostrar] = useState(0)
 
 
@@ -26,6 +27,7 @@ function NotificacionPage() {
                 idPubli={noti.idPublicacion}
 
                 abrirModal={abrirModal}
+                setTipoPubli={setTipoPubli}
               />
     }else{
       return <CardNotiComent 
@@ -40,6 +42,7 @@ function NotificacionPage() {
                 idPubli={noti.idPublicacion}
 
                 abrirModal={abrirModal}
+                setTipoPubli={setTipoPubli}
               />
     }
   }
@@ -87,7 +90,7 @@ function NotificacionPage() {
             <div className="ml-3 mr-2 mt-3 items-center justify-center">
               <div className="w-full">
                 {notificaciones.map(myFunct)}
-                {modal && <ModalPubli idPubliAMostrar={idPubliAMostrar} />}
+                {modal && <ModalPubli idPubliAMostrar={idPubliAMostrar} setModal={setModal} tipoPubli={tipoPubli}/>}
               </div>         
             </div>
           </div>

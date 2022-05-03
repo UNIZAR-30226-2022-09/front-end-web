@@ -1,8 +1,45 @@
 import CardPubliPop from "./CardPubliPop"
 import ListarCardPopRecom from "./ListarCardPopRecom"
-import ListarCardPubli from "./ListarCardPubli"
+import {useEffect, useState} from 'react'
+
 
 function Explorar() {
+  const [explorar, setExplorar] = useState([])
+
+  const obtenerExplorar = async () => {
+    try {
+      const urlPubli = 'http://localhost:4000/novedades'
+      const resPubli = await fetch(urlPubli)
+      const resultPubli = await resPubli.json()
+      setExplorar(resultPubli);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  function myFunct(cartelera, i){
+    if(i === 1){
+      return <div className="carousel-item active relative float-left w-full">
+              <img
+                src={cartelera.portada}
+                className="block h-[28vh]"
+              />
+            </div>  
+    }else{
+      return <div className="carousel-item relative float-left w-full h-fit">
+              <img
+                src={cartelera.portada}
+                className="block h-[28vh]"
+              />
+            </div>
+    }
+     
+  }
+
+  useEffect(() => {
+    obtenerExplorar()
+  }, []);
+
   return (
     <div className="w-3/6 ml-2 mr-2">
       <h1 className="text-black text-center font-roboto text-xl">Amplía tu<span
@@ -19,7 +56,7 @@ function Explorar() {
         </form>
       </div>
       
-      
+      {/* FILTROS */}
       <div className="pt-1 flex overflow-x-auto scrollbar-hide gap-1">
         <button className="px-1 border-solid border-b-2 border-verde font-roboto focus:bg-verde focus:text-white">
           Preferencias
@@ -71,33 +108,13 @@ function Explorar() {
         </button>
       </div>
 
+      {/* CARROUSEL */}
       <div className="">
         <h1 className="mt-2 mb-1 text-lg text-left font-noto">Explora <span className="uppercase text-verde">novedades</span></h1>
         <div id="carouselExampleControls" className="carousel slide relative " data-bs-ride="carousel">
           <div className="w-6/12 h-[28vh] mx-auto">
             <div className="carousel-inner relative w-full overflow-hidden">
-              <div className="carousel-item active relative float-left w-full">
-                <img
-                  src="https://edit.org/photos/img/blog/ppe-crear-portadas-de-libros-online.jpg-840.jpg"
-                  className="block h-[28vh]"
-                  alt="Wild Landscape"
-                />
-              </div>
-              
-              <div className="carousel-item relative float-left w-full h-fit">
-                <img
-                  src="https://edit.org/photos/img/blog/ppe-crear-portadas-de-libros-online.jpg-840.jpg"
-                  className="block h-[28vh]"
-                  alt="Camera"
-                />
-              </div>
-              <div className="carousel-item relative float-left w-full">
-                <img
-                  src="https://edit.org/photos/img/blog/ppe-crear-portadas-de-libros-online.jpg-840.jpg"
-                  className="block h-[28vh]" 
-                  alt="Exotic Fruits"
-                />
-              </div>
+              {explorar.map(myFunct)}  
             </div>
             <button
               className="carousel-control-prev absolute top-0 bottom-0 items-center justify-center p-0 text-center hover:outline-none hover:no-underline focus:outline-none focus:no-underline left-0"
@@ -120,16 +137,17 @@ function Explorar() {
           
         </div>
       </div>
+
       <div className="">
-        <h1 className="mt-2 mb-1 text-lg text-left font-noto">Explora <span className="uppercase text-verde">Populares - Publicaciones</span></h1>
+        <h1 className="mt-2 mb-1 text-lg text-left font-noto">Explora <span className="uppercase text-verde">Populares - Artículos</span></h1>
         <div className="flex overflow-x-auto space-x-4">
-          <CardPubliPop />
-          <CardPubliPop />          
-          <CardPubliPop />          
-          <CardPubliPop />          
-          <CardPubliPop />          
-          <CardPubliPop />          
-          <CardPubliPop /> 
+          {explorar.map( cartelera => (
+            <CardPubliPop 
+              key={cartelera.id}
+              portada={cartelera.portada}
+            />
+            ))} 
+          
         </div>
       </div>
       <h1 className="mt-1 mb-1 text-lg text-left font-noto">Explora <span className="uppercase text-verde">Populares - Recomendaciones</span></h1>

@@ -33,11 +33,11 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
   useEffect(() => {
     const primeraVez = JSON.parse(localStorage.getItem('primeraVez'))
     if(!primeraVez){
-      setNombre(datosUser.nombre)
+      setNombre(datosUser.nombre_de_usuario)
       setDescripcion(datosUser.descripcion)
       setLink(datosUser.link)
-      const preferencias = JSON.parse(localStorage.getItem('preferencias'))
-      setSelected(preferencias)
+      const tematicas = JSON.parse(localStorage.getItem('tematicas'))
+      setSelected(tematicas)
     }
 
   }, []);
@@ -58,7 +58,7 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
       setError(false)
       localStorage.setItem('primeraVez', JSON.stringify(false))
       setModal(false)
-      localStorage.setItem('preferencias', JSON.stringify(selected))
+      localStorage.setItem('tematicas', JSON.stringify(selected))
       setSelected(JSON.stringify(selected)); 
 
       
@@ -68,30 +68,32 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
       // localStorage.setItem('nomUser', JSON.stringify(nombre))
       // localStorage.setItem('descripcion', JSON.stringify(descripcion))
       // localStorage.setItem('link', JSON.stringify(link))
-      // localStorage.setItem('preferencias', JSON.stringify(selected))
+      // localStorage.setItem('tematicas', JSON.stringify(selected))
       // guardarDatos({nombre, descripcion, link})
       //-----------------------------------------------------------
       const prueba = {...datosUser}
-      prueba.nombre = nombre
+      prueba.nombre_de_usuario = nombre
       prueba.descripcion = descripcion
       prueba.link = link
 
-      const preferencias = []
+      const tematicas = []
       for (var i = 0; i < selected.length; i++) {
-        preferencias[i] = selected[i].value
+        tematicas[i] = selected[i].value
       }
-      prueba.preferencias = preferencias
+      prueba.tematicas = tematicas
 
       console.log('Objeto prueba con valores modificados', prueba);
 
-      const url = `http://localhost:4000/profile/${prueba.id}`
+      const url = 'http://51.255.50.207:5000/editarPerfil'
+      const token = JSON.parse(localStorage.getItem('token'))
       const actuAPI = async (final) => { 
         try {        
           const respuesta = await fetch(url, {
-            method : 'PUT',
+            method : 'POST',
             body : JSON.stringify(prueba),
             headers : {
-                'Content-Type' : 'application/json'
+                'Content-Type' : 'application/json',
+                'token' : token
             }
           })
           await respuesta.json()

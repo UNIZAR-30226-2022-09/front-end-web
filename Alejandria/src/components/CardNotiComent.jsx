@@ -4,6 +4,7 @@ function CardNotiComent(props) {
   const navigate = useNavigate()
 
   const mostrarmodalPublicacion = () => {
+    props.setTipoPubli(false)
     props.abrirModal(props.idPubli)
   }
 
@@ -44,7 +45,7 @@ function CardNotiComent(props) {
           <button type="button"
                   onClick={mostrarmodalPublicacion}
           >
-            <span className="text-blue-400">
+            <span className="text-verde underline">
               {''}publicacion
             </span>. 
           </button>

@@ -46,9 +46,9 @@ const FormularioReg = () => {
 
             if (resultado.error == null){ //Si todo ha ido bien
                 localStorage.setItem('token',JSON.stringify(resultado.token))
-                localStorage.setItem('primeraVez', JSON.stringify(false))
+                localStorage.setItem('primeraVez', JSON.stringify(true))
                 setError(false)
-                navigate('/myAccount')
+                navigate('/myAccount/perfil')
                 return 
             }
             else {

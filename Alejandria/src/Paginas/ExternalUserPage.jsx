@@ -66,10 +66,9 @@ function PerfilPage() {
         <div className="px-3 pt-3 ">
         <div className="h-[13vh] flex space-x-5 items-center">
             <div className="w-1/5">
-                <img className="w-30 h-30 rounded-full shadow-sm" 
-                  src={datosUser.fotoPerfil} 
-                  alt="" 
-                />                
+              <div className="rounded-full h-24 w-24 items-center justify-center overflow-hidden">
+                <img className="w-full h-full" src={datosUser.fotoPerfil} alt="user image" />
+              </div>                
             </div>
             <div className="w-4/5 flex space-x-10">
                 <div className="font-roboto text-center text-2xl ">
@@ -113,13 +112,12 @@ function PerfilPage() {
       </div>
       
       <div className="h-[3vh] ">
-        {/* <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white dark:border-dorado dark:text-dorado dark:hover:bg-doradoClaro dark:hover:text-white dark:hover:opacity-70"
+        <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white dark:border-dorado dark:text-dorado dark:hover:bg-doradoClaro dark:hover:text-white dark:hover:opacity-70"
                 type="button"
-                data-modal-toggle="modalEditarPerfil"
-                onClick={handleModal}
+                onClick={""}
         >
-          EDITAR PERFIL
-        </button> */}
+          {1 === 1 ? "SEGUIR A ESTE USUARIO" : "DEJAR DE SEGUIR A ESTE USUARIO"}
+        </button>
       </div>
 
       <div className="">

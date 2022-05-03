@@ -4,6 +4,11 @@ import ModalPerfil from "../components/ModalPerfil"
 
 import {useEffect, useState} from 'react'
 import useDarkmode from "../hook/useDarkmode";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFile} from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp} from '@fortawesome/free-solid-svg-icons'
+import { faMoon} from '@fortawesome/free-solid-svg-icons'
+import { faSun} from '@fortawesome/free-solid-svg-icons'
 
 function PerfilPage() {
   const [colorTheme, setTheme] = useDarkmode();
@@ -19,10 +24,15 @@ function PerfilPage() {
     window.location.reload(false);
   }
   
-  const obtenerPubliApi = async () => {
+  const obtenerPubliApi = async (token) => {
     try {
-      const urlPubli = 'http://localhost:4000/publicaciones'
-      const resPubli = await fetch(urlPubli)
+      const urlPubli = 'http://51.255.50.207:5000/misArticulos'
+      const resPubli = await fetch(urlPubli, {
+        headers : {
+          'Content-Type' : 'application/json',
+          'token' : token
+        }
+      })
       const resultPubli = await resPubli.json()
       setPublicaciones(resultPubli);
     } catch (error) {
@@ -30,10 +40,15 @@ function PerfilPage() {
     }
   }
 
-  const obtenerRecomendApi = async () => {
+  const obtenerRecomendApi = async (token) => {
     try {
-      const urlRecomend = 'http://localhost:4000/recomendaciones'
-      const resRecomend = await fetch(urlRecomend)
+      const urlRecomend = 'http://51.255.50.207:5000/misRecomendaciones'
+      const resRecomend = await fetch(urlRecomend, {
+        headers : {
+          'Content-Type' : 'application/json',
+          'token' : token
+        }
+      })
       const resultRecomend = await resRecomend.json()
       setRecomendaciones(resultRecomend);
     } catch (error) {
@@ -41,11 +56,18 @@ function PerfilPage() {
     }
   }
 
-  const obtenerDatosUserApi = async () => {
+  const obtenerDatosUserApi = async (token) => {
     try {
-      const urlDatos = 'http://localhost:4000/profile/1'
-      const resDatos = await fetch(urlDatos)
+      
+      const urlDatos = 'http://51.255.50.207:5000/editarPerfil'
+      const resDatos = await fetch(urlDatos, {
+        headers : {
+          'Content-Type' : 'application/json',
+          'token' : token
+        }
+      })
       const resultDatos = await resDatos.json()
+      console.log('resultDatos:', resultDatos);
       setDatosUser(resultDatos);
 
     } catch (error) {
@@ -54,13 +76,16 @@ function PerfilPage() {
   }
 
   useEffect(() => {
-
-    obtenerDatosUserApi()
-    obtenerPubliApi()
-    obtenerRecomendApi()
+    const token = JSON.parse(localStorage.getItem('token'))
+    obtenerDatosUserApi(token)
+    obtenerPubliApi(token)
+    // obtenerRecomendApi(token)
 
     const primeraVez = JSON.parse(localStorage.getItem('primeraVez'))
     setModal(primeraVez)
+    if(!primeraVez){
+      
+    }
 
     // const nomUser = JSON.parse(localStorage.getItem('nikUser'))
     // setNick(nomUser)
@@ -91,15 +116,14 @@ function PerfilPage() {
         <div className="px-3 pt-3 ">
         <div className="h-[13vh] flex space-x-5 items-center">
             <div className="w-1/5">
-                <img className="w-30 h-30 rounded-full shadow-sm" 
-                  src={datosUser.fotoPerfil} 
-                  alt="" 
-                />                
+              <div className="rounded-full h-24 w-24 items-center justify-center overflow-hidden">
+                <img className="w-full h-full" src={datosUser.foto_de_perfil} alt="user image" />
+              </div>
             </div>
             <div className="w-4/5 flex space-x-10">
                 <div className="font-roboto text-center text-2xl ">
                   <div>
-                    {datosUser.nPost}
+                    {datosUser.nposts}
                   </div>
                   <div>
                     Posts
@@ -108,7 +132,7 @@ function PerfilPage() {
 
                 <div className="font-roboto text-center text-2xl">
                   <div>
-                  {datosUser.nSeguidores}
+                  {datosUser.nseguidores}
                   </div>
                   <div>
                     Seguidores
@@ -117,7 +141,7 @@ function PerfilPage() {
 
                 <div className="font-roboto text-center text-2xl">
                   <div>
-                  {datosUser.nSiguiendo}
+                  {datosUser.nsiguiendo}
                   </div>
                   <div>
                     Siguiendo
@@ -126,14 +150,19 @@ function PerfilPage() {
             </div>
           <div>
               <button onClick={() => setTheme(colorTheme)}>
-                {colorTheme === 'light' ? "Modo Claro" : "Modo Oscuro"}
+                {colorTheme === 'light' 
+                ? 
+                <FontAwesomeIcon className=" w-14 h-14 pr-3" icon={faSun} /> 
+                : 
+                <FontAwesomeIcon className=" w-14 h-14 pr-3" icon={faMoon} />
+                }
                 
               </button>
           </div>
       </div>
       
       <div className="h-[15vh]">
-        <div className="text-2xl font-roboto">{datosUser.nombre}</div>
+        <div className="text-2xl font-roboto">{datosUser.nombre_de_usuario}</div>
         <div className="text-1xl gap-2 transition-all items-center font-roboto">@{datosUser.nick}</div>
         <h1 className="mt-2 text-justify font-roboto"> 
           {datosUser.descripcion}
@@ -182,7 +211,7 @@ function PerfilPage() {
               focus:border-transparent
               active
             " id="tabs-home-tabJustify" data-bs-toggle="pill" data-bs-target="#tabs-homeJustify" role="tab"
-              aria-controls="tabs-homeJustify" aria-selected="true">Publicaciones</a>
+              aria-controls="tabs-homeJustify" aria-selected="true">Artículos</a>
           </li>
           <li className="nav-item flex-grow text-center" role="presentation">
             <a href="#tabs-profileJustify" className="
@@ -198,8 +227,8 @@ function PerfilPage() {
               py-3
               my-2
               hover:border-transparent hover:bg-gray-100
-              focus:border-transparent
-            " id="tabs-profile-tabJustify" data-bs-toggle="pill" data-bs-target="#tabs-profileJustify" role="tab"
+              focus:border-transparent"
+              id="tabs-profile-tabJustify" data-bs-toggle="pill" data-bs-target="#tabs-profileJustify" role="tab"
               aria-controls="tabs-profileJustify" aria-selected="false">Recomendaciones</a>
           </li>
           <li className="nav-item flex-grow text-center" role="presentation">
@@ -218,101 +247,100 @@ function PerfilPage() {
               hover:border-transparent hover:bg-gray-100
               focus:border-transparent
             " id="tabs-messages-tabJustify" data-bs-toggle="pill" data-bs-target="#tabs-messagesJustify" role="tab"
-              aria-controls="tabs-messagesJustify" aria-selected="false">Publi&Recom Guardadas</a>
+              aria-controls="tabs-messagesJustify" aria-selected="false">Artic&Recom Guardadas</a>
           </li>
         </ul>
         <div className="tab-content" id="tabs-tabContentJustify">
           <div className="tab-pane fade show active" id="tabs-homeJustify" role="tabpanel"
             aria-labelledby="tabs-home-tabJustify">
-            <div className="h-[60vh] overflow-y-scroll">
-              <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
+            <div className="h-[60vh] overflow-y-scroll scrollbar-hide text-center justify-center">
+              {publicaciones.length === 0 ?
+              <div className="text-gray-500 pt-5">
+               <FontAwesomeIcon className=" w-20 h-20 " icon={faFile} />
+               <div className="italic font-roboto text-3xl pt-2">
+                  Todavía no has publicado ningún artículo
+               </div>
+              </div>
+               :<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
                   {publicaciones.map( publicacion => (
                     <CardPubli
+                      //revisar key e id
                       key={publicacion.id}
                       id={publicacion.id}
-                      fotoPerfil={publicacion.fotoPerfil}
-                      nick={publicacion.nick}
-                      portada={publicacion.portada}
-                      comentario={publicacion.comentario}
-                      nLikes={publicacion.nLikes}
-                      nComents={publicacion.nComents}
-                      nGuardados={publicacion.nGuardados}
+
+                      pdf={publicacion.pdf}
+                      portada={"TodaviaFaltaPortada"}
+                      foto_de_perfil={publicacion.foto_de_perfil}
+                      usuario={publicacion.usuario}
+                      descripcion={publicacion.descripcion}
+                      nlikes={publicacion.nlikes}
+                      likemio={publicacion.likemio}
+                      ncomentarios={publicacion.ncomentarios}
+                      nguardados={publicacion.nguardados}
+                      guardadomio={publicacion.guardadomio}
                     />  
                   ))}    
-              </div>
+                </div>}
+              
             </div>
 
           </div>
           <div className="tab-pane fade" id="tabs-profileJustify" role="tabpanel" aria-labelledby="tabs-profile-tabJustify">
-            <div className="h-[60vh] overflow-y-scroll scrollbar-hide">
-              <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
-              {recomendaciones.map( recomendacion => (
-                    <CardRecomend
-                      key={recomendacion.id}
-                      id={recomendacion.id}
-                      fotoPerfil={recomendacion.fotoPerfil}
-                      nick={recomendacion.nick}
-                      titArticulo={recomendacion.titArticulo}
-                      autorArticulo={recomendacion.autorArticulo}
-                      comentario={recomendacion.comentario}
-                      nLikes={recomendacion.nLikes}
-                      nComents={recomendacion.nComents}
-                      nGuardados={recomendacion.nGuardados}
-                    />  
-                  ))} 
-
-              </div>
+            <div className="h-[60vh] overflow-y-scroll scrollbar-hide text-center justify-center">
+              {recomendaciones.length === 0 ?
+                <div className="text-gray-500 pt-5">
+                <FontAwesomeIcon className=" w-20 h-20 " icon={faThumbsUp} />
+                <div className="italic font-roboto text-3xl pt-2">
+                    Todavía no has publicado ninguna recomendación
+                </div>
+                </div>
+               :<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
+                    {recomendaciones.map( recomendacion => (
+                     <CardRecomend
+                       key={recomendacion.id}
+                       id={recomendacion.id}
+                       fotoPerfil={recomendacion.fotoPerfil}
+                       nick={recomendacion.nick}
+                       titArticulo={recomendacion.titArticulo}
+                       autorArticulo={recomendacion.autorArticulo}
+                       comentario={recomendacion.comentario}
+                       nLikes={recomendacion.nLikes}
+                       nComents={recomendacion.nComents}
+                       nGuardados={recomendacion.nGuardados}
+                     />  
+                   ))} 
+               </div>}
             </div>
           </div>
           <div className="tab-pane fade" id="tabs-messagesJustify" role="tabpanel" aria-labelledby="tabs-profile-tabJustify">
-          <div className="h-[60vh] overflow-y-scroll">
-              <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
-                <div>
-                  <CardPubli />
+          <div className="h-[60vh] overflow-y-scroll scrollbar-hide text-center justify-center">
+              {publicaciones.length === 0 ?
+                <div className="text-gray-500 pt-5">
+                <FontAwesomeIcon className=" w-20 h-20 " icon={faThumbsUp} />
+                <div className="italic font-roboto text-3xl pt-2">
+                    Todavía no has guardado ninguna publicación
                 </div>
-                <div>
-                  <CardPubli />
                 </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardRecomend />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-                <div>
-                  <CardPubli />
-                </div>
-              </div>
+               :<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
+                    {publicaciones.map( publicacion => (
+                        <CardPubli
+                        //revisar key e id
+                        key={publicacion.id}
+                        id={publicacion.id}
+
+                        pdf={publicacion.pdf}
+                        portada={"TodaviaFaltaPortada"}
+                        foto_de_perfil={publicacion.foto_de_perfil}
+                        usuario={publicacion.usuario}
+                        descripcion={publicacion.descripcion}
+                        nlikes={publicacion.nlikes}
+                        likemio={publicacion.likemio}
+                        ncomentarios={publicacion.ncomentarios}
+                        nguardados={publicacion.nguardados}
+                        guardadomio={publicacion.guardadomio}
+                      />  
+                   ))} 
+               </div>}
             </div>
           </div>
         </div>
