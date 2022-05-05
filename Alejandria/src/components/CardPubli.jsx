@@ -52,7 +52,6 @@ function CardPubli(props) {
       console.log(idYmg);
       setMg(true)
   
-  
       const actualizarLikes = async () => {
         // try {
           
@@ -114,7 +113,6 @@ function CardPubli(props) {
 
   const handleGuardarPost = () => {
     let idYguardar = {}
-    
     if(guardar){
       idYguardar = {
         id : props.id,
@@ -205,6 +203,11 @@ function CardPubli(props) {
                 alt={props.portada}   
             />
         </div>
+        <h1 className="mt-2 text-justify font-roboto text-blue-500">
+          <a href={props.pdf} target="_blank" rel="noreferrer noopener">
+            {props.pdf}
+          </a>
+        </h1>
         
         
 
@@ -213,11 +216,31 @@ function CardPubli(props) {
               <button className="group"
                       onClick={handleLike}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className={ mg === true ? "h-6 w-6 text-red-600 dark:text-dorado fill-current" : "h-6 w-6"} fill={mg === true? "" : "none" } viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <svg xmlns="http://www.w3.org/2000/svg" className={ mg ? "h-6 w-6 text-red-600 dark:text-dorado fill-current" : "h-6 w-6"} fill={mg ? "" : "none" } viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
               </button>
-              <div className="font-roboto">{ mg === true ? props.nlikes + 1 : props.nlikes}</div>
+
+              <div className="font-roboto"> {(() => {
+                                                      if (props.likemio && mg === false) {
+                                                        return (
+                                                          props.nlikes - 1
+                                                        )
+                                                      } else if(props.likemio && mg){
+                                                        return (
+                                                          props.nlikes
+                                                        )
+                                                      } else if(props.likemio  === false && mg){
+                                                        return (
+                                                          props.nlikes + 1
+                                                        )
+                                                      } else if(props.likemio  === false && mg === false){
+                                                        return (
+                                                          props.nlikes
+                                                        )
+                                                      }
+                                                    })()}</div>
+
             </div>
 
             <div className="flex mt-2 mb-2 gap-1">
@@ -237,11 +260,33 @@ function CardPubli(props) {
                       onClick={handleGuardarPost}
               >
                 
-                <svg xmlns="http://www.w3.org/2000/svg" className={guardar === true ? "h-6 w-6 text-black dark:text-dorado" : "h-6 w-6"} fill={guardar === true ? 'currentColor' : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg xmlns="http://www.w3.org/2000/svg" className={guardar ? "h-6 w-6 text-black dark:text-dorado" : "h-6 w-6"} fill={guardar ? 'currentColor' : "none"} viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                 </svg>
               </button>
-              <div className="font-roboto">{guardar === true ? props.nguardados + 1 : props.nguardados}</div>
+              <div className="font-roboto"> {(() => {
+                                                      if (props.guardadomio && guardar === false) {
+                                                        return (
+                                                          props.nguardados - 1
+                                                        )
+                                                      } else if(props.guardadomio && guardar){
+                                                        return (
+                                                          props.nguardados
+                                                        )
+                                                      } else if(props.guardadomio  === false && guardar){
+                                                        return (
+                                                          props.nguardados + 1
+                                                        )
+                                                      } else if(props.guardadomio  === false && guardar === false){
+                                                        return (
+                                                          props.nguardados
+                                                        )
+                                                      }
+                                                    })()}</div>
+                
+                
+                
+                
             </div>
 
             <div className="flex mt-2 mb-2 gap-1">

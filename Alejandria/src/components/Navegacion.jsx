@@ -1,9 +1,20 @@
 import Header from "./Header"
-import {Link, useLocation} from 'react-router-dom'
+import {Link, useLocation, useNavigate} from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPowerOff} from '@fortawesome/free-solid-svg-icons'
 
 function Navegacion() {
   const location = useLocation()
   const urlActual = location.pathname
+  const navigate = useNavigate()
+
+
+  const handleClick = () => {
+    localStorage.removeItem('token')
+    navigate('/')
+  };
+
+
 
   return (
 
@@ -73,6 +84,17 @@ function Navegacion() {
                   <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                 </svg>
                 <div className="font-roboto">Notificaciones</div> 
+                
+              </button>
+            </Link>
+            
+            <Link to="/">
+              <button
+                type="button" onClick={handleClick}
+                className="px-2 py-2 flex gap-2 lg:text-xl md:text-lg bg-transparent cursor-pointer transition-al hover:bg-verdeClaro dark:hover:bg-doradoClaro rounded-xl hover:opacity-80"
+                >
+                <FontAwesomeIcon className=" w-7 h-7" icon={faPowerOff} />
+                <div className="font-roboto">Cerrar Sesión</div> 
                 
               </button>
             </Link>

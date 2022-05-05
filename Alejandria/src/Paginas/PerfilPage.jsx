@@ -10,6 +10,8 @@ import { faThumbsUp} from '@fortawesome/free-solid-svg-icons'
 import { faMoon} from '@fortawesome/free-solid-svg-icons'
 import { faSun} from '@fortawesome/free-solid-svg-icons'
 
+
+
 function PerfilPage() {
   const [colorTheme, setTheme] = useDarkmode();
   const [modal, setModal] = useState(false);
@@ -34,7 +36,12 @@ function PerfilPage() {
         }
       })
       const resultPubli = await resPubli.json()
-      setPublicaciones(resultPubli);
+      console.log('resultPubli:', resultPubli);
+
+      const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+      
+      console.log('resultado', result);
+      setPublicaciones(result);
     } catch (error) {
       console.log(error);
     }
@@ -50,7 +57,12 @@ function PerfilPage() {
         }
       })
       const resultRecomend = await resRecomend.json()
-      setRecomendaciones(resultRecomend);
+      // console.log('resultRecomend:', resultRecomend);
+      // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
+      const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
+
+      // console.log('resultado', result);
+      setRecomendaciones(result);
     } catch (error) {
       console.log(error);
     }
@@ -67,8 +79,8 @@ function PerfilPage() {
         }
       })
       const resultDatos = await resDatos.json()
-      console.log('resultDatos:', resultDatos);
       setDatosUser(resultDatos);
+      // console.log('datosUser', resultDatos);
 
     } catch (error) {
       console.log(error);
@@ -79,7 +91,7 @@ function PerfilPage() {
     const token = JSON.parse(localStorage.getItem('token'))
     obtenerDatosUserApi(token)
     obtenerPubliApi(token)
-    // obtenerRecomendApi(token)
+    obtenerRecomendApi(token)
 
     const primeraVez = JSON.parse(localStorage.getItem('primeraVez'))
     setModal(primeraVez)
@@ -110,7 +122,6 @@ function PerfilPage() {
   const guardarDatos = dato => {
     setDatos(dato)    
   }
-
   return (
       <div className="border-l-2 dark:bg-black dark:text-white dark:border-l-dorado transition duration-500">
         <div className="px-3 pt-3 ">
@@ -167,8 +178,8 @@ function PerfilPage() {
         <h1 className="mt-2 text-justify font-roboto"> 
           {datosUser.descripcion}
         </h1>
-        <h1 className="py-2 text-justify font-roboto text-blue-400">
-          <a target="_blank" href="{datos.link}">{datosUser.link}</a>
+        <h1 className="py-2 text-justify font-roboto text-blue-500">
+          <a target="_blank" href={datosUser.link} rel="noreferrer noopener">{datosUser.link} </a>
         </h1>
       </div>
       
@@ -297,16 +308,20 @@ function PerfilPage() {
                :<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
                     {recomendaciones.map( recomendacion => (
                      <CardRecomend
-                       key={recomendacion.id}
-                       id={recomendacion.id}
-                       fotoPerfil={recomendacion.fotoPerfil}
-                       nick={recomendacion.nick}
-                       titArticulo={recomendacion.titArticulo}
-                       autorArticulo={recomendacion.autorArticulo}
-                       comentario={recomendacion.comentario}
-                       nLikes={recomendacion.nLikes}
-                       nComents={recomendacion.nComents}
-                       nGuardados={recomendacion.nGuardados}
+                      key={recomendacion.id}
+                      id={recomendacion.id}
+                      
+                      titulo={recomendacion.titulo}
+                      autor={recomendacion.autor}
+                      descripcion={recomendacion.descripcion}
+                      link={recomendacion.link}
+                      usuario={recomendacion.usuario}
+                      foto_de_perfil={recomendacion.foto_de_perfil}
+                      nlikes={recomendacion.nlikes}
+                      likemio={recomendacion.likemio}
+                      ncomentarios={recomendacion.ncomentarios}
+                      nguardados={recomendacion.nguardados}
+                      guardadomio={recomendacion.guardadomio}
                      />  
                    ))} 
                </div>}
@@ -322,7 +337,7 @@ function PerfilPage() {
                 </div>
                 </div>
                :<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
-                    {publicaciones.map( publicacion => (
+                    {/* {publicaciones.map( publicacion => (
                         <CardPubli
                         //revisar key e id
                         key={publicacion.id}
@@ -339,7 +354,7 @@ function PerfilPage() {
                         nguardados={publicacion.nguardados}
                         guardadomio={publicacion.guardadomio}
                       />  
-                   ))} 
+                   ))}  */}
                </div>}
             </div>
           </div>
