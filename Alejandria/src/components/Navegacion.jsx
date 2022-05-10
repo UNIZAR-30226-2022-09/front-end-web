@@ -1,12 +1,9 @@
 import Header from "./Header"
 import {Link, useLocation} from 'react-router-dom'
-import { useState } from 'react'
 
 function Navegacion() {
   const location = useLocation()
   const urlActual = location.pathname
-
-  const [modal,setModal] = useState(false)
 
   return (
 
