@@ -87,7 +87,7 @@ function PerfilPage() {
   }
 
   return (
-      <div className="border-l-2 dark:bg-black dark:text-white dark:border-l-dorado transition duration-500">
+      <div className="border-l-2 dark:bg-gray-900 dark:text-white dark:border-l-dorado transition duration-500">
         <div className="px-3 pt-3 ">
         <div className="h-[13vh] flex space-x-5 items-center">
             <div className="w-1/5">
