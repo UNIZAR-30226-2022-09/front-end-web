@@ -72,6 +72,8 @@ const FormularioReg = () => {
                     password:'',
                 }}
                 onSubmit={ async (values, {resetForm}) => {
+                    localStorage.setItem('nick',JSON.stringify(values.nick))
+                    console.log('values', values);
                     await handleSubmit(values)
                     resetForm()
                 }}

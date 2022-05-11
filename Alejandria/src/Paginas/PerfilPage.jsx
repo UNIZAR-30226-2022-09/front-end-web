@@ -1,6 +1,7 @@
 import CardPubli from "../components/CardPubli"
 import CardRecomend from "../components/CardRecomend"
 import ModalPerfil from "../components/ModalPerfil"
+import { useNavigate } from 'react-router-dom'
 
 import {useEffect, useState} from 'react'
 import useDarkmode from "../hook/useDarkmode";
@@ -13,6 +14,8 @@ import { faSun} from '@fortawesome/free-solid-svg-icons'
 
 
 function PerfilPage() {
+  const navigate = useNavigate()
+
   const [colorTheme, setTheme] = useDarkmode();
   const [modal, setModal] = useState(false);
   const [datos, setDatos] = useState({});
@@ -26,33 +29,35 @@ function PerfilPage() {
     window.location.reload(false);
   }
   
-  const obtenerPubliApi = async (token) => {
+  const obtenerPubliApi = async (token, nick) => {
     try {
-      const urlPubli = 'http://51.255.50.207:5000/misArticulos'
+      const urlPubli = 'http://51.255.50.207:5000/mostrarArticulos'
       const resPubli = await fetch(urlPubli, {
         headers : {
           'Content-Type' : 'application/json',
+          'nick' : nick,
           'token' : token
         }
       })
       const resultPubli = await resPubli.json()
-      console.log('resultPubli:', resultPubli);
+      // console.log('resultPubli:', resultPubli);
 
       const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
       
-      console.log('resultado', result);
+      // console.log('resultado', result);
       setPublicaciones(result);
     } catch (error) {
       console.log(error);
     }
   }
 
-  const obtenerRecomendApi = async (token) => {
+  const obtenerRecomendApi = async (token, nick) => {
     try {
-      const urlRecomend = 'http://51.255.50.207:5000/misRecomendaciones'
+      const urlRecomend = 'http://51.255.50.207:5000/mostrarRecomendaciones'
       const resRecomend = await fetch(urlRecomend, {
         headers : {
           'Content-Type' : 'application/json',
+          'nick' : nick,
           'token' : token
         }
       })
@@ -68,19 +73,81 @@ function PerfilPage() {
     }
   }
 
-  const obtenerDatosUserApi = async (token) => {
+  const obtenerDatosUserApi = async (token, nick) => {
     try {
       
-      const urlDatos = 'http://51.255.50.207:5000/editarPerfil'
+      const urlDatos = 'http://51.255.50.207:5000/mostrarPerfil'
       const resDatos = await fetch(urlDatos, {
         headers : {
           'Content-Type' : 'application/json',
-          'token' : token
+          'token' : token,
+          'nick' : nick
         }
       })
       const resultDatos = await resDatos.json()
+
+      console.log('resultDatos', resultDatos);
+
       setDatosUser(resultDatos);
       // console.log('datosUser', resultDatos);
+
+      var tematicas = []
+      let label = ''
+      for (var i = 0; i < resultDatos.tematicas.length; i++) {
+        switch (resultDatos.tematicas[i]) {
+          case 'Biologia':
+            label = 'Biología'
+            break;
+          case 'C.Sociales':
+            label = 'C.Sociales'
+            break;
+          case 'Economia':
+            label = 'Economía'
+            break;
+          case 'Electronica':
+            label = 'Electrónica'
+            break;
+          case 'Filologia':
+            label = 'Filología'
+            break;
+          case 'Fisica':
+            label = 'Física'
+            break;
+          case 'Filosofia':
+            label = 'Filosofía'
+            break;
+          case 'Geologia':
+            label = 'Geología'
+            break;
+          case 'Historia':
+            label = 'Historia'
+            break;
+          case 'Informatica':
+            label = 'Informática'
+            break;
+          case 'Ingenieria':
+            label = 'Ingeniería'
+            break;
+          case 'Matematicas':
+            label = 'Matemáticas'
+            break;
+          case 'Medicina':
+            label = 'Medicina'
+            break;
+          case 'Mecanica':
+            label = 'Mecánica'
+            break;
+          
+          case 'Quimica':
+            label = 'Química'
+            break;
+          default:
+            console.log('No coincide niguna tematica');
+        }
+        let obj = {label: label, value: resultDatos.tematicas[i]}
+        tematicas.push(obj);     
+      }
+      localStorage.setItem('tematicas', JSON.stringify(tematicas))
 
     } catch (error) {
       console.log(error);
@@ -89,9 +156,10 @@ function PerfilPage() {
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token'))
-    obtenerDatosUserApi(token)
-    obtenerPubliApi(token)
-    obtenerRecomendApi(token)
+    const nick = JSON.parse(localStorage.getItem('nick'))
+    obtenerDatosUserApi(token, nick)
+    obtenerPubliApi(token, nick)
+    obtenerRecomendApi(token, nick)
 
     const primeraVez = JSON.parse(localStorage.getItem('primeraVez'))
     setModal(primeraVez)
@@ -173,7 +241,7 @@ function PerfilPage() {
       </div>
       
       <div className="h-[15vh]">
-        <div className="text-2xl font-roboto">{datosUser.nombre_de_usuario}</div>
+        <div className="text-2xl font-bold">{datosUser.nombre_de_usuario}</div>
         <div className="text-1xl gap-2 transition-all items-center font-roboto">@{datosUser.nick}</div>
         <h1 className="mt-2 text-justify font-roboto"> 
           {datosUser.descripcion}
@@ -183,13 +251,20 @@ function PerfilPage() {
         </h1>
       </div>
       
-      <div className="h-[3vh] ">
-        <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white dark:border-dorado dark:text-dorado dark:hover:bg-doradoClaro dark:hover:text-white dark:hover:opacity-70"
+      <div className="h-[3vh] flex">
+        <button className="text-verde w-5/6 rounded-lg p-1 border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white dark:border-dorado dark:text-dorado dark:hover:bg-doradoClaro dark:hover:text-white dark:hover:opacity-70"
                 type="button"
                 data-modal-toggle="modalEditarPerfil"
                 onClick={handleModal}
         >
           EDITAR PERFIL
+        </button>
+        <button className="text-verde w-1/6 rounded-lg uppercase align-middle p-1 border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white dark:border-dorado dark:text-dorado dark:hover:bg-doradoClaro dark:hover:text-white dark:hover:opacity-70"
+                type="button"
+                data-modal-toggle="modalEditarPerfil"
+                onClick={() => navigate('/myAccount/chat')}
+        >
+          Enviar mensaje
         </button>
       </div>
       {modal && <ModalPerfil  setModal={setModal} guardarDatos={guardarDatos} datosUser={datosUser} obtenerDatosUserApi={obtenerDatosUserApi} refreshPage={refreshPage}/>}
@@ -272,7 +347,7 @@ function PerfilPage() {
                   Todavía no has publicado ningún artículo
                </div>
               </div>
-               :<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
+               :<div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4">
                   {publicaciones.map( publicacion => (
                     <CardPubli
                       //revisar key e id
@@ -280,7 +355,7 @@ function PerfilPage() {
                       id={publicacion.id}
 
                       pdf={publicacion.pdf}
-                      portada={"TodaviaFaltaPortada"}
+                      portada={publicacion.portada}
                       foto_de_perfil={publicacion.foto_de_perfil}
                       usuario={publicacion.usuario}
                       descripcion={publicacion.descripcion}

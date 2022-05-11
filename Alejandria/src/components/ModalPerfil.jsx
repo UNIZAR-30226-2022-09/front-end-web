@@ -86,7 +86,7 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
     } else {
       setError(false)
       localStorage.setItem('primeraVez', JSON.stringify(false))
-      // setModal(false)
+      setModal(false)
       localStorage.setItem('tematicas', JSON.stringify(selected))
       setSelected(JSON.stringify(selected)); 
 
@@ -106,20 +106,22 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
       console.log('Objeto prueba con valores modificados', prueba);
 
 
-      const url = 'http://51.255.50.207:5000/editarPerfil'
       const token = JSON.parse(localStorage.getItem('token'))
+      const nick = JSON.parse(localStorage.getItem('nick'))
+      
       const actuAPI = async (final) => { 
         try {        
-          const respuesta = await fetch(url, {
+          const respuesta = await fetch('http://51.255.50.207:5000/editarPerfil', {
             method : 'POST',
             body : JSON.stringify(prueba),
             headers : {
                 'Content-Type' : 'application/json',
-                'token' : token
+                'token' : token,
+                'nick' : nick
             }
           })
-          await respuesta.json()
-
+          const resultado = await respuesta.json()
+          console.log('resultado actuAPI', resultado);
         } catch (error) {
           console.log(error);
         }
@@ -153,7 +155,7 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
       // }
 
       
-      // refreshPage()
+      refreshPage()
     }
   }
 

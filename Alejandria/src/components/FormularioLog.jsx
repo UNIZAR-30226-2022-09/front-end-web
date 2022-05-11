@@ -41,6 +41,7 @@ const FormularioLog = () => {
 
             if (resultado.error == null){ //Si todo ha ido bien
                 localStorage.setItem('token',JSON.stringify(resultado.token))
+                localStorage.setItem('nick',JSON.stringify(resultado.nick))
                 localStorage.setItem('primeraVez', JSON.stringify(false))
                 setError(false)
                 navigate('/myAccount')

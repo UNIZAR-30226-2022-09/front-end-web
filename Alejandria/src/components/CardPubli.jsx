@@ -17,16 +17,16 @@ function CardPubli(props) {
     if(mg){
       idYmg = {
         id : props.id,
-        mg : false
+        like : false
       }
       console.log(idYmg);
       setMg(false)
       const actualizarLikes = async () => {
         // try {
           
-        //   const url = `http://localhost:4000/publicaciones/${props.idPubliAMostrar}`
+        //   const url = 'http://51.255.50.207:5000/darLike'
         //   const respuesta = await fetch (url, {
-        //     method: 'PUT',
+        //     method: 'POST',
         //     body: JSON.stringify(idYmg),
         //     headers:{
         //         'Content-Type': 'application/json'
@@ -47,7 +47,7 @@ function CardPubli(props) {
     else{
       idYmg = {
         id : props.id,
-        mg : true
+        like : true
       }
       console.log(idYmg);
       setMg(true)
@@ -55,9 +55,9 @@ function CardPubli(props) {
       const actualizarLikes = async () => {
         // try {
           
-        //   const url = `http://localhost:4000/publicaciones/${props.idPubliAMostrar}`
+        //   const url = 'http://51.255.50.207:5000/darLike'
         //   const respuesta = await fetch (url, {
-        //     method: 'PUT',
+        //     method: 'POST',
         //     body: JSON.stringify(idYmg),
         //     headers:{
         //         'Content-Type': 'application/json'
@@ -124,9 +124,9 @@ function CardPubli(props) {
       const actualizarGuardar = async () => {
         // try {
           
-        //   const url = `http://localhost:4000/publicaciones/${props.idPubliAMostrar}`
+        //   const url = 'http://51.255.50.207:5000/guardar'
         //   const respuesta = await fetch (url, {
-        //     method: 'PUT',
+        //     method: 'POST',
         //     body: JSON.stringify(idYguardar),
         //     headers:{
         //         'Content-Type': 'application/json'
@@ -154,9 +154,9 @@ function CardPubli(props) {
       const actualizarGuardar = async () => {
         // try {
           
-        //   const url = `http://localhost:4000/publicaciones/${props.idPubliAMostrar}`
-        //   const respuesta = await fetch (url, {
-        //     method: 'PUT',
+        //     const url = 'http://51.255.50.207:5000/guardar'
+        //     const respuesta = await fetch (url, {
+        //     method: 'POST',
         //     body: JSON.stringify(idYguardar),
         //     headers:{
         //         'Content-Type': 'application/json'
@@ -179,7 +179,7 @@ function CardPubli(props) {
   
 
   return (
-    <div className="bg-gray-200 px-5 py-5 mb-3 rounded-2xl border-2 border-verde dark:border-dorado dark:bg-black dark:text-white">
+    <div className="bg-gray-200 px-3 py-4 mb-3 rounded-2xl border-2 border-verde dark:border-dorado dark:bg-black dark:text-white">
        
         <div className="mb-2 gap-2 items-center hover:underline ">
             
@@ -196,19 +196,14 @@ function CardPubli(props) {
             </button>
 
         </div>
-        
-        <div className="">
-            <img className="" 
-                src={props.portada}  
-                alt={props.portada}   
-            />
-        </div>
-        <h1 className="mt-2 text-justify font-roboto text-blue-500">
+        <div className='object-center'>
           <a href={props.pdf} target="_blank" rel="noreferrer noopener">
-            {props.pdf}
-          </a>
-        </h1>
-        
+              <img className="object-scale-down h-96 w-52" 
+                  src={props.portada}  
+                  alt="Portada del pdf"   
+              />
+          </a>   
+        </div>
         
 
         <div className="flex space-x-5 ">
@@ -288,12 +283,14 @@ function CardPubli(props) {
                 
                 
             </div>
-
-            <div className="flex mt-2 mb-2 gap-1">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
-              </svg>
-            </div>
+            <button onClick={() => navigate('/myAccount/publicar', {state:{id:props.id,name:'prueba'}})}>
+              <div className="flex mt-2 mb-2 gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                </svg>
+              </div>
+            </button>                                          
+            
         </div>
 
         <h1 className="mt-2 text-justify font-roboto">

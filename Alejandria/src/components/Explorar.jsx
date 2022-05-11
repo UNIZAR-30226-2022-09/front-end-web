@@ -37,7 +37,7 @@ function Explorar() {
   }
 
   useEffect(() => {
-    obtenerExplorar()
+    // obtenerExplorar()
   }, []);
 
   return (
@@ -50,10 +50,15 @@ function Explorar() {
           <input className="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white" placeholder="Filtrar por palabra"/>
           <button className="font-roboto rounded-r-lg bg-verde p-1 text-white uppercase">Buscar</button>
         </form>
-        <form className="flex">
-          <input className="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white" placeholder="Buscar Usuario"/>
+        <div className="flex">
+          <input className="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white" 
+                type='text'
+                placeholder="Buscar Usuario"/>
+
           <button className="font-roboto rounded-r-lg bg-verde p-1 text-white uppercase">Buscar</button>
-        </form>
+          
+        </div>
+        
       </div>
       
       {/* FILTROS */}
