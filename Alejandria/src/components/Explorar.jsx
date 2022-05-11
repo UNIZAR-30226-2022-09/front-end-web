@@ -1,11 +1,14 @@
 import CardPubliPop from "./CardPubliPop"
 import ListarCardPopRecom from "./ListarCardPopRecom"
 import {useEffect, useState} from 'react'
+import { useNavigate } from 'react-router-dom'
 
 
 function Explorar() {
   const [explorar, setExplorar] = useState([])
-
+  const [filteredData, setFilteredData] = useState([])
+  const navigate = useNavigate()
+  
   const obtenerExplorar = async () => {
     try {
       const urlPubli = 'http://localhost:4000/novedades'
@@ -36,6 +39,42 @@ function Explorar() {
      
   }
 
+  const obtenerUsers = async (searchWord) => {
+    const token = JSON.parse(localStorage.getItem('token'))
+    try {
+      const urlRecomend = 'http://51.255.50.207:5000/buscarUsuarios'
+      const resRecomend = await fetch(urlRecomend, {
+        headers : {
+          'Content-Type' : 'application/json',
+          'nick' : searchWord,
+          'token' : token
+        }
+      })
+      const resultRecomend = await resRecomend.json()
+      // console.log('resultRecomend:', resultRecomend);
+      // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
+      
+      const result = Object.entries(resultRecomend).map(([nick, values]) => ({ nick, ...values }));
+
+      console.log('resultado Users', result);
+      setFilteredData(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleFilter = (event) => {
+    const searchWord = event.target.value;
+    console.log('searchWord', searchWord);
+    
+    if (searchWord === "") {
+      setFilteredData([]);
+    } 
+    else {
+      obtenerUsers(searchWord)
+    }
+  };
+
   useEffect(() => {
     // obtenerExplorar()
   }, []);
@@ -50,13 +89,42 @@ function Explorar() {
           <input className="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white" placeholder="Filtrar por palabra"/>
           <button className="font-roboto rounded-r-lg bg-verde p-1 text-white uppercase">Buscar</button>
         </form>
-        <div className="flex">
-          <input className="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white" 
-                type='text'
-                placeholder="Buscar Usuario"/>
+        
+        <div>
+        <div className="relative flex items-center text-gray-400">
+            <input className="font-roboto y-0p rounded-lg pl-9 border-t border-b border-l border-verde bg-white text-base" 
+                  type='text'
+                  placeholder="Buscar Usuario ..."
+                  onChange={handleFilter}/>
 
-          <button className="font-roboto rounded-r-lg bg-verde p-1 text-white uppercase">Buscar</button>
+            <div className="absolute pl-2 pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+            </svg>
+            </div>
           
+          </div>
+          { filteredData.length != 0 && (
+            <div className="mt-2 w-72 h-48 bg-white overflow-hidden overflow-y-auto scrollbar-hide">
+              
+              {filteredData.map( data => (
+                    <div className="py-2 gap-2 border-b-2 items-center" key={data.nick}>
+                      <button
+                        type="button"
+                        className=" px-2 flex text-1xl gap-2 cursor-pointer transition-all items-center"
+                        onClick={() => navigate(`/myAccount/externalUser/${data.nick}`)}
+                      >
+                        <img className="w-10 h-10 rounded-full shadow-sm" 
+                        src={data.foto_de_perfil}
+                        /> 
+                        <div className="font-roboto">@{data.nick}</div>
+                      </button>
+                    </div>
+
+                  ))}
+
+            </div>
+          )}
         </div>
         
       </div>

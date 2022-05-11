@@ -154,8 +154,9 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
       //   actuFoto()
       // }
 
-      
-      refreshPage()
+      setTimeout(()=> {
+        refreshPage()
+      },300)
     }
   }
 

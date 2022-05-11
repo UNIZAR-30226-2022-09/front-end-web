@@ -14,65 +14,62 @@ function CardRecomend(props) {
   }, []);
 
   const handleLike = () => {
-    let idYmg = {}
-    if(mg){
-      idYmg = {
-        id : props.id,
-        like : false
-      }
-      console.log(idYmg);
+    const token = JSON.parse(localStorage.getItem('token'))
+    if(mg){     
       setMg(false)
       const actualizarLikes = async () => {
-        // try {
+        let idObj = {
+          id :  props.id
+        }
+        try {
           
-        //   const url = 'http://51.255.50.207:5000/darLike'
-        //   const respuesta = await fetch (url, {
-        //     method: 'POST',
-        //     body: JSON.stringify(idYmg),
-        //     headers:{
-        //         'Content-Type': 'application/json'
-        //     }
-        //   })
+          const url = 'http://51.255.50.207:5000/darLike'
+          const respuesta = await fetch (url, {
+            method: 'POST',
+            body: JSON.stringify(idObj),
+            headers:{
+                'Content-Type': 'application/json',
+                'token' : token
+            }
+          })
   
-        //   const resultado = await respuesta.json()
+          const resultado = await respuesta.json()
           
-        //   if (resultado.error != null){ //Si ha ido MAL
-        //     setMg(true)
-        //   }
-        // } catch (error) {
-        //   console.log(error);
-        // }
+          if (resultado.error != null){ //Si ha ido MAL
+            setMg(true)
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
       actualizarLikes()
     }
     else{
-      idYmg = {
-        id : props.id,
-        like : true
-      }
-      console.log(idYmg);
       setMg(true)
-  
-      const actualizarLikes = async () => {
-        // try {
+        const actualizarLikes = async () => {
+        let idObj = {
+          id :  props.id
+        }
+        try {
           
-        //   const url = 'http://51.255.50.207:5000/darLike'
-        //   const respuesta = await fetch (url, {
-        //     method: 'POST',
-        //     body: JSON.stringify(idYmg),
-        //     headers:{
-        //         'Content-Type': 'application/json'
-        //     }
-        //   })
+          const url = 'http://51.255.50.207:5000/darLike'
+          const respuesta = await fetch (url, {
+            method: 'POST',
+            body: JSON.stringify(idObj),
+            headers:{
+                'Content-Type': 'application/json',
+                'token' : token
+            }
+          })
   
-        //   const resultado = await respuesta.json()
+          const resultado = await respuesta.json()
           
-        //   if (resultado.error != null){ //Si ha ido MAL
-        //     setMg(false)
-        //   }
-        // } catch (error) {
-        //   console.log(error);
-        // }
+          if (resultado.error != null){ //Si ha ido MAL
+            setMg(true)
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
       actualizarLikes()
     }
@@ -113,67 +110,75 @@ function CardRecomend(props) {
   }
 
   const handleGuardarPost = () => {
-    let idYguardar = {}
+    const token = JSON.parse(localStorage.getItem('token'))
+
+    let idObj = {}
     if(guardar){
-      idYguardar = {
+      idObj = {
         id : props.id,
-        guardar : false
       }
-      console.log(idYguardar);
       setGuardar(false)
 
       const actualizarGuardar = async () => {
-        // try {
-          
-        //   const url = 'http://51.255.50.207:5000/guardar'
-        //   const respuesta = await fetch (url, {
-        //     method: 'POST',
-        //     body: JSON.stringify(idYguardar),
-        //     headers:{
-        //         'Content-Type': 'application/json'
-        //     }
-        //   })
+        try {
+            const url = 'http://51.255.50.207:5000/guardar'
+            const respuesta = await fetch (url, {
+            method: 'POST',
+            body: JSON.stringify(idObj),
+            headers:{
+                'Content-Type': 'application/json',
+                'token' : token
+            }
+          })
   
-        //   const resultado = await respuesta.json()
+          const resultado = await respuesta.json()
           
-        //   if (resultado.error != null){ //Si ha ido MAL
-        //     setGuardar(true)
-        //   }
-        // } catch (error) {
-        //   console.log(error);
-        // }
+          if (resultado.error != null){ //Si ha ido MAL
+            setGuardar(true)
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
       actualizarGuardar()
     } else {
-      idYguardar = {
+      idObj = {
         id : props.id,
-        guardar : true
       }
-      console.log(idYguardar);
       setGuardar(true)
 
       const actualizarGuardar = async () => {
-        // try {
-          
-        //     const url = 'http://51.255.50.207:5000/guardar'
-        //     const respuesta = await fetch (url, {
-        //     method: 'POST',
-        //     body: JSON.stringify(idYguardar),
-        //     headers:{
-        //         'Content-Type': 'application/json'
-        //     }
-        //   })
-  
-        //   const resultado = await respuesta.json()
-          
-        //   if (resultado.error != null){ //Si ha ido MAL
-        //     setGuardar(false)
-        //   }
-        // } catch (error) {
-        //   console.log(error);
-        // }
+        try {
+          const url = 'http://51.255.50.207:5000/guardar'
+          const respuesta = await fetch (url, {
+          method: 'POST',
+          body: JSON.stringify(idObj),
+          headers:{
+              'Content-Type': 'application/json',
+              'token' : token
+          }
+        })
+
+        const resultado = await respuesta.json()
+        
+        if (resultado.error != null){ //Si ha ido MAL
+          setGuardar(true)
+        }
+      } catch (error) {
+        console.log(error);
+      }
       }
       actualizarGuardar()
+    }
+  }
+
+  const handleClick = () => {
+    const nick = JSON.parse(localStorage.getItem('nick'))
+
+    if(props.usuario == nick){
+      navigate('/myAccount/perfil')
+    } else {
+      navigate(`/myAccount/externalUser/${props.usuario}`)
     }
 
   }
@@ -186,7 +191,7 @@ function CardRecomend(props) {
             <button
               type="button"
               className=" px-2 flex text-1xl gap-2 cursor-pointer transition-all items-center"
-              onClick={() => navigate('/myAccount/perfil')}
+              onClick={handleClick}
             >
             <img className="w-10 h-10 rounded-full shadow-sm" 
              src={props.foto_de_perfil}  

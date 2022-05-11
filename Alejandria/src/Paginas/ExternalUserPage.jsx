@@ -22,25 +22,78 @@ function PerfilPage() {
   let { id } = useParams()
   // console.log('nick funtionn',id);
   
+  const handleClick = () => {
+    const token = JSON.parse(localStorage.getItem('token'))
+
+    let nickObj = {
+      nick :  id
+    }
+
+    const actualizarSeguidos = async () => {
+      try {
+        const url = 'http://51.255.50.207:5000/seguirUser'
+        const respuesta = await fetch (url, {
+          method: 'POST',
+          body: JSON.stringify(nickObj),
+          headers:{
+              'Content-Type': 'application/json',
+              'token' : token
+          }
+        })
+
+        const resultado = await respuesta.json()
+        
+        if (resultado.error != null){ //Si ha ido MAL
+          setComment(false)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    actualizarSeguidos()
+  }
 
   
-  const obtenerPubliApi = async () => {
+  const obtenerPubliApi = async (token, nick) => {
     try {
-      const urlPubli = 'http://localhost:4000/publicaciones'
-      const resPubli = await fetch(urlPubli)
+      const urlPubli = 'http://51.255.50.207:5000/mostrarArticulos'
+      const resPubli = await fetch(urlPubli, {
+        headers : {
+          'Content-Type' : 'application/json',
+          'nick' : nick,
+          'token' : token
+        }
+      })
       const resultPubli = await resPubli.json()
-      setPublicaciones(resultPubli);
+      // console.log('resultPubli:', resultPubli);
+
+      const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+      
+      // console.log('resultado', result);
+      setPublicaciones(result);
     } catch (error) {
       console.log(error);
     }
   }
 
-  const obtenerRecomendApi = async () => {
+  const obtenerRecomendApi = async (token, nick) => {
     try {
-      const urlRecomend = 'http://localhost:4000/recomendaciones'
-      const resRecomend = await fetch(urlRecomend)
+      const urlRecomend = 'http://51.255.50.207:5000/mostrarRecomendaciones'
+      const resRecomend = await fetch(urlRecomend, {
+        headers : {
+          'Content-Type' : 'application/json',
+          'nick' : nick,
+          'token' : token
+        }
+      })
       const resultRecomend = await resRecomend.json()
-      setRecomendaciones(resultRecomend);
+      // console.log('resultRecomend:', resultRecomend);
+      // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
+      const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
+
+      // console.log('resultado', result);
+      setRecomendaciones(result);
     } catch (error) {
       console.log(error);
     }
@@ -74,8 +127,8 @@ function PerfilPage() {
     const token = JSON.parse(localStorage.getItem('token'))
     
     obtenerDatosUserApi(token, id)
-    // obtenerPubliApi()
-    // obtenerRecomendApi()
+    obtenerPubliApi(token, id)
+    obtenerRecomendApi(token, id)
     
   }, []);
 
@@ -133,7 +186,7 @@ function PerfilPage() {
       <div className="h-[3vh] ">
         <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white dark:border-dorado dark:text-dorado dark:hover:bg-doradoClaro dark:hover:text-white dark:hover:opacity-70"
                 type="button"
-                // onClick={""}
+                onClick={handleClick}
         >
           {datosUser.siguiendo === false ? "SEGUIR A ESTE USUARIO" : "DEJAR DE SEGUIR A ESTE USUARIO"}
         </button>
@@ -200,24 +253,24 @@ function PerfilPage() {
                   </div>
                 </div>
                 :<div className="grid lg:grid-cols-4 md:grid-cols-2 gap-4">
-                    {/* {publicaciones.map( publicacion => (
-                      <CardPubli
-                        //revisar key e id
-                        key={publicacion.id}
-                        id={publicacion.id}
+                    {publicaciones.map( publicacion => (
+                    <CardPubli
+                      //revisar key e id
+                      key={publicacion.id}
+                      id={publicacion.id}
 
-                        pdf={publicacion.pdf}
-                        portada={publicacion.portada}
-                        foto_de_perfil={publicacion.foto_de_perfil}
-                        usuario={publicacion.usuario}
-                        descripcion={publicacion.descripcion}
-                        nlikes={publicacion.nlikes}
-                        likemio={publicacion.likemio}
-                        ncomentarios={publicacion.ncomentarios}
-                        nguardados={publicacion.nguardados}
-                        guardadomio={publicacion.guardadomio}
-                      />  
-                    ))}     */}
+                      pdf={publicacion.pdf}
+                      portada={publicacion.portada}
+                      foto_de_perfil={publicacion.foto_de_perfil}
+                      usuario={publicacion.usuario}
+                      descripcion={publicacion.descripcion}
+                      nlikes={publicacion.nlikes}
+                      likemio={publicacion.likemio}
+                      ncomentarios={publicacion.ncomentarios}
+                      nguardados={publicacion.nguardados}
+                      guardadomio={publicacion.guardadomio}
+                    />  
+                  ))}
                   </div>}
               
             </div>
@@ -234,7 +287,7 @@ function PerfilPage() {
                   </div>
                 </div>
                :<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
-                    {/* {recomendaciones.map( recomendacion => (
+                    {recomendaciones.map( recomendacion => (
                      <CardRecomend
                       key={recomendacion.id}
                       id={recomendacion.id}
@@ -251,7 +304,7 @@ function PerfilPage() {
                       nguardados={recomendacion.nguardados}
                       guardadomio={recomendacion.guardadomio}
                      />  
-                   ))}  */}
+                   ))}
                </div>}
             </div>
             </div>

@@ -24,9 +24,48 @@ function PerfilPage() {
   const [publicaciones, setPublicaciones] = useState([])
   const [datosUser, setDatosUser] = useState([])
   const [recomendaciones, setRecomendaciones] = useState([])
+  const [guardados, setGuardados] = useState([])
 
   function refreshPage() {
     window.location.reload(false);
+  }
+
+  function myFunct(guardado, i){
+    if(guardado.tipo === 1){
+      return  <CardPubli
+                //revisar key e id
+                key={i}
+                id={guardado.id}
+
+                pdf={guardado.pdf}
+                portada={guardado.portada}
+                foto_de_perfil={guardado.foto_de_perfil}
+                usuario={guardado.usuario}
+                descripcion={guardado.descripcion}
+                nlikes={guardado.nlikes}
+                likemio={guardado.likemio}
+                ncomentarios={guardado.ncomentarios}
+                nguardados={guardado.nguardados}
+                guardadomio={guardado.guardadomio}
+              /> 
+    }else{
+      return  <CardRecomend
+                key={i}
+                id={guardado.id}
+                
+                titulo={guardado.titulo}
+                autor={guardado.autor}
+                descripcion={guardado.descripcion}
+                link={guardado.link}
+                usuario={guardado.usuario}
+                foto_de_perfil={guardado.foto_de_perfil}
+                nlikes={guardado.nlikes}
+                likemio={guardado.likemio}
+                ncomentarios={guardado.ncomentarios}
+                nguardados={guardado.nguardados}
+                guardadomio={guardado.guardadomio}
+                />
+    }
   }
   
   const obtenerPubliApi = async (token, nick) => {
@@ -154,12 +193,33 @@ function PerfilPage() {
     }
   }
 
+  const obtenerGuardados = async (token) => {
+    try {
+      const urlRecomend = 'http://51.255.50.207:5000/Guardados'
+      const resRecomend = await fetch(urlRecomend, {
+        headers : {
+          'Content-Type' : 'application/json',
+          'token' : token
+        }
+      })
+      const resultRecomend = await resRecomend.json()
+      // console.log('resultRecomend:', resultRecomend);
+      // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
+      const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
+      console.log('obtenerGuardados:', result);
+      setGuardados(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token'))
     const nick = JSON.parse(localStorage.getItem('nick'))
     obtenerDatosUserApi(token, nick)
     obtenerPubliApi(token, nick)
     obtenerRecomendApi(token, nick)
+    obtenerGuardados(token)
 
     const primeraVez = JSON.parse(localStorage.getItem('primeraVez'))
     setModal(primeraVez)
@@ -404,7 +464,7 @@ function PerfilPage() {
           </div>
           <div className="tab-pane fade" id="tabs-messagesJustify" role="tabpanel" aria-labelledby="tabs-profile-tabJustify">
           <div className="h-[60vh] overflow-y-scroll scrollbar-hide text-center justify-center">
-              {publicaciones.length === 0 ?
+              {guardados.length === 0 ?
                 <div className="text-gray-500 pt-5">
                 <FontAwesomeIcon className=" w-20 h-20 " icon={faThumbsUp} />
                 <div className="italic font-roboto text-3xl pt-2">
@@ -412,24 +472,7 @@ function PerfilPage() {
                 </div>
                 </div>
                :<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
-                    {/* {publicaciones.map( publicacion => (
-                        <CardPubli
-                        //revisar key e id
-                        key={publicacion.id}
-                        id={publicacion.id}
-
-                        pdf={publicacion.pdf}
-                        portada={"TodaviaFaltaPortada"}
-                        foto_de_perfil={publicacion.foto_de_perfil}
-                        usuario={publicacion.usuario}
-                        descripcion={publicacion.descripcion}
-                        nlikes={publicacion.nlikes}
-                        likemio={publicacion.likemio}
-                        ncomentarios={publicacion.ncomentarios}
-                        nguardados={publicacion.nguardados}
-                        guardadomio={publicacion.guardadomio}
-                      />  
-                   ))}  */}
+                    {guardados.map(myFunct)}
                </div>}
             </div>
           </div>
