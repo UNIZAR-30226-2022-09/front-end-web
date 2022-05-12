@@ -1,5 +1,4 @@
 
-import Publicaciones from "../components/Publicaciones"
 import Explorar from "../components/Explorar"
 import useDarkmode from "../hook/useDarkmode";
 
@@ -12,6 +11,7 @@ import {useEffect, useState} from 'react'
 function HomePage() {
   const [colorTheme, setTheme] = useDarkmode();
   const [publiYRecomends, setPubliYRecomends] = useState([])
+  const [offset, setOffset] = useState(0)
 
   function myFunct(publiORecomend, i){
     if(publiORecomend.tipo === 1){
@@ -51,42 +51,67 @@ function HomePage() {
     }
   }
   
-  const obtenerPubliYRecomendApi = async (token) => {
+  const obtenerPubliYRecomendApi = async (token, offset) => {
+    console.log('offset: ',offset);
+
     try {
       const urlRecomend = 'http://51.255.50.207:5000/Home'
       const resRecomend = await fetch(urlRecomend, {
         headers : {
           'Content-Type' : 'application/json',
+          // 'offset' : offset,
+          // 'limit' : 11,
           'token' : token
+
         }
       })
       const resultPubli = await resRecomend.json()
       const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
 
-      console.log('obtenerPubliYRecomendApi:',result);
-      setPubliYRecomends(result);
-      console.log('setPubliYRecomends:', publiYRecomends);
+      setPubliYRecomends(prevPublis =>  prevPublis.concat(result));
+      console.log('setPubliYRecomends:',publiYRecomends);
 
     } catch (error) {
       console.log(error);
     }
   }
 
-  
+  const handleClick = () => {
+    const token = JSON.parse(localStorage.getItem('token'))
+    setOffset(prevOffset =>  prevOffset + 1)
+    console.log('offset: ',offset);
+    obtenerPubliYRecomendApi(token, offset)
+  };
   
   useEffect(() => {
+    setOffset(0)
     const token = JSON.parse(localStorage.getItem('token'))
-    obtenerPubliYRecomendApi(token)
+    obtenerPubliYRecomendApi(token, offset)
   }, []);
 
 
   return (
     
     <div className="flex">
-      <div className=" w-3/6 border-l-2 border-r-2">
+      <div className=" w-3/6 border-l-2 border-r-2 dark:border-dorado">
         <div className="h-screen overflow-y-scroll scrollbar-hide">
-          <div className="ml-3 mr-2 mt-3 items-center justify-center">
-            {publiYRecomends.map(myFunct)}             
+          <div className="ml-2 mr-2 mt-3 items-center justify-center">
+            {publiYRecomends.map(myFunct)}
+            { publiYRecomends.length >  10 
+            ? 
+              
+              <div className="flex flex-col items-center justify-center pb-4">
+                <button type="button" onClick={handleClick}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="cursor-pointer text-verde h-8 w-8 hover:h-10 hover:w-10 dark:text-dorado" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+              </div>
+              
+            :
+              <div></div>
+            }
+
           </div>
         </div>
       </div>

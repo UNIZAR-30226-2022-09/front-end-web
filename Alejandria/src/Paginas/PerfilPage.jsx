@@ -125,7 +125,7 @@ function PerfilPage() {
       })
       const resultDatos = await resDatos.json()
 
-      console.log('resultDatos', resultDatos);
+      // console.log('resultDatos', resultDatos);
 
       setDatosUser(resultDatos);
       // console.log('datosUser', resultDatos);
@@ -206,7 +206,7 @@ function PerfilPage() {
       // console.log('resultRecomend:', resultRecomend);
       // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
       const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
-      console.log('obtenerGuardados:', result);
+      // console.log('obtenerGuardados:', result);
       setGuardados(result);
     } catch (error) {
       console.log(error);
@@ -253,7 +253,7 @@ function PerfilPage() {
   return (
       <div className="border-l-2 dark:bg-black dark:text-white dark:border-l-dorado transition duration-500">
         <div className="px-3 pt-3 ">
-        <div className="h-[13vh] flex space-x-5 items-center">
+        <div className="h-[13vh] md:h-[11vh]  flex space-x-5 items-center">
             <div className="w-1/5">
               <div className="rounded-full h-24 w-24 items-center justify-center overflow-hidden">
                 <img className="w-full h-full" src={datosUser.foto_de_perfil} alt="user image" />
@@ -324,7 +324,7 @@ function PerfilPage() {
                 data-modal-toggle="modalEditarPerfil"
                 onClick={() => navigate('/myAccount/chat')}
         >
-          Enviar mensaje
+          mensajes
         </button>
       </div>
       {modal && <ModalPerfil  setModal={setModal} guardarDatos={guardarDatos} datosUser={datosUser} obtenerDatosUserApi={obtenerDatosUserApi} refreshPage={refreshPage}/>}
@@ -399,7 +399,7 @@ function PerfilPage() {
         <div className="tab-content" id="tabs-tabContentJustify">
           <div className="tab-pane fade show active" id="tabs-homeJustify" role="tabpanel"
             aria-labelledby="tabs-home-tabJustify">
-            <div className="h-[60vh] overflow-y-scroll scrollbar-hide text-center justify-center">
+            <div className="h-[62vh] md:h-[60vh] overflow-y-scroll scrollbar-hide text-center justify-center">
               {publicaciones.length === 0 ?
               <div className="text-gray-500 pt-5">
                <FontAwesomeIcon className=" w-20 h-20 " icon={faFile} />
@@ -432,7 +432,7 @@ function PerfilPage() {
 
           </div>
           <div className="tab-pane fade" id="tabs-profileJustify" role="tabpanel" aria-labelledby="tabs-profile-tabJustify">
-            <div className="h-[60vh] overflow-y-scroll scrollbar-hide text-center justify-center">
+            <div className="h-[62vh] md:h-[60vh] overflow-y-scroll scrollbar-hide text-center justify-center">
               {recomendaciones.length === 0 ?
                 <div className="text-gray-500 pt-5">
                 <FontAwesomeIcon className=" w-20 h-20 " icon={faThumbsUp} />
@@ -463,7 +463,7 @@ function PerfilPage() {
             </div>
           </div>
           <div className="tab-pane fade" id="tabs-messagesJustify" role="tabpanel" aria-labelledby="tabs-profile-tabJustify">
-          <div className="h-[60vh] overflow-y-scroll scrollbar-hide text-center justify-center">
+          <div className="h-[62vh] md:h-[60vh] overflow-y-scroll scrollbar-hide text-center justify-center">
               {guardados.length === 0 ?
                 <div className="text-gray-500 pt-5">
                 <FontAwesomeIcon className=" w-20 h-20 " icon={faThumbsUp} />

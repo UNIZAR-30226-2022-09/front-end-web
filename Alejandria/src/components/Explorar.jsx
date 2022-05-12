@@ -75,6 +75,20 @@ function Explorar() {
     }
   };
 
+  const handleClick = (e, user) => {
+    console.log(user);
+
+    const arroba = '@'
+    const nick = JSON.parse(localStorage.getItem('nick'))
+
+    if(e.target.innerHTML == arroba.concat(nick)){
+      navigate('/myAccount/perfil')
+    } else {
+      navigate(`/myAccount/externalUser/${user}`)
+    }
+
+  }
+
   useEffect(() => {
     // obtenerExplorar()
   }, []);
@@ -112,7 +126,7 @@ function Explorar() {
                       <button
                         type="button"
                         className=" px-2 flex text-1xl gap-2 cursor-pointer transition-all items-center"
-                        onClick={() => navigate(`/myAccount/externalUser/${data.nick}`)}
+                        onClick={(e) => handleClick(e, data.nick)}
                       >
                         <img className="w-10 h-10 rounded-full shadow-sm" 
                         src={data.foto_de_perfil}

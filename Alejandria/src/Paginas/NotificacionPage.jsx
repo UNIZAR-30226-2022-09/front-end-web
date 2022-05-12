@@ -78,7 +78,6 @@ function NotificacionPage() {
   }
   
   useEffect(() => {
-
     obtenerDatosUserApi() 
     obtenerNotificacionesApi()   
   }, []);

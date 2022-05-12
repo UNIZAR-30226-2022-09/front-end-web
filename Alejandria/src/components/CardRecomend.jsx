@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import ModalComentarios from "./ModalComentarios"
 
 
 function CardRecomend(props) {
@@ -7,11 +8,34 @@ function CardRecomend(props) {
   const [mg, setMg] = useState(false)
   const [comment, setComment] = useState(false)
   const [guardar, setGuardar] = useState(false)
+  const [modal, setModal] = useState(false)
+  const [idPubliAMostrar, setIdPubliAMostrar] = useState(0)
+  const [comentarios, setComentarios] = useState([]);
 
   useEffect(() => {
     setMg(props.likemio)
     setGuardar(props.guardadomio)
   }, []);
+
+  const obtenerComentarios = async (token, id) => {
+    try {
+      const urlRecomend = 'http://51.255.50.207:5000/verComentarios'
+      const resRecomend = await fetch(urlRecomend, {
+        headers : {
+          'Content-Type' : 'application/json',
+          'token' : token,
+          'id' : id
+
+        }
+      })
+      const resultPubli = await resRecomend.json()
+      const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+      setComentarios(result);
+      console.log('result: ', result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const handleLike = () => {
     const token = JSON.parse(localStorage.getItem('token'))
@@ -77,36 +101,13 @@ function CardRecomend(props) {
   }
 
   const handleComment = () => {
-    const idYcomment = {
-      id : props.id,
-      comentario : "prueba"
-    }
-    console.log(idYcomment);
-    setComment(true)
-
-
-    const actualizarComment = async () => {
-      // try {
-        
-      //   const url = `http://localhost:4000/publicaciones/${props.idPubliAMostrar}`
-      //   const respuesta = await fetch (url, {
-      //     method: 'PUT',
-      //     body: JSON.stringify(idYcomment),
-      //     headers:{
-      //         'Content-Type': 'application/json'
-      //     }
-      //   })
-
-      //   const resultado = await respuesta.json()
-        
-      //   if (resultado.error != null){ //Si ha ido MAL
-      //     setComment(false)
-      //   }
-      // } catch (error) {
-      //   console.log(error);
-      // }
-    }
-    actualizarComment()
+    setIdPubliAMostrar(props.id)
+    console.log(props.id);
+    const token = JSON.parse(localStorage.getItem('token'))
+    obtenerComentarios(token, props.id)
+    setTimeout(()=> {
+      setModal(true)
+    },400)
   }
 
   const handleGuardarPost = () => {
@@ -207,6 +208,8 @@ function CardRecomend(props) {
         <h1 className="mt-2 text-justify font-roboto">
           {props.descripcion}
         </h1>
+        {modal && <ModalComentarios setModal={setModal} comentarios={comentarios}/>}
+
         <h1 className="mt-2 text-justify font-roboto text-blue-500">
           <a href={props.link} target="_blank" rel="noreferrer noopener">
             {props.link}
