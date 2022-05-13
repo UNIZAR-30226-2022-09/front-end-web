@@ -6,6 +6,9 @@ import CardPubli from "../components/CardPubli"
 import CardRecomend from "../components/CardRecomend"
 
 import {useEffect, useState} from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser} from '@fortawesome/free-solid-svg-icons'
+
 
 
 function HomePage() {
@@ -98,7 +101,14 @@ function HomePage() {
       <div className=" w-3/6 border-l-2 border-r-2 dark:border-dorado">
         <div className="h-screen overflow-y-scroll scrollbar-hide">
           <div className="ml-2 mr-2 mt-3 items-center justify-center">
-            {publiYRecomends.map(myFunct)}
+            {publiYRecomends.length === 0 ? 
+              <div className="text-gray-500 pt-5 text-center">
+                <FontAwesomeIcon className=" w-20 h-20 " icon={faUser} />
+                <div className="italic font-roboto text-3xl pt-2">
+                  Todavía no sigues a ningún usuario
+                </div>
+              </div>
+            : publiYRecomends.map(myFunct)}
             { publiYRecomends.length >  10 
             ? 
               

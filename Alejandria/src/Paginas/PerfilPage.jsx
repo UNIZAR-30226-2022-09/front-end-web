@@ -25,6 +25,7 @@ function PerfilPage() {
   const [datosUser, setDatosUser] = useState([])
   const [recomendaciones, setRecomendaciones] = useState([])
   const [guardados, setGuardados] = useState([])
+  const [cont, setCont] = useState(0)
 
   function refreshPage() {
     window.location.reload(false);
@@ -119,7 +120,7 @@ function PerfilPage() {
 
   const obtenerDatosUserApi = async (token, nick) => {
     try {
-      
+      setCont(prevCont => prevCont + 1)
       const urlDatos = 'http://51.255.50.207:5000/mostrarPerfil'
       const resDatos = await fetch(urlDatos, {
         headers : {
@@ -130,7 +131,7 @@ function PerfilPage() {
       })
       const resultDatos = await resDatos.json()
 
-      // console.log('resultDatos', resultDatos);
+      console.log('resultDatos', resultDatos);
 
       setDatosUser(resultDatos);
       // console.log('datosUser', resultDatos);
@@ -258,13 +259,21 @@ function PerfilPage() {
   const guardarDatos = dato => {
     setDatos(dato)    
   }
+
+  const funcFoto = () => {
+    console.log('fotito', datosUser.foto_de_perfil + '?' + cont.toString()); 
+    return(datosUser.foto_de_perfil + '?' + cont.toString())
+    
+  }
+
   return (
       <div className="border-l-2 dark:bg-gray-900 dark:text-white dark:border-l-dorado transition duration-500">
         <div className="px-3 pt-3 ">
         <div className="h-[13vh] md:h-[11vh]  flex space-x-5 items-center">
             <div className="w-1/5">
               <div className="rounded-full h-24 w-24 items-center justify-center overflow-hidden">
-                <img className="w-full h-full" src={datosUser.foto_de_perfil} alt="user image" />
+                <img className="w-full h-full" src={funcFoto()} alt="user image" referrerPolicy="origin" />
+                
               </div>
             </div>
             <div className="w-4/5 flex space-x-10">
@@ -434,7 +443,6 @@ function PerfilPage() {
                       guardadomio={publicacion.guardadomio}
                     />  
                   ))}    
-                  {/* {myFunctPublicaciones()}  */}
                   
                 </div>}
               
