@@ -67,8 +67,10 @@ function HomePage() {
       })
       const resultPubli = await resRecomend.json()
       const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+      
+      const reverse = result.map(item => item).reverse();
 
-      setPubliYRecomends(prevPublis =>  prevPublis.concat(result));
+      setPubliYRecomends(prevPublis =>  prevPublis.concat(reverse));
       console.log('setPubliYRecomends:',publiYRecomends);
 
     } catch (error) {

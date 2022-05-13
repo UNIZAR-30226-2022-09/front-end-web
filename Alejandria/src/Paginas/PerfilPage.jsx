@@ -19,7 +19,7 @@ function PerfilPage() {
   const [colorTheme, setTheme] = useDarkmode();
   const [modal, setModal] = useState(false);
   const [datos, setDatos] = useState({});
-  const [nick, setNick] = useState(false);
+  const [reversedItems, setReversedItems] = useState([]);
 
   const [publicaciones, setPublicaciones] = useState([])
   const [datosUser, setDatosUser] = useState([])
@@ -82,9 +82,12 @@ function PerfilPage() {
       // console.log('resultPubli:', resultPubli);
 
       const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+      // console.log('result',  result);
       
-      // console.log('resultado', result);
-      setPublicaciones(result);
+      const reverse = result.map(item => item).reverse();
+      // console.log('reverse',  reverse);
+
+      setPublicaciones(reverse);
     } catch (error) {
       console.log(error);
     }
@@ -105,8 +108,10 @@ function PerfilPage() {
       // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
       const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
 
+      const reverse = result.map(item => item).reverse();
+
       // console.log('resultado', result);
-      setRecomendaciones(result);
+      setRecomendaciones(reverse);
     } catch (error) {
       console.log(error);
     }
@@ -207,7 +212,10 @@ function PerfilPage() {
       // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
       const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
       // console.log('obtenerGuardados:', result);
-      setGuardados(result);
+      
+      const reverse = result.map(item => item).reverse();
+
+      setGuardados(reverse);
     } catch (error) {
       console.log(error);
     }
@@ -251,7 +259,7 @@ function PerfilPage() {
     setDatos(dato)    
   }
   return (
-      <div className="border-l-2 dark:bg-black dark:text-white dark:border-l-dorado transition duration-500">
+      <div className="border-l-2 dark:bg-gray-900 dark:text-white dark:border-l-dorado transition duration-500">
         <div className="px-3 pt-3 ">
         <div className="h-[13vh] md:h-[11vh]  flex space-x-5 items-center">
             <div className="w-1/5">
@@ -426,6 +434,8 @@ function PerfilPage() {
                       guardadomio={publicacion.guardadomio}
                     />  
                   ))}    
+                  {/* {myFunctPublicaciones()}  */}
+                  
                 </div>}
               
             </div>

@@ -10,7 +10,6 @@ function CardRecomend(props) {
   const [guardar, setGuardar] = useState(false)
   const [modal, setModal] = useState(false)
   const [idPubliAMostrar, setIdPubliAMostrar] = useState(0)
-  const [comentarios, setComentarios] = useState([]);
 
   useEffect(() => {
     setMg(props.likemio)
@@ -102,9 +101,6 @@ function CardRecomend(props) {
 
   const handleComment = () => {
     setIdPubliAMostrar(props.id)
-    console.log(props.id);
-    const token = JSON.parse(localStorage.getItem('token'))
-    obtenerComentarios(token, props.id)
     setTimeout(()=> {
       setModal(true)
     },400)
@@ -185,7 +181,7 @@ function CardRecomend(props) {
   }
 
   return (
-    <div className="bg-gray-200 px-5 py-5 mb-3 rounded-2xl border-2 border-verde dark:border-dorado dark:bg-black dark:text-white">
+    <div className="bg-gray-200 px-5 py-5 mb-3 rounded-2xl border-2 border-verde dark:border-dorado dark:bg-gray-900 dark:text-white">
        
         <div className="mb-2 gap-2 items-center hover:underline ">
             
@@ -208,7 +204,7 @@ function CardRecomend(props) {
         <h1 className="mt-2 text-justify font-roboto">
           {props.descripcion}
         </h1>
-        {modal && <ModalComentarios setModal={setModal} comentarios={comentarios}/>}
+        {modal && <ModalComentarios setModal={setModal} idPubliAMostrar={idPubliAMostrar}/>}
 
         <h1 className="mt-2 text-justify font-roboto text-blue-500">
           <a href={props.link} target="_blank" rel="noreferrer noopener">

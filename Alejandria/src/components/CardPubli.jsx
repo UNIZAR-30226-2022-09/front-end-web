@@ -10,7 +10,7 @@ function CardPubli(props) {
   const [guardar, setGuardar] = useState(false)
   const [modal, setModal] = useState(false)
   const [idPubliAMostrar, setIdPubliAMostrar] = useState(0)
-  const [comentarios, setComentarios] = useState([]);
+ 
 
   
   useEffect(() => {
@@ -18,25 +18,7 @@ function CardPubli(props) {
     setGuardar(props.guardadomio)
   }, []);
 
-  const obtenerComentarios = async (token, id) => {
-    try {
-      const urlRecomend = 'http://51.255.50.207:5000/verComentarios'
-      const resRecomend = await fetch(urlRecomend, {
-        headers : {
-          'Content-Type' : 'application/json',
-          'token' : token,
-          'id' : id
-
-        }
-      })
-      const resultPubli = await resRecomend.json()
-      const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
-      setComentarios(result);
-      console.log('result: ', result);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  
 
   const handleLike = () => {
     const token = JSON.parse(localStorage.getItem('token'))
@@ -104,8 +86,7 @@ function CardPubli(props) {
   const handleComment = () => {
     setIdPubliAMostrar(props.id)
     console.log(props.id);
-    const token = JSON.parse(localStorage.getItem('token'))
-    obtenerComentarios(token, props.id)
+    
     setTimeout(()=> {
       setModal(true)
     },400)
@@ -186,7 +167,7 @@ function CardPubli(props) {
   }
 
   return (
-    <div className="bg-gray-200 px-3 py-4 mb-3 rounded-2xl border-2 border-verde dark:border-dorado dark:bg-black dark:text-white">
+    <div className="bg-gray-200 px-3 py-4 mb-3 rounded-2xl border-2 border-verde dark:border-dorado dark:bg-gray-900 dark:text-white">
        
         <div className="mb-2 gap-2 items-center hover:underline ">
             
@@ -212,7 +193,7 @@ function CardPubli(props) {
           </a>   
         </div>
         
-        {modal && <ModalComentarios setModal={setModal} comentarios={comentarios}/>}
+        {modal && <ModalComentarios setModal={setModal} idPubliAMostrar={idPubliAMostrar}/>}
 
         <div className="flex space-x-5 ">
             <div className="flex mt-2 mb-2 gap-1">

@@ -70,8 +70,10 @@ function PerfilPage() {
 
       const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
       
+      const reverse = result.map(item => item).reverse();
+
       // console.log('resultado', result);
-      setPublicaciones(result);
+      setPublicaciones(reverse);
     } catch (error) {
       console.log(error);
     }
@@ -92,8 +94,10 @@ function PerfilPage() {
       // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
       const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
 
+      const reverse = result.map(item => item).reverse();
+
       // console.log('resultado', result);
-      setRecomendaciones(result);
+      setRecomendaciones(reverse);
     } catch (error) {
       console.log(error);
     }
@@ -134,7 +138,7 @@ function PerfilPage() {
 
 
   return (
-      <div className="border-l-2 dark:bg-black dark:text-white dark:border-l-dorado transition duration-500">
+      <div className="border-l-2 dark:bg-gray-900 dark:text-white dark:border-l-dorado transition duration-500">
         <div className="px-3 pt-3 ">
         <div className="h-[13vh] flex space-x-5 items-center">
             <div className="w-1/5">

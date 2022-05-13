@@ -10,7 +10,7 @@ function CardNotiLike(props) {
   }
 
   return (
-    <div className="bg-gray-200 px-5 py-5 mb-3 rounded-2xl border-2 border-verde dark:border-dorado dark:bg-black dark:text-white">
+    <div className="bg-gray-200 px-5 py-5 mb-3 rounded-2xl border-2 border-verde dark:border-dorado dark:bg-gray-900 dark:text-white">
        
         <div className="mb-2 gap-2 items-center hover:underline ">
             <button

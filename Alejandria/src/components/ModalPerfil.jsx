@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react'
 import { MultiSelect } from "react-multi-select-component";
+import axios from 'axios'
 
 const options = [
   { label: "Biología", value: "Biologia" },
@@ -25,12 +26,9 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
   const [descripcion, setDescripcion] = useState('');
   const [link, setLink] = useState('');
   const [foto, setFoto] = useState();
-
   const [error, setError] = useState(false);
-
   const [selected, setSelected] = useState([]);
 
-  
   
   useEffect(() => {
     const primeraVez = JSON.parse(localStorage.getItem('primeraVez'))
@@ -44,37 +42,12 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
 
   }, []);
 
-  // function uploadImg(){
-  //   console.log('from uploadImg')
-  // }
 
   
-  // const fileSelectedHandler = event => {
-  //   console.log(event.target.files[0]);
-  //   setFoto(event.target.files[0])
-  // };
-
-  // const fileUploadHandler = () => {
-  //   console.log('fileUploadHandler');
-    
-  //   const setImageAction = async () => {
-  //     const formData = new FormData();
-  //     formData.append(
-  //         "nueva_foto", foto, foto.name
-  //     );
-  //     console.log(formData);
-  //     const data = await fetch("http://localhost:4000/fotos", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "multipart/form-data" },
-  //       body: formData,
-  //     }).then(res => {console.log(res);});
-  
-      
-  //   };
-    
-  //   setImageAction()
-
-  // };
+  const fileSelectedHandler = event => {
+    console.log(event.target.files[0]);
+    setFoto(event.target.files[0])
+  };
 
 
   const handleSubmit = (e) => {
@@ -127,32 +100,32 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
         }
       }
 
-      // const setImageAction = async () => {
-      //   const formData = new FormData();
-      //   formData.append(
-      //       "file", this.state.pictureAsFile
-      //   );
-      //   const data = await fetch("http://localhost:4000/profile", {
-      //     method: "POST",
-      //     headers: { "Content-Type": "multipart/form-data" },
-      //     body: JSON.stringify({
+      const setImageAction = async () => {
+        const formData = new FormData();
+        formData.append(
+            "nueva_foto", foto
+        );
+        const data = await axios.post("http://51.255.50.207:5000/actualizarImagen", formData, {
+          headers: { 
+              "Content-Type": "multipart/form-data", 
+              'token' : token
+          }
+        });
     
-      //     }),
-      //   });
-    
-      //   const uploadedImage = await data.json();
-      //   if (uploadedImage) {
-      //     console.log('Successfully uploaded image');
-      //   } else {
-      //     console.log('Error Found');
-      //   }
-      // };
+        
+        if (data) {
+          console.log('Successfully uploaded image');
+        } else {
+          console.log('Error Found');
+        }
+      };
       
 
       actuAPI()
-      // if(foto != ''){
-      //   actuFoto()
-      // }
+      if(foto != ''){
+        setImageAction()
+      }
+
 
       setTimeout(()=> {
         refreshPage()
@@ -172,7 +145,6 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
                   </div>
                   <form 
                     onSubmit={handleSubmit}
-                    // onClick={fileUploadHandler}
                     className="">
                       <div className="my-5 flex ">
                         <div className="w-1/2">
@@ -193,7 +165,7 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
                                       </span>
                                   </span>
                                   <input type="file" className='hidden'
-                                      // onChange={fileSelectedHandler} 
+                                        onChange={fileSelectedHandler} 
                                       />
                               </label>
                             </div>
