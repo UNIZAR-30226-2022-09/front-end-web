@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
+import {useState,useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faBrain, faPersonDotsFromLine} from '@fortawesome/free-solid-svg-icons'
 import {faDna} from '@fortawesome/free-solid-svg-icons'
@@ -12,654 +12,349 @@ import {faLandmark} from '@fortawesome/free-solid-svg-icons'
 import {faMicrochip} from '@fortawesome/free-solid-svg-icons'
 import {faStethoscope} from '@fortawesome/free-solid-svg-icons'
 import {faAtom} from '@fortawesome/free-solid-svg-icons'
-import Alerta from '../components/Alerta'
+import Alerta from './Alerta'
 import axios, { Axios } from 'axios'
-
-
+import { useNavigate } from 'react-router-dom'
+import useDarkmode from '../hook/useDarkmode'
 
 
 
 
 
 const divStyle = {
+  width: 50,
+  height: 50,
+  background: '#e2e8f0',   //gris
+  borderRadius: '50%',
+  //WebkitTransition: 'all', // nota la 'W' mayúscula aquí 
+  //msTransition: 'all' // 'ms' es el único prefijo de proveedor de navegador en minúscula
+}
+
+const divStyleDarkUnmarked = {
     width: 50,
     height: 50,
-    background: '#e2e8f0',   
+    background: '#ffff',  //Blanco
     borderRadius: '50%',
     //WebkitTransition: 'all', // nota la 'W' mayúscula aquí 
     //msTransition: 'all' // 'ms' es el único prefijo de proveedor de navegador en minúscula
 }
+
+const divStyleDarkMarked = {
+    width: 50,
+    height: 50,
+    background: '#d69b41',   //dorado
+    borderRadius: '50%',
+    //WebkitTransition: 'all', // nota la 'W' mayúscula aquí 
+    //msTransition: 'all' // 'ms' es el único prefijo de proveedor de navegador en minúscula
+}
+
+
 
 const divStyleMarcado = {
-    width: 50,
-    height: 50,
-    background: '#447258',   
-    borderRadius: '50%',
-    //WebkitTransition: 'all', // nota la 'W' mayúscula aquí 
-    //msTransition: 'all' // 'ms' es el único prefijo de proveedor de navegador en minúscula
+  width: 50,
+  height: 50,
+  background: '#447258',  //verde
+  borderRadius: '50%',
+  //WebkitTransition: 'all', // nota la 'W' mayúscula aquí 
+  //msTransition: 'all' // 'ms' es el único prefijo de proveedor de navegador en minúscula
 }
 
-let Items = [
-    {
-        nombre: 'Biología',
-        marcado: false,
-        nEnvio: 'Biologia'
-    },
-    {
-        nombre: 'C. Sociales',
-        marcado: false,
-        nEnvio: 'C.Sociales'
-    },
-    {
-        nombre: 'Economía',
-        marcado: false,
-        nEnvio: 'Economia'
-    },
-    {
-        nombre: 'Electrónica',
-        marcado: false,
-        nEnvio: 'Electronica'
-    },
-    {
-        nombre: 'Filología',
-        marcado: false,
-        nEnvio: 'Filologia'
-    },
-    {
-        nombre: 'Filosofía',
-        marcado: false,
-        nEnvio: 'Filosofia'
-    },
-    {
-        nombre: 'Física',
-        marcado: false,
-        nEnvio: 'Fisica'
-    },
-    {
-        nombre: 'Geología',
-        marcado: false,
-        nEnvio: 'Geologia'
-    },
-    {
-        nombre: 'Historia',
-        marcado: false,
-        nEnvio: 'Historia'
-    },
-    {
-        nombre: 'Informática',
-        marcado: false,
-        nEnvio: 'Informatica'
-    },
-    {
-        nombre: 'Ingeniería',
-        marcado: false,
-        nEnvio: 'Ingenieria'
-    },
-    {
-        nombre: 'Matemáticas',
-        marcado: false,
-        nEnvio: 'Matematicas'
-    },
-    {
-        nombre: 'Mecánica',
-        marcado: false,
-        nEnvio: 'Mecanica'
-    },
-    {
-        nombre: 'Medicina',
-        marcado: false,
-        nEnvio: 'Medicina'
-    },
-    {
-        nombre: 'Química',
-        marcado: false,
-        nEnvio: 'Quimica'
-    },
-]
 
+const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
 
+    const [cambio,setCambio] = useState(false);
 
+    const [temas,setTemas] = useState([
+        {
+            nombre: 'Biología',
+            marcado: false,
+            nEnvio: 'Biologia',
+            id: 1,
+            icon: faDna
+        },
+        {
+            nombre: 'C.Sociales',
+            marcado: false,
+            nEnvio: 'C.Sociales',
+            id: 2,
+            icon: faRuler
+        },
+        {
+            nombre: 'Economía',
+            marcado: false,
+            nEnvio: 'Economia',
+            id: 3,
+            icon: faCoins
+        },
+        {
+            nombre: 'Electrónica',
+            marcado: false,
+            nEnvio: 'Electronica',
+            id: 4,
+            icon: faLightbulb
+        },
+        {
+            nombre: 'Filología',
+            marcado: false,
+            nEnvio: 'Filologia',
+            id: 5,
+            icon: faLanguage
+        },
+        {
+            nombre: 'Filosofía',
+            marcado: false,
+            nEnvio: 'Filosofia',
+            id:6,
+            icon: faBook
+        },
+        {
+            nombre: 'Física',
+            marcado: false,
+            nEnvio: 'Fisica',
+            id:7,
+            icon: faRuler
+        },
+        {
+            nombre: 'Geología',
+            marcado: false,
+            nEnvio: 'Geologia',
+            id: 8,
+            icon: faLandmark
+        },
+        {
+            nombre: 'Historia',
+            marcado: false,
+            nEnvio: 'Historia',
+            id:9,
+            icon: faLandmark
+        },
+        {
+            nombre: 'Informática',
+            marcado: false,
+            nEnvio: 'Informatica',
+            id:10,
+            icon: faMicrochip
+        },
+        {
+            nombre: 'Ingeniería',
+            marcado: false,
+            nEnvio: 'Ingenieria',
+            id: 11,
+            icon: faBrain
+        },
+        {
+            nombre: 'Matemáticas',
+            marcado: false,
+            nEnvio: 'Matematicas',
+            id: 12,
+            icon: faRuler
+        },
+        {
+            nombre: 'Mecánica',
+            marcado: false,
+            nEnvio: 'Mecanica',
+            id: 13,
+            icon: faRuler
+        },
+        {
+            nombre: 'Medicina',
+            marcado: false,
+            nEnvio: 'Medicina',
+            id: 14,
+            icon: faStethoscope
+        },
+        {
+            nombre: 'Química',
+            marcado: false,
+            nEnvio: 'Quimica',
+            id: 15,
+            icon: faAtom
+        },
+      ])
 
     
-
-
-
-export const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
-
-
-
     const [descripcion,setDescripcion] = useState('')
+    const [error,setError] = useState(false)
+    const [errorTematicas,setErrorTematicas] = useState(false)
     const [file,setFile] = useState(null)
-    const [error,setError] = useState(false) //Para mostrar mensaje de error si no hay pdf
+
+    const navigate = useNavigate()
+
+
+    const [colorTheme,setTheme] = useDarkmode();
+    const oscuro = (colorTheme === 'dark') ? false : true 
+
 
     
-    const [biologia,setBiologia] = useState(false)
-    const [sociales,setSociales] = useState(false)
-    const [economia,setEconomia] = useState(false)
-    const [electronica,setElectronica] = useState(false)
-    const [filologia,setFilologia] = useState(false)
-    const [filosofia,setFilosofia] = useState(false)
-    const [fisica,setFisica] = useState(false)
-    const [geologia,setGeologia] = useState(false)
-    const [historia,setHistoria] = useState(false)
-    const [informatica,setInformatica] = useState(false)
-    const [ingenieria,setIngenieria] = useState(false)
-    const [matematicas,setMatematicas] = useState(false)
-    const [mecanica,setMecanica] = useState(false)
-    const [medicina,setMedicina] = useState(false)
-    const [quimica,setQuimica] = useState(false)
+
+
+    const handleChangeModal = () => {
+      setModalArticulo(!modalArticulo)
+    }
 
 
     const handleSubmit = async (e) => {
         try {
             e.preventDefault()
-            console.log(Items)
+
+
+            const pdf = new FormData()
+            pdf.append('pdf',file)
+            console.log(file)
+
 
             if(!file){
                 setError(true)
+                setTimeout( () => {
+                    setError(false)
+                },1500)
                 return
-            }       
+            }
 
-            setError(false)
+            const url = 'http://51.255.50.207:5000/subirPost'
+            const urlPdf = 'http://51.255.50.207:5000/subirPdf'
 
-            const botones = Items.filter( item => item.marcado === true)
+            const botones = temas.filter( item => item.marcado === true)
             const tematicas = botones.map(function(item) {
-                return item.nEnvio;
-            })
-            console.log(tematicas)
-
-            const url = 'http://51.255.50.207:5000/editarPerfil'
-
-            const respuesta = await axios.post(url,{
-                descripcion,tematicas
+                return item.nEnvio
             })
 
-            console.log(respuesta)
+            if(tematicas.length === 0){
+                setErrorTematicas(true)
+                setTimeout( () => {
+                    setErrorTematicas(false)
+                },1500)
+                return
+            }
+
+            const obj = {
+                tematicas,
+                descripcion,
+                tipo: '1',
+            }
+            const token = JSON.parse(localStorage.getItem('token'))
+            const respuesta = await fetch(url,{
+                method:'POST',
+                body:JSON.stringify(obj),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': token,
+                }
+            })
+            const resultado = await respuesta.json()
+
+
+
+            const respuestaPdf = await axios.post(urlPdf,pdf,{
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'token': token,
+                    'id': resultado.id,
+                }
+            })
+            console.log(respuestaPdf)
+
+            navigate('/myAccount')
             
-                //Hacer peticion al back
 
-            setDescripcion('')
-            setFile(null)
-
-        } catch (error) {
+        } catch(error){
             console.log(error)
         }
+
     }
 
 
-
-    const handleChangeModal = () => {
-        setModalArticulo(!modalArticulo)
-    }
-
-    
 
     return (
         <div>
-        
             <div className='flex justify-end'>
-                    <button
-                        onClick={handleChangeModal}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+                  <button
+                      onClick={handleChangeModal}
+                      className='hover:bg-gray-100 hover:rounded-xl p-1'
+                  >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                  </button>
             </div>
-            <div className='md:w-4/5 mx-auto'>
-                
-                <h1 className='text-2xl text-verde uppercase font-bold font-roboto text-center'>Nuevo post</h1>
 
-                <div className='mt-6'>
-                    <input
-                        type='file'
-                        accept='application/pdf'
-                        onChange={ (e) => setFile(e.target.files[0])}
-                    >
-                    </input>
-                </div>
+            <div className='md:w-4/5 mx-auto'>
+              
+                <h1 className='text-2xl text-verde dark:text-dorado uppercase font-bold font-roboto text-center'>Nuevo post</h1>
+                <input 
+                    className='mt-3 dark:text-white'
+                    type='file'
+                    accept='application/pdf'
+                    onChange={(e) => {
+                        setFile(e.target.files[0]);
+                    }}
+                />
 
                 {error ? (
-                    <Alerta>{'Para publicar es necesario subir un archivo'}</Alerta>
-                ): null }
+                    <Alerta>{'Para publicar hay que subir un archivo'}</Alerta>
+                ): null}
                 
-                <label className='m-2 font-roboto mt-4 text-verde font-bold text-xl block'>
-                    Descripción
+                <label className='m-2 font-roboto mt-4 text-verde dark:text-dorado font-bold text-xl block'>
+                    Descripcion
                 </label>
-                <input className="font-roboto rounded-lg mt-2 w-full border-1 border-verde text-lg dark:border-dorado dark:bg-gray-500 dark:text-white block"
+                <input className="font-roboto dark:placeholder-white rounded-lg mt-2 w-full border-1 border-verde text-lg dark:border-dorado dark:bg-gray-500 dark:text-white block"
                         type='text'
-                        placeholder="Añada una breve descripción del artículo"
+                        placeholder="Introduzca una descripcion del artículo"
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
                 />
 
-                <div className='text-verde font-roboto text-center mt-2 font-bold text-lg'>Temática(s) de la recomendación</div>
+                {errorTematicas && <Alerta>{'Hay que seleccionar al menos una temática'}</Alerta>}  
+
+                <div className='text-verde dark:text-dorado font-roboto text-center mt-2 font-bold text-lg'>Temática(s) de la recomendación</div>
+
+                <div className='grid grid-cols-5 gap-10 w-full mt-3 justify-items-center'>
 
 
-                <div className='grid grid-cols-5 gap-10 w-full mt-4 justify-items-center'>
+                    { (cambio || true) && temas.map( item => {
+                        return !oscuro ? 
+                            
+                            <div className='text-center'>
+                                <button style={item.marcado ? divStyleMarcado : divStyle }
+                                    onClick={() => {
+                                        item.marcado = item.marcado ? false : true
+                                        setCambio(!cambio)
+                                    }}
+                                >
+                                    <FontAwesomeIcon icon={item.icon} size='lg' style={{ color: item.marcado ? 'white' : '#447258' }} />
+                                </button>
+                                <p className='text-sm text-black dark:text-white font-roboto'>{item.nombre}</p>
+                            </div> 
+                        
+                        :   <div className='text-center'>
+                                <button style={item.marcado ? divStyleDarkMarked : divStyleDarkUnmarked }
+                                    onClick={() => {
+                                        item.marcado = item.marcado ? false : true
+                                        setCambio(!cambio)
+                                    }}
+                                >
+                                    <FontAwesomeIcon icon={item.icon} size='lg' style={{ color: item.marcado ? 'white' : '#d69b41' }} />
+                                </button>
+                                <p className='text-sm text-black dark:text-white font-roboto'>{item.nombre}</p>
+                            </div> 
+                    })
                     
-                    
-                    { biologia ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setBiologia(false)
-                                    Items[0].marcado = false;
-                                    console.log(Items)
+                    }
 
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faDna} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Biología</p>
-                        </div>
-                    ): (
-                        <div className='text-center'>
-                            <button style={divStyle}
-                                onClick={() => {
-                                    setBiologia(true)
-                                    Items[0].marcado = true;
-                                    console.log(Items)
-
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faDna} size='lg' style={{ color: '#447258' }}/>
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Biología</p>
-                        </div>
-                    )}
-                    
-                    
-                    { sociales ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setSociales(false)
-                                    Items[1].marcado = false;
-                                    console.log(Items)
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faRuler} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>C.Sociales</p>
-                        </div>
-                    ): (
-                        <div className='text-center'>
-                            <button style={divStyle}
-                                onClick={() => {
-                                    setSociales(true)
-                                    Items[1].marcado = true;
-                                    console.log(Items)
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faRuler} size='lg' style={{ color: '#447258' }}/>
-                            </button>
-                            <p className='text-sm text-black font-roboto'>C.Sociales</p>
-                        </div>
-                    )}
-
-                    { economia ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setEconomia(false)
-                                    Items[2].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faCoins} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Economia</p>
-                        </div>
-                    ): (
-                        <div className='text-center'>
-                            <button style={divStyle}
-                                onClick={() => {
-                                    setEconomia(true)
-                                    Items[2].marcado = true;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faCoins} size='lg' style={{ color: '#447258' }}/>
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Economia</p>
-                        </div>
-                    )}
-
-
-
-                    { electronica ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setElectronica(false)
-                                    Items[3].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faLightbulb} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Electrónica</p>
-                        </div>
-                    ): (
-                        <div className='text-center'>
-                            <button style={divStyle}
-                                onClick={() => {
-                                    setElectronica(true)
-                                    Items[3].marcado = true;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faLightbulb} size='lg' style={{ color: '#447258' }}/>
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Electrónica</p>
-                        </div>
-                    )}
-
-                    { filologia ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setFilologia(false)
-                                    Items[4].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faLanguage} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Filología</p>
-                        </div>
-                    ): (
-                        <div className='text-center'>
-                            <button style={divStyle}
-                                onClick={() => {
-                                    setFilologia(true)
-                                    Items[4].marcado = true;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faLanguage} size='lg' style={{ color: '#447258' }}/>
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Filología</p>
-                        </div>
-                    )}
-
-                    {filosofia ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setFilosofia(false)
-                                    Items[5].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faBook} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Filosofía</p>
-                        </div>
-                        ): (
-                            <div className='text-center'>
-                                <button style={divStyle}
-                                    onClick={() => {
-                                        setFilosofia(true)
-                                        Items[5].marcado = true;
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faBook} size='lg' style={{ color: '#447258' }}/>
-                                </button>
-                                <p className='text-sm text-black font-roboto'>Filosofía</p>
-                            </div>
-                    )}
-
-                    {fisica ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setFisica(false)
-                                    Items[6].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faRuler} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Física</p>
-                        </div>
-                        ): (
-                            <div className='text-center'>
-                                <button style={divStyle}
-                                    onClick={() => {
-                                        setFisica(true)
-                                        Items[6].marcado = true;
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faRuler} size='lg' style={{ color: '#447258' }}/>
-                                </button>
-                                <p className='text-sm text-black font-roboto'>Física</p>
-                            </div>
-                    )}
-
-
-                    {geologia ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setGeologia(false)
-                                    Items[7].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faRuler} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Geología</p>
-                        </div>
-                        ): (
-                            <div className='text-center'>
-                                <button style={divStyle}
-                                    onClick={() => {
-                                        setGeologia(true)
-                                        Items[7].marcado = true;
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faRuler} size='lg' style={{ color: '#447258' }}/>
-                                </button>
-                                <p className='text-sm text-black font-roboto'>Geología</p>
-                            </div>
-                    )}
-
-                    {historia ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setHistoria(false)
-                                    Items[8].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faLandmark} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Historia</p>
-                        </div>
-                        ): (
-                            <div className='text-center'>
-                                <button style={divStyle}
-                                    onClick={() => {
-                                        setHistoria(true)
-                                        Items[8].marcado = true;
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faLandmark} size='lg' style={{ color: '#447258' }}/>
-                                </button>
-                                <p className='text-sm text-black font-roboto'>Historia</p>
-                            </div>
-                    )}
-
-                    {informatica ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setInformatica(false)
-                                    Items[9].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faMicrochip} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Informática</p>
-                        </div>
-                        ): (
-                            <div className='text-center'>
-                                <button style={divStyle}
-                                    onClick={() => {
-                                        setInformatica(true)
-                                        Items[9].marcado = true;
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faMicrochip} size='lg' style={{ color: '#447258' }}/>
-                                </button>
-                                <p className='text-sm text-black font-roboto'>Informática</p>
-                            </div>
-                    )}  
-
-                    {ingenieria ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setIngenieria(false)
-                                    Items[10].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faBrain} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Ingeniería</p>
-                        </div>
-                        ): (
-                            <div className='text-center'>
-                                <button style={divStyle}
-                                    onClick={() => {
-                                        setIngenieria(true)
-                                        Items[10].marcado = true;
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faBrain} size='lg' style={{ color: '#447258' }}/>
-                                </button>
-                                <p className='text-sm text-black font-roboto'>Ingeniería</p>
-                            </div>
-                    )}
-
-                    {matematicas ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setMatematicas(false)
-                                    Items[11].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faRuler} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Matemáticas</p>
-                        </div>
-                        ): (
-                            <div className='text-center'>
-                                <button style={divStyle}
-                                    onClick={() => {
-                                        setMatematicas(true)
-                                        Items[11].marcado = true;
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faRuler} size='lg' style={{ color: '#447258' }}/>
-                                </button>
-                                <p className='text-sm text-black font-roboto'>Matemáticas</p>
-                            </div>
-                    )}
-
-
-                    {mecanica ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setMecanica(false)
-                                    Items[12].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faRuler} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Mecánica</p>
-                        </div>
-                        ): (
-                            <div className='text-center'>
-                                <button style={divStyle}
-                                    onClick={() => {
-                                        setMecanica(true)
-                                        Items[12].marcado = true;
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faRuler} size='lg' style={{ color: '#447258' }}/>
-                                </button>
-                                <p className='text-sm text-black font-roboto'>Mecánica</p>
-                            </div>
-                    )}
-
-                    {medicina ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setMedicina(false)
-                                    Items[13].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faStethoscope} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Medicina</p>
-                        </div>
-                        ): (
-                            <div className='text-center'>
-                                <button style={divStyle}
-                                    onClick={() => {
-                                        setMedicina(true)
-                                        Items[13].marcado = true;
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faStethoscope} size='lg' style={{ color: '#447258' }}/>
-                                </button>
-                                <p className='text-sm text-black font-roboto'>Medicina</p>
-                            </div>
-                    )}
-
-
-                    {quimica ? (
-                        <div className='text-center'>
-                            <button style={divStyleMarcado}
-                                onClick={() => {
-                                    setQuimica(false)
-                                    Items[14].marcado = false;
-                                }}
-                            >
-                                <FontAwesomeIcon icon={faAtom} size='lg' style={{ color: 'white' }} />
-                            </button>
-                            <p className='text-sm text-black font-roboto'>Química</p>
-                        </div>
-                        ): (
-                            <div className='text-center'>
-                                <button style={divStyle}
-                                    onClick={() => {
-                                        setQuimica(true)
-                                        Items[14].marcado = true;
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faAtom} size='lg' style={{ color: '#447258' }}/>
-                                </button>
-                                <p className='text-sm text-black font-roboto'>Química</p>
-                            </div>
-                    )}
-                    
                 </div>
+                  
+                   
+                  <input
+                          type="submit"
+                          value="Publicar"
+                          onClick={handleSubmit}
+                          className='mt-8 w-full p-3 text-white dark:text-black dark:bg-dorado dark:hover:bg-doradoClaro bg-verde mx-auto
+                          hover:bg-green-800 font-roboto font-bold text-xl rounded-2xl uppercase'
+                  />
 
-                
-
-                <div className='mt-3 text-center'>
-                    <input 
-                            type="submit"
-                            value="Publicar"
-                            onClick={handleSubmit}
-                            className='mt-5 w-full p-3 text-white bg-verde mx-auto
-                            hover:bg-green-800 font-roboto font-bold text-xl rounded-2xl uppercase'
-                    />
-                </div>
-                
-            </div>
-
-        </div>   
+            </div>      
+        </div>
     )
 }
 
-
-export default ModalArticulo;
+export default ModalArticulo

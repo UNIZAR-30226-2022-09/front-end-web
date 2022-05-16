@@ -41,7 +41,8 @@ const FormularioLog = () => {
 
             if (resultado.error == null){ //Si todo ha ido bien
                 localStorage.setItem('token',JSON.stringify(resultado.token))
-                localStorage.setItem('primeraVez', JSON.stringify(true))
+                localStorage.setItem('nick',JSON.stringify(resultado.nick))
+                localStorage.setItem('primeraVez', JSON.stringify(false))
                 setError(false)
                 navigate('/myAccount')
                 return 
@@ -85,7 +86,7 @@ const FormularioLog = () => {
                         <Field
                             id="nombre"  
                             type='text'
-                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent font-roboto"
+                            className="mt-4 block w-full p-3 bg-gray-200 rounded-lg border-transparent"
                             placeholder="Introduzca su nombre de usuario"
                             name="nickOcorreo"
                         />
@@ -104,7 +105,7 @@ const FormularioLog = () => {
                         <Field
                             id="passwd"  
                             type='password'
-                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent font-roboto"
+                            className="mt-4 block w-full p-3 bg-gray-200 rounded-lg border-transparent"
                             placeholder="Introduzca su correo electrónico"
                             name="password"
                         />

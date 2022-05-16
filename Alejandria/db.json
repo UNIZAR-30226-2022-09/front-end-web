@@ -1,4 +1,33 @@
 {
+  "fotos": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2
+    },
+    {
+      "id": 3
+    },
+    {
+      "id": 4
+    },
+    {
+      "id": 5
+    },
+    {
+      "id": 6
+    },
+    {
+      "id": 7
+    },
+    {
+      "id": 8
+    },
+    {
+      "id": 9
+    }
+  ],
   "profile": [
     {
       "id": 1,
@@ -7,6 +36,21 @@
       "descripcion": "Soy el puto amo GG",
       "link": "www.google.es",
       "preferencias": [
+        "Economia",
+        "Electronica"
+      ],
+      "nPost": 2,
+      "nSeguidores": 20,
+      "nSiguiendo": 10,
+      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg"
+    },
+    {
+      "id": 2,
+      "nombre": "Jorge Sanclemente",
+      "nick": "jorgito",
+      "descripcion": "Amante de la literatura española",
+      "link": "www.jorge.es",
+      "preferencias": [
         "Biologia",
         "Matematicas",
         "Geologia"
@@ -14,11 +58,12 @@
       "nPost": 2,
       "nSeguidores": 20,
       "nSiguiendo": 10,
-      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg"
+      "fotoPerfil": "https://randomuser.me/api/portraits/men/80.jpg"
     }
   ],
-  "publicaciones": [
+  "home": [
     {
+      "tipo": 1,
       "id": 1,
       "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
       "nick": "raullopez_01",
@@ -29,6 +74,31 @@
       "nGuardados": 10
     },
     {
+      "id": 1,
+      "tipo": 2,
+      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
+      "nick": "raullopez_01",
+      "titArticulo": "Quijote",
+      "autorArticulo": "Cervantes",
+      "comentario": "Gatito feliz con ojos verdes disfrutando del día",
+      "nLikes": 20,
+      "nComents": 28,
+      "nGuardados": 10
+    },
+    {
+      "id": 2,
+      "tipo": 2,
+      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
+      "nick": "raullopez_01",
+      "titArticulo": "Lazarillo",
+      "autorArticulo": "Mendoza",
+      "comentario": "Gatito feliz con ojos verdes disfrutando del día numero dossssssss",
+      "nLikes": 10,
+      "nComents": 8,
+      "nGuardados": 5
+    },
+    {
+      "tipo": 1,
       "id": 2,
       "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
       "nick": "raullopez_01",
@@ -39,6 +109,7 @@
       "nGuardados": 5
     },
     {
+      "tipo": 1,
       "id": 3,
       "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
       "nick": "raullopez_01",
@@ -49,6 +120,7 @@
       "nGuardados": 10
     },
     {
+      "tipo": 1,
       "id": 4,
       "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
       "nick": "raullopez_01",
@@ -59,6 +131,7 @@
       "nGuardados": 10
     },
     {
+      "tipo": 1,
       "id": 5,
       "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
       "nick": "raullopez_01",
@@ -69,6 +142,7 @@
       "nGuardados": 10
     },
     {
+      "tipo": 1,
       "id": 6,
       "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
       "nick": "raullopez_01",
@@ -79,6 +153,7 @@
       "nGuardados": 10
     },
     {
+      "tipo": 1,
       "id": 7,
       "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
       "nick": "raullopez_01",
@@ -90,6 +165,7 @@
     },
     {
       "id": 8,
+      "tipo": 1,
       "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
       "nick": "raullopez_01",
       "portada": "https://static3.depositphotos.com/1005412/218/i/600/depositphotos_2186038-stock-photo-kitten-lays-isolated.jpg",
@@ -100,6 +176,134 @@
     },
     {
       "id": 9,
+      "tipo": 1,
+      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
+      "nick": "raullopez_01",
+      "portada": "https://static3.depositphotos.com/1005412/218/i/600/depositphotos_2186038-stock-photo-kitten-lays-isolated.jpg",
+      "comentario": "Gatito feliz con ojos verdes disfrutando del día",
+      "nLikes": 20,
+      "nComents": 28,
+      "nGuardados": 10
+    }
+  ],
+  "novedades": [
+    {
+      "id": 1,
+      "portada": "https://static3.depositphotos.com/1005412/218/i/600/depositphotos_2186038-stock-photo-kitten-lays-isolated.jpg"
+    },
+    {
+      "id": 2,
+      "portada": "https://i.pinimg.com/736x/b2/42/16/b242166d3c6cfab7542c24a9d99f92ed.jpg"
+    },
+    {
+      "id": 3,
+      "portada": "https://cloudfront-us-east-1.images.arcpublishing.com/eluniverso/IEJ7GRPI2ZFOTCW5FTGH3H622Y.jpg"
+    },
+    {
+      "id": 4,
+      "portada": "https://static3.depositphotos.com/1005412/218/i/600/depositphotos_2186038-stock-photo-kitten-lays-isolated.jpg"
+    },
+    {
+      "id": 5,
+      "portada": "https://i.pinimg.com/736x/b2/42/16/b242166d3c6cfab7542c24a9d99f92ed.jpg"
+    },
+    {
+      "id": 6,
+      "portada": "https://static3.depositphotos.com/1005412/218/i/600/depositphotos_2186038-stock-photo-kitten-lays-isolated.jpg"
+    }
+  ],
+  "publicaciones": [
+    {
+      "tipo": 1,
+      "id": 1,
+      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
+      "nick": "raullopez_01",
+      "portada": "https://static3.depositphotos.com/1005412/218/i/600/depositphotos_2186038-stock-photo-kitten-lays-isolated.jpg",
+      "comentario": "Gatito feliz con ojos verdes disfrutando del día",
+      "nLikes": 20,
+      "nComents": 28,
+      "nGuardados": 10
+    },
+    {
+      "tipo": 1,
+      "id": 2,
+      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
+      "nick": "raullopez_01",
+      "portada": "https://cloudfront-us-east-1.images.arcpublishing.com/eluniverso/IEJ7GRPI2ZFOTCW5FTGH3H622Y.jpg",
+      "comentario": "Gatito feliz con ojos verdes disfrutando del día numero dossssssss",
+      "nLikes": 10,
+      "nComents": 8,
+      "nGuardados": 5
+    },
+    {
+      "tipo": 1,
+      "id": 3,
+      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
+      "nick": "raullopez_01",
+      "portada": "https://i.pinimg.com/736x/b2/42/16/b242166d3c6cfab7542c24a9d99f92ed.jpg",
+      "comentario": "Gatito feliz con ojos verdes disfrutando del día",
+      "nLikes": 20,
+      "nComents": 28,
+      "nGuardados": 10
+    },
+    {
+      "tipo": 1,
+      "id": 4,
+      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
+      "nick": "raullopez_01",
+      "portada": "https://www.muyinteresante.com.mx/wp-content/uploads/2018/05/httpstved-prod.adobecqms.netcontentdameditorialTelevisamexicomuyinteresantemxnaturaleza1312domesticacion-de-los-gatos-1080x762.imgo_.jpg",
+      "comentario": "Gatito feliz con ojos verdes disfrutando del día",
+      "nLikes": 20,
+      "nComents": 28,
+      "nGuardados": 10
+    },
+    {
+      "tipo": 1,
+      "id": 5,
+      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
+      "nick": "raullopez_01",
+      "portada": "https://static3.depositphotos.com/1005412/218/i/600/depositphotos_2186038-stock-photo-kitten-lays-isolated.jpg",
+      "comentario": "Gatito feliz con ojos verdes disfrutando del día",
+      "nLikes": 20,
+      "nComents": 28,
+      "nGuardados": 10
+    },
+    {
+      "tipo": 1,
+      "id": 6,
+      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
+      "nick": "raullopez_01",
+      "portada": "https://static3.depositphotos.com/1005412/218/i/600/depositphotos_2186038-stock-photo-kitten-lays-isolated.jpg",
+      "comentario": "Gatito feliz con ojos verdes disfrutando del día",
+      "nLikes": 20,
+      "nComents": 28,
+      "nGuardados": 10
+    },
+    {
+      "tipo": 1,
+      "id": 7,
+      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
+      "nick": "raullopez_01",
+      "portada": "https://static3.depositphotos.com/1005412/218/i/600/depositphotos_2186038-stock-photo-kitten-lays-isolated.jpg",
+      "comentario": "Gatito feliz con ojos verdes disfrutando del día",
+      "nLikes": 20,
+      "nComents": 28,
+      "nGuardados": 10
+    },
+    {
+      "id": 8,
+      "tipo": 1,
+      "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
+      "nick": "raullopez_01",
+      "portada": "https://static3.depositphotos.com/1005412/218/i/600/depositphotos_2186038-stock-photo-kitten-lays-isolated.jpg",
+      "comentario": "Gatito feliz con ojos verdes disfrutando del día",
+      "nLikes": 20,
+      "nComents": 28,
+      "nGuardados": 10
+    },
+    {
+      "id": 9,
+      "tipo": 1,
       "fotoPerfil": "https://randomuser.me/api/portraits/women/81.jpg",
       "nick": "raullopez_01",
       "portada": "https://static3.depositphotos.com/1005412/218/i/600/depositphotos_2186038-stock-photo-kitten-lays-isolated.jpg",
@@ -135,32 +339,37 @@
   ],
   "notificaciones": [
     {
-      "nick": "pepito",
+      "nick": "jorgito",
+      "idUser": 2,
       "tipo": 1,
       "idPublicacion": 1
     },
     {
       "nick": "juanito",
+      "idUser": 4,
       "tipo": 2,
       "comentario": "Eres el puto amo tio, muy bonito crack",
       "idPublicacion": 1
     },
     {
       "nick": "pablo",
+      "idUser": 5,
       "tipo": 2,
       "comentario": "Sos un makina",
-      "idPublicacion": 1
+      "idPublicacion": 2
     },
     {
       "nick": "miki",
+      "idUser": 6,
       "tipo": 1,
-      "idPublicacion": 1
+      "idPublicacion": 4
     },
     {
       "nick": "manolo",
+      "idUser": 7,
       "tipo": 2,
       "comentario": "TONTAAa",
-      "idPublicacion": 1
+      "idPublicacion": 2
     }
   ]
 }

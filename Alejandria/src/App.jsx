@@ -8,6 +8,7 @@ import NotificacionPage from "./Paginas/NotificacionPage"
 import PublicarPage from "./Paginas/PublicarPage"
 import ChatPage from "./Paginas/ChatPage"
 import PerfilPage from "./Paginas/PerfilPage"
+import ExternalUserPage from "./Paginas/ExternalUserPage"
 
 
 //import useDarkmode from "./hook/useDarkmode"
@@ -28,6 +29,7 @@ function App() {
             <Route path="publicar" index element={<PublicarPage />}/>
             <Route path="chat" index element={<ChatPage />}/>
             <Route path="perfil" index element={<PerfilPage />}/>
+            <Route path="externalUser/:id" index element={<ExternalUserPage />}/>
           </Route>
 
         </Routes>
