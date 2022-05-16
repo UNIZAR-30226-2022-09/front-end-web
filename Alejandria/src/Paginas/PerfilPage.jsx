@@ -26,6 +26,10 @@ function PerfilPage() {
   const [recomendaciones, setRecomendaciones] = useState([])
   const [guardados, setGuardados] = useState([])
   const [cont, setCont] = useState(0)
+  const [offsetGuardados, setOffsetGuardados] = useState(0)
+  const [offsetArtic, setOffsetArtic] = useState(0)
+  const [offsetRecomend, setOffsetRecomend] = useState(0)
+
 
   function refreshPage() {
     window.location.reload(false);
@@ -69,13 +73,15 @@ function PerfilPage() {
     }
   }
   
-  const obtenerPubliApi = async (token, nick) => {
+  const obtenerPubliApi = async (token, nick, offset) => {
     try {
-      const urlPubli = 'http://51.255.50.207:5000/mostrarArticulos'
+      const urlPubli = 'http://51.255.50.207:5000/mostrarArticulosPaginados'
       const resPubli = await fetch(urlPubli, {
         headers : {
           'Content-Type' : 'application/json',
           'nick' : nick,
+          'offset' : offset,
+          'limit' : 12,
           'token' : token
         }
       })
@@ -94,13 +100,15 @@ function PerfilPage() {
     }
   }
 
-  const obtenerRecomendApi = async (token, nick) => {
+  const obtenerRecomendApi = async (token, nick, offset) => {
     try {
-      const urlRecomend = 'http://51.255.50.207:5000/mostrarRecomendaciones'
+      const urlRecomend = 'http://51.255.50.207:5000/mostrarRecomendacionesPaginadas'
       const resRecomend = await fetch(urlRecomend, {
         headers : {
           'Content-Type' : 'application/json',
           'nick' : nick,
+          'offset' : offset,
+          'limit' : 12,
           'token' : token
         }
       })
@@ -199,12 +207,16 @@ function PerfilPage() {
     }
   }
 
-  const obtenerGuardados = async (token) => {
+  const obtenerGuardados = async (token, offset) => {
+    console.log('offset: ',offset);
+
     try {
-      const urlRecomend = 'http://51.255.50.207:5000/Guardados'
+      const urlRecomend = 'http://51.255.50.207:5000/mostrarGuardadosPaginados'
       const resRecomend = await fetch(urlRecomend, {
         headers : {
           'Content-Type' : 'application/json',
+          'offset' : offset,
+          'limit' : 12,
           'token' : token
         }
       })
@@ -225,10 +237,14 @@ function PerfilPage() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token'))
     const nick = JSON.parse(localStorage.getItem('nick'))
+    setOffsetRecomend(0)
+    setOffsetArtic(0)
+    setOffsetGuardados(0)
+
     obtenerDatosUserApi(token, nick)
-    obtenerPubliApi(token, nick)
-    obtenerRecomendApi(token, nick)
-    obtenerGuardados(token)
+    obtenerPubliApi(token, nick, offsetArtic)
+    obtenerRecomendApi(token, nick, offsetRecomend)
+    obtenerGuardados(token, offsetGuardados)
 
     const primeraVez = JSON.parse(localStorage.getItem('primeraVez'))
     setModal(primeraVez)
@@ -265,6 +281,32 @@ function PerfilPage() {
     return(datosUser.foto_de_perfil + '?' + cont.toString())
     
   }
+  
+  const handleClickArticulos = () => {
+    const nick = JSON.parse(localStorage.getItem('nick'))
+    const token = JSON.parse(localStorage.getItem('token'))
+    setOffsetArtic(prevOffset =>  prevOffset + 1)
+    // console.log('offset: ',offset);
+    obtenerPubliApi(token, nick, offset)
+    
+  };
+
+  const handleClickRecomend = () => {
+    const nick = JSON.parse(localStorage.getItem('nick'))
+    const token = JSON.parse(localStorage.getItem('token'))
+    setOffsetRecomend(prevOffset =>  prevOffset + 1)
+    // console.log('offset: ',offset);
+    obtenerRecomendApi(token, nick, offset)
+    
+  };
+
+  const handleClickGuardados = () => {
+    const token = JSON.parse(localStorage.getItem('token'))
+    setOffsetGuardados(prevOffset =>  prevOffset + 1)
+    // console.log('offset: ',offset);
+    obtenerGuardados(token, offset)
+    
+  };
 
   return (
       <div className="border-l-2 dark:bg-gray-900 dark:text-white dark:border-l-dorado transition duration-500">
@@ -273,6 +315,7 @@ function PerfilPage() {
             <div className="w-1/5">
               <div className="rounded-full h-24 w-24 items-center justify-center overflow-hidden">
                 <img className="w-full h-full" src={funcFoto()} alt="user image" referrerPolicy="origin" />
+                
                 
               </div>
             </div>
@@ -442,7 +485,21 @@ function PerfilPage() {
                       nguardados={publicacion.nguardados}
                       guardadomio={publicacion.guardadomio}
                     />  
-                  ))}    
+                  ))}
+                  { publicaciones.length >  10 
+                  ? 
+                    
+                    <div className="flex flex-col items-center justify-center pb-4">
+                      <button type="button" onClick={handleClickArticulos}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="cursor-pointer text-verde h-8 w-8 hover:h-10 hover:w-10 dark:text-dorado" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </button>
+                    </div>
+                    
+                  :
+                    <div></div>
+                  }    
                   
                 </div>}
               
@@ -476,7 +533,21 @@ function PerfilPage() {
                       nguardados={recomendacion.nguardados}
                       guardadomio={recomendacion.guardadomio}
                      />  
-                   ))} 
+                   ))}
+                    { recomendaciones.length >  10 
+                    ? 
+                      
+                      <div className="flex flex-col items-center justify-center pb-4">
+                        <button type="button" onClick={handleClickRecomend}>
+                          <svg xmlns="http://www.w3.org/2000/svg" className="cursor-pointer text-verde h-8 w-8 hover:h-10 hover:w-10 dark:text-dorado" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
+                      </div>
+                      
+                    :
+                      <div></div>
+                    } 
                </div>}
             </div>
           </div>
@@ -492,6 +563,19 @@ function PerfilPage() {
                :<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
                     {guardados.map(myFunct)}
                </div>}
+              { guardados.length >  9 
+              ? 
+                <div className="flex flex-col items-center justify-center pb-4">
+                  <button type="button" onClick={handleClickGuardados}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="cursor-pointer text-verde h-8 w-8 hover:h-10 hover:w-10 dark:text-dorado" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </button>
+                </div>
+                
+              :
+                <div></div>
+              }
             </div>
           </div>
         </div>

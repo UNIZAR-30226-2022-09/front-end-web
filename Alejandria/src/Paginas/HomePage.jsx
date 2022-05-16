@@ -6,16 +6,23 @@ import CardPubli from "../components/CardPubli"
 import CardRecomend from "../components/CardRecomend"
 
 import {useEffect, useState} from 'react'
+import {Link, useLocation, useNavigate} from 'react-router-dom'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser} from '@fortawesome/free-solid-svg-icons'
 
 
 
 function HomePage() {
+  const navigate = useNavigate()
+
   const [colorTheme, setTheme] = useDarkmode();
   const [publiYRecomends, setPubliYRecomends] = useState([])
   const [offset, setOffset] = useState(0)
+  const [longResultado, setLongResultado] = useState(null)
 
+
+  
   function myFunct(publiORecomend, i){
     if(publiORecomend.tipo === 1){
       return  <CardPubli
@@ -54,27 +61,34 @@ function HomePage() {
     }
   }
   
-  const obtenerPubliYRecomendApi = async (token, offset) => {
-    console.log('offset: ',offset);
+  const obtenerPubliYRecomendApi = async (token, ofs) => {
+    console.log('offset llamada api: ',ofs);
 
     try {
-      const urlRecomend = 'http://51.255.50.207:5000/Home'
+      const urlRecomend = 'http://51.255.50.207:5000/HomePaginado'
       const resRecomend = await fetch(urlRecomend, {
         headers : {
           'Content-Type' : 'application/json',
-          // 'offset' : offset,
-          // 'limit' : 11,
+          'offset' : ofs,
+          'limit' : 10,
           'token' : token
 
         }
       })
       const resultPubli = await resRecomend.json()
       const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
-      
       const reverse = result.map(item => item).reverse();
 
+      // console.log('reverse:',reverse);
       setPubliYRecomends(prevPublis =>  prevPublis.concat(reverse));
-      console.log('setPubliYRecomends:',publiYRecomends);
+      const longitud = reverse.length
+      setTimeout(()=> {
+        setLongResultado(longitud)
+        // console.log('longResultado', longResultado);
+      },400)
+      
+
+
 
     } catch (error) {
       console.log(error);
@@ -83,14 +97,21 @@ function HomePage() {
 
   const handleClick = () => {
     const token = JSON.parse(localStorage.getItem('token'))
-    setOffset(prevOffset =>  prevOffset + 1)
+    let prueba = offset
+    prueba = prueba + 1
+    console.log('prueba:', prueba);
+    setOffset(prueba)
     console.log('offset: ',offset);
-    obtenerPubliYRecomendApi(token, offset)
+    obtenerPubliYRecomendApi(token, prueba)
   };
   
   useEffect(() => {
-    setOffset(0)
     const token = JSON.parse(localStorage.getItem('token'))
+    if(token == null){
+      navigate('/')
+
+    }
+    console.log('useEffect');
     obtenerPubliYRecomendApi(token, offset)
   }, []);
 
@@ -109,7 +130,7 @@ function HomePage() {
                 </div>
               </div>
             : publiYRecomends.map(myFunct)}
-            { publiYRecomends.length >  10 
+            { longResultado >  9 
             ? 
               
               <div className="flex flex-col items-center justify-center pb-4">
