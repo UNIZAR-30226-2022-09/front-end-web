@@ -21,7 +21,9 @@ module.exports = {
 
       backgroundImage: (theme) =>({
         'bck-img': "url('/src/public/background.png')",
-        'nobck-img': "url('/src/public/nobck-icon.png')"
+        'nobck-img': "url('/src/public/nobck-icon.png')",
+        'bck-dark': "url('/src/public/bakgroundDark.png')",
+        'bck-icon': "url('/src/public/icon.png')"
       }),
     },
   },

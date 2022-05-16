@@ -60,16 +60,9 @@ function NotificacionPage() {
     }
   }
 
-  const obtenerNotificacionesApi = async () => {
-    try {
-      const urlNotifs= 'http://localhost:4000/notificaciones'
-      const resNotifs = await fetch(urlNotifs)
-      const resultNotifs = await resNotifs.json()
-      setNotificaciones(resultNotifs);
-
-    } catch (error) {
-      console.log(error);
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
   }
   const abrirModal = id =>{
     console.log('id:',id);
@@ -96,7 +89,6 @@ function NotificacionPage() {
       </div>
       
     </div>
-    
   )
 }
 
