@@ -242,6 +242,7 @@ function Explorar() {
       <div className="h-[24vh] overflow-y-scroll scrollbar-hide">
         <div className="items-center justify-center">
           <ListarCardPopRecom />
+          PROBANDO LA NUEVA RAMA
         </div>
       </div>
       
