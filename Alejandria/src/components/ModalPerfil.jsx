@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react'
 import { MultiSelect } from "react-multi-select-component";
+import axios from 'axios'
 
 const options = [
   { label: "Biología", value: "Biologia" },
@@ -24,33 +25,34 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [link, setLink] = useState('');
-  const [foto, setFoto] = useState('');
-
+  const [foto, setFoto] = useState();
   const [error, setError] = useState(false);
-
   const [selected, setSelected] = useState([]);
+
   
   useEffect(() => {
     const primeraVez = JSON.parse(localStorage.getItem('primeraVez'))
     if(!primeraVez){
-      setNombre(datosUser.nombre)
+      setNombre(datosUser.nombre_de_usuario)
       setDescripcion(datosUser.descripcion)
       setLink(datosUser.link)
-      const preferencias = JSON.parse(localStorage.getItem('preferencias'))
-      setSelected(preferencias)
+      const tematicas = JSON.parse(localStorage.getItem('tematicas'))
+      setSelected(tematicas)
     }
 
   }, []);
 
-  // function uploadImg(){
-  //   console.log('from uploadImg')
-  // }
+
+  
+  const fileSelectedHandler = event => {
+    console.log(event.target.files[0]);
+    setFoto(event.target.files[0])
+  };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    
-
+   
     //selected.length
     if( selected.length === 0){
       setError(true)  
@@ -58,50 +60,76 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
       setError(false)
       localStorage.setItem('primeraVez', JSON.stringify(false))
       setModal(false)
-      localStorage.setItem('preferencias', JSON.stringify(selected))
+      localStorage.setItem('tematicas', JSON.stringify(selected))
       setSelected(JSON.stringify(selected)); 
 
       
-      // console.log(nombre);
-      // console.log(descripcion);
-      // console.log(link);
-      // localStorage.setItem('nomUser', JSON.stringify(nombre))
-      // localStorage.setItem('descripcion', JSON.stringify(descripcion))
-      // localStorage.setItem('link', JSON.stringify(link))
-      // localStorage.setItem('preferencias', JSON.stringify(selected))
-      // guardarDatos({nombre, descripcion, link})
       //-----------------------------------------------------------
       const prueba = {...datosUser}
-      prueba.nombre = nombre
+      prueba.nombre_de_usuario = nombre
       prueba.descripcion = descripcion
       prueba.link = link
 
-      const preferencias = []
+      const tematicas = []
       for (var i = 0; i < selected.length; i++) {
-        preferencias[i] = selected[i].value
+        tematicas[i] = selected[i].value
       }
-      prueba.preferencias = preferencias
+      prueba.tematicas = tematicas
 
       console.log('Objeto prueba con valores modificados', prueba);
 
-      const url = `http://localhost:4000/profile/${prueba.id}`
+
+      const token = JSON.parse(localStorage.getItem('token'))
+      const nick = JSON.parse(localStorage.getItem('nick'))
+      
       const actuAPI = async (final) => { 
         try {        
-          const respuesta = await fetch(url, {
-            method : 'PUT',
+          const respuesta = await fetch('http://51.255.50.207:5000/editarPerfil', {
+            method : 'POST',
             body : JSON.stringify(prueba),
             headers : {
-                'Content-Type' : 'application/json'
+                'Content-Type' : 'application/json',
+                'token' : token,
+                'nick' : nick
             }
           })
-          await respuesta.json()
-
+          const resultado = await respuesta.json()
+          console.log('resultado actuAPI', resultado);
         } catch (error) {
           console.log(error);
         }
       }
+
+      const setImageAction = async () => {
+        const formData = new FormData();
+        formData.append(
+            "nueva_foto", foto
+        );
+        const data = await axios.post("http://51.255.50.207:5000/actualizarImagen", formData, {
+          headers: { 
+              "Content-Type": "multipart/form-data", 
+              'token' : token
+          }
+        });
+    
+        
+        if (data) {
+          console.log('Successfully uploaded image');
+        } else {
+          console.log('Error Found');
+        }
+      };
+      
+
       actuAPI()
-      refreshPage()
+      if(foto != ''){
+        setImageAction()
+      }
+
+
+      setTimeout(()=> {
+        refreshPage()
+      },300)
     }
   }
 
@@ -121,6 +149,7 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
                       <div className="my-5 flex ">
                         <div className="w-1/2">
                             <div className="pl-5 max-w-xl ">
+                              
                               <label
                                   className={ foto === '' ? "flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none dark:bg-gray-500" : "flex justify-center w-full h-32 px-4 transition bg-white border-2 border-green-300 border-dashed rounded-md appearance-none focus:outline-none dark:bg-gray-500 dark:border-dorado"}>
                                   <span className="flex items-center space-x-2">
@@ -135,10 +164,9 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
                                           
                                       </span>
                                   </span>
-                                  <input type="file" name="file_upload" className="hidden" value={foto}
-                                      onChange={(e) => 
-                                        setFoto(e.target.value)
-                                    }/>
+                                  <input type="file" className='hidden'
+                                        onChange={fileSelectedHandler} 
+                                      />
                               </label>
                             </div>
                         </div>
@@ -173,7 +201,8 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
                             />
                           </div>
                           <div>
-                              <input type="submit" className="p-3 space-x-2 rounded-b border-t text-white uppercase bg-verde hover:bg-green-800  font-roboto rounded-lg text-sm px-5 py-2.5 text-center dark:bg-dorado"
+                          {/* type="button" */}
+                              <input  type="submit"  className="p-3 space-x-2 rounded-b border-t text-white uppercase bg-verde hover:bg-green-800  font-roboto rounded-lg text-sm px-5 py-2.5 text-center dark:bg-dorado"
                                   value="ACEPTAR"
                               />
                           </div>
