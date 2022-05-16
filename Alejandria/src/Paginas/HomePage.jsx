@@ -76,20 +76,25 @@ function HomePage() {
         }
       })
       const resultPubli = await resRecomend.json()
-      const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
-      const reverse = result.map(item => item).reverse();
-
-      // console.log('reverse:',reverse);
-      setPubliYRecomends(prevPublis =>  prevPublis.concat(reverse));
-      const longitud = reverse.length
-      setTimeout(()=> {
-        setLongResultado(longitud)
-        // console.log('longResultado', longResultado);
-      },400)
+      // console.log('resultPubli:', resultPubli);
       
+      if(resultPubli.fin == undefined){
+        const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+        const reverse = result.map(item => item).reverse();
 
+        // console.log('reverse:',reverse);
+        setPubliYRecomends(prevPublis =>  prevPublis.concat(reverse));
+        const longitud = reverse.length
+        setTimeout(()=> {
+          setLongResultado(longitud)
+          // console.log('longResultado', longResultado);
+        },400)
+      }else{
+        setLongResultado(0)
 
-
+      }
+      
+      
     } catch (error) {
       console.log(error);
     }
@@ -130,6 +135,7 @@ function HomePage() {
                 </div>
               </div>
             : publiYRecomends.map(myFunct)}
+            
             { longResultado >  9 
             ? 
               
