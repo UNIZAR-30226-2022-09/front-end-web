@@ -6,7 +6,7 @@ import ModalComentarios from "./ModalComentarios"
 function CardPubli(props) {
   const navigate = useNavigate()
   const [mg, setMg] = useState(false)
-  const [comment, setComment] = useState(false)
+  const [comment, setComment] = useState(props.ncomentarios)
   const [guardar, setGuardar] = useState(false)
   const [modal, setModal] = useState(false)
   const [idPubliAMostrar, setIdPubliAMostrar] = useState(0)
@@ -166,6 +166,10 @@ function CardPubli(props) {
 
   }
 
+  const incrementarComentario = () => {
+    setComment(prev => prev + 1)
+  }
+
   return (
     <div className="bg-gray-200 px-3 py-4 mb-3 rounded-2xl border-2 border-verde dark:border-dorado dark:bg-gray-900 dark:text-white">
        
@@ -185,7 +189,7 @@ function CardPubli(props) {
 
         </div>
         <div className='object-center'>
-          <a href={props.pdf} target="_blank" rel="noreferrer noopener">
+          <a href={props.pdf} target="_blank" rel="noreferrer">
               <img className="object-scale-down h-96 w-52" 
                   src={props.portada}  
                   alt="Portada del pdf"   
@@ -193,7 +197,7 @@ function CardPubli(props) {
           </a>   
         </div>
         
-        {modal && <ModalComentarios setModal={setModal} idPubliAMostrar={idPubliAMostrar}/>}
+        {modal && <ModalComentarios setModal={setModal} idPubliAMostrar={idPubliAMostrar} incrementarComentario={incrementarComentario}/>}
 
         <div className="flex space-x-5 ">
             <div className="flex mt-2 mb-2 gap-1">
@@ -236,7 +240,7 @@ function CardPubli(props) {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </button>
-              <div className="font-roboto">{comment === true ? props.ncomentarios + 1 : props.ncomentarios}</div>
+              <div className="font-roboto">{comment}</div>
             </div>
 
             <div className="flex mt-2 mb-2 gap-1">
@@ -272,7 +276,7 @@ function CardPubli(props) {
                 
                 
             </div>
-            <button onClick={() => navigate('/myAccount/publicar', {state:{id:props.id,name:'prueba'}})}>
+            <button onClick={() => navigate('/myAccount/publicar', {state:{link:`https://www.Alejandria.es/${props.id}`, usuario:`@${props.usuario}`, tipo:true}})}>
               <div className="flex mt-2 mb-2 gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />

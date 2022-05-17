@@ -19,6 +19,12 @@ function PerfilPage() {
   const [datosUser, setDatosUser] = useState([])
   const [colorTheme, setTheme] = useDarkmode();
   const [recomendaciones, setRecomendaciones] = useState([])
+  const [offsetArtic, setOffsetArtic] = useState(0)
+  const [offsetRecomend, setOffsetRecomend] = useState(0)
+  const [longResultadoArtic, setLongResultadoArtic] = useState(0)
+  const [longResultadoRecomend, setLongResultadoRecomend] = useState(0)
+
+
   let { id } = useParams()
   // console.log('nick funtionn',id);
   
@@ -55,49 +61,72 @@ function PerfilPage() {
   }
 
   
-  const obtenerPubliApi = async (token, nick) => {
+  const obtenerPubliApi = async (token, nick, offs) => {
     try {
-      const urlPubli = 'http://51.255.50.207:5000/mostrarArticulos'
+      const urlPubli = 'http://51.255.50.207:5000/mostrarArticulosPaginados'
       const resPubli = await fetch(urlPubli, {
         headers : {
           'Content-Type' : 'application/json',
           'nick' : nick,
+          'offset' : offs,
+          'limit' : 4,
           'token' : token
         }
       })
       const resultPubli = await resPubli.json()
-      // console.log('resultPubli:', resultPubli);
-
-      const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+      console.log('offset:', offs);
+      console.log('resultPubli:', resultPubli);
       
-      const reverse = result.map(item => item).reverse();
-
-      // console.log('resultado', result);
-      setPublicaciones(reverse);
+      if(resultPubli.fin == undefined){
+        const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+      
+        const reverse = result.map(item => item).reverse();
+  
+        // console.log('resultado', result);
+        setPublicaciones(prevPublis =>  prevPublis.concat(reverse));
+        const longitud = reverse.length
+        setTimeout(()=> {
+          setLongResultadoArtic(longitud)
+        },400)
+      }else{
+        setLongResultadoArtic(0)
+      }
+      
     } catch (error) {
       console.log(error);
     }
   }
 
-  const obtenerRecomendApi = async (token, nick) => {
+  const obtenerRecomendApi = async (token, nick, offset) => {
     try {
-      const urlRecomend = 'http://51.255.50.207:5000/mostrarRecomendaciones'
+      const urlRecomend = 'http://51.255.50.207:5000/mostrarRecomendacionesPaginadas'
       const resRecomend = await fetch(urlRecomend, {
         headers : {
           'Content-Type' : 'application/json',
           'nick' : nick,
+          'offset' : offset,
+          'limit' : 9,
           'token' : token
         }
       })
       const resultRecomend = await resRecomend.json()
       // console.log('resultRecomend:', resultRecomend);
-      // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
-      const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
+      if(resultRecomend.fin == undefined){
+        // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
+        const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
 
-      const reverse = result.map(item => item).reverse();
+        const reverse = result.map(item => item).reverse();
 
-      // console.log('resultado', result);
-      setRecomendaciones(reverse);
+        // console.log('resultado', result);
+        setRecomendaciones(prevPublis =>  prevPublis.concat(reverse));
+        const longitud = reverse.length
+        setTimeout(()=> {
+          setLongResultadoRecomend(longitud)
+        },400)
+      }else{
+        setLongResultadoRecomend(0)
+      }
+      
     } catch (error) {
       console.log(error);
     }
@@ -126,13 +155,33 @@ function PerfilPage() {
     }
   }
 
+  const handleClickArticulos = () => {
+    const token = JSON.parse(localStorage.getItem('token'))
+    let prueba = offsetArtic
+    prueba = prueba + 1
+    setOffsetArtic(prueba)
+    // console.log('offset: ',offset);
+    obtenerPubliApi(token, id, prueba)
+    
+  };
+
+  const handleClickRecomend = () => {
+    const token = JSON.parse(localStorage.getItem('token'))
+    let prueba = offsetRecomend
+    prueba = prueba + 1
+    setOffsetRecomend(prueba)
+    // console.log('offset: ',offset);
+    obtenerRecomendApi(token, id, prueba)
+    
+  };
+
   useEffect(() => {
     // console.log('prueba nick useEffect', id);
     const token = JSON.parse(localStorage.getItem('token'))
     
     obtenerDatosUserApi(token, id)
-    obtenerPubliApi(token, id)
-    obtenerRecomendApi(token, id)
+    obtenerPubliApi(token, id, offsetArtic)
+    obtenerRecomendApi(token, id, offsetRecomend)
     
   }, []);
 
@@ -276,6 +325,20 @@ function PerfilPage() {
                     />  
                   ))}
                   </div>}
+                  { longResultadoArtic >  3 
+                  ? 
+                    
+                    <div className="flex flex-col items-center justify-center pb-4">
+                      <button type="button" onClick={handleClickArticulos}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="cursor-pointer text-verde h-8 w-8 hover:h-10 hover:w-10 dark:text-dorado" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </button>
+                    </div>
+                    
+                  :
+                    <div></div>
+                  }
               
             </div>
 
@@ -310,6 +373,20 @@ function PerfilPage() {
                      />  
                    ))}
                </div>}
+               { longResultadoRecomend >  8 
+                    ? 
+                      
+                      <div className="flex flex-col items-center justify-center pb-4">
+                        <button type="button" onClick={handleClickRecomend}>
+                          <svg xmlns="http://www.w3.org/2000/svg" className="cursor-pointer text-verde h-8 w-8 hover:h-10 hover:w-10 dark:text-dorado" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
+                      </div>
+                      
+                    :
+                      <div></div>
+                    }
             </div>
             </div>
           </div>

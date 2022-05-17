@@ -124,7 +124,7 @@ function HomePage() {
   return (
     
     <div className="flex">
-      <div className=" w-3/6 border-l-2 border-r-2 dark:border-dorado">
+      <div className=" w-3/6 border-l-2 border-r-2 dark:border-dorado dark:bg-gray-900">
         <div className="h-screen overflow-y-scroll scrollbar-hide">
           <div className="ml-2 mr-2 mt-3 items-center justify-center">
             {publiYRecomends.length === 0 ? 

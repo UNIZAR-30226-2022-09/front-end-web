@@ -84,20 +84,21 @@ function PerfilPage() {
     
   }
   
-  const obtenerPubliApi = async (token, nick, offset) => {
+  const obtenerPubliApi = async (token, nick, offs) => {
     try {
       const urlPubli = 'http://51.255.50.207:5000/mostrarArticulosPaginados'
       const resPubli = await fetch(urlPubli, {
         headers : {
           'Content-Type' : 'application/json',
           'nick' : nick,
-          'offset' : offset,
+          'offset' : offs,
           'limit' : 4,
           'token' : token
         }
       })
       const resultPubli = await resPubli.json()
-      // console.log('resultPubli:', resultPubli);
+      console.log('offset:', offs);
+      console.log('resultPubli:', resultPubli);
 
       if(resultPubli.fin == undefined){
         const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
@@ -316,7 +317,7 @@ function PerfilPage() {
   }
 
   const funcFoto = () => {
-    console.log('fotito', datosUser.foto_de_perfil + '?' + cont.toString()); 
+    // console.log('fotito', datosUser.foto_de_perfil + '?' + cont.toString()); 
     return(datosUser.foto_de_perfil + '?' + cont.toString())
     
   }
@@ -324,7 +325,7 @@ function PerfilPage() {
   const handleClickArticulos = () => {
     const nick = JSON.parse(localStorage.getItem('nick'))
     const token = JSON.parse(localStorage.getItem('token'))
-    let prueba = offsetRecomend
+    let prueba = offsetArtic
     prueba = prueba + 1
     setOffsetArtic(prueba)
     // console.log('offset: ',offset);
