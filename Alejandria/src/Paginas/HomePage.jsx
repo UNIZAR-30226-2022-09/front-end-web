@@ -76,20 +76,25 @@ function HomePage() {
         }
       })
       const resultPubli = await resRecomend.json()
-      const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
-      const reverse = result.map(item => item).reverse();
-
-      // console.log('reverse:',reverse);
-      setPubliYRecomends(prevPublis =>  prevPublis.concat(reverse));
-      const longitud = reverse.length
-      setTimeout(()=> {
-        setLongResultado(longitud)
-        // console.log('longResultado', longResultado);
-      },400)
+      // console.log('resultPubli:', resultPubli);
       
+      if(resultPubli.fin == undefined){
+        const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+        const reverse = result.map(item => item).reverse();
 
+        // console.log('reverse:',reverse);
+        setPubliYRecomends(prevPublis =>  prevPublis.concat(reverse));
+        const longitud = reverse.length
+        setTimeout(()=> {
+          setLongResultado(longitud)
+          // console.log('longResultado', longResultado);
+        },400)
+      }else{
+        setLongResultado(0)
 
-
+      }
+      
+      
     } catch (error) {
       console.log(error);
     }
@@ -119,7 +124,7 @@ function HomePage() {
   return (
     
     <div className="flex">
-      <div className=" w-3/6 border-l-2 border-r-2 dark:border-dorado">
+      <div className=" w-3/6 border-l-2 border-r-2 dark:border-dorado dark:bg-gray-900">
         <div className="h-screen overflow-y-scroll scrollbar-hide">
           <div className="ml-2 mr-2 mt-3 items-center justify-center">
             {publiYRecomends.length === 0 ? 
@@ -130,6 +135,7 @@ function HomePage() {
                 </div>
               </div>
             : publiYRecomends.map(myFunct)}
+            
             { longResultado >  9 
             ? 
               

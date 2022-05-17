@@ -1,5 +1,3 @@
-import CardPubliPop from "../components/CardPubliPop"
-import ListarCardPopRecom from "../components/ListarCardPopRecom"
 import UsuarioChat from "../components/UsuarioChat"
 import icon from "../public/icon.png"
 

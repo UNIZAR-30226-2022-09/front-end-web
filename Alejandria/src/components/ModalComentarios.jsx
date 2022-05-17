@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function ModalComentarios({setModal, idPubliAMostrar}) {
+function ModalComentarios({setModal, idPubliAMostrar, incrementarComentario}) {
   const navigate = useNavigate()
   const [offset, setOffset] = useState(0)
   const [comentarios, setComentarios] = useState([]);
@@ -69,6 +69,7 @@ function ModalComentarios({setModal, idPubliAMostrar}) {
       })
       const resultPubli = await resRecomend.json()
       console.log('respuestaServAlComentario: ', resultPubli);
+      incrementarComentario()
       
       if(resultPubli.error == null){
         obtenerComentarios(token, id, false)
@@ -162,8 +163,8 @@ function ModalComentarios({setModal, idPubliAMostrar}) {
                   }
 
                 <div className="flex">
-                  <input className="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white" placeholder="Escribe un comentario" onChange={handleChange} value={coment}/>
-                  <button className="font-roboto rounded-r-lg bg-verde p-1 text-white uppercase" onClick={handleClickEnviarComent}>ENVIAR</button>
+                  <input className="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white dark:bg-gray-600" placeholder="Escribe un comentario" onChange={handleChange} value={coment}/>
+                  <button className="font-roboto rounded-r-lg bg-verde p-1 text-white uppercase dark:bg-dorado" onClick={handleClickEnviarComent}>ENVIAR</button>
                 </div>
               </div>
           </div>

@@ -26,9 +26,17 @@ function PerfilPage() {
   const [recomendaciones, setRecomendaciones] = useState([])
   const [guardados, setGuardados] = useState([])
   const [cont, setCont] = useState(0)
+
   const [offsetGuardados, setOffsetGuardados] = useState(0)
   const [offsetArtic, setOffsetArtic] = useState(0)
   const [offsetRecomend, setOffsetRecomend] = useState(0)
+
+  const [longResultadoGuardados, setLongResultadoGuardados] = useState(0)
+  const [longResultadoRecomend, setLongResultadoRecomend] = useState(0)
+  const [longResultadoArtic, setLongResultadoArtic] = useState(0)
+
+
+
 
 
   function refreshPage() {
@@ -36,6 +44,7 @@ function PerfilPage() {
   }
 
   function myFunct(guardado, i){
+    
     if(guardado.tipo === 1){
       return  <CardPubli
                 //revisar key e id
@@ -71,30 +80,42 @@ function PerfilPage() {
                 guardadomio={guardado.guardadomio}
                 />
     }
+    
+    
   }
   
-  const obtenerPubliApi = async (token, nick, offset) => {
+  const obtenerPubliApi = async (token, nick, offs) => {
     try {
       const urlPubli = 'http://51.255.50.207:5000/mostrarArticulosPaginados'
       const resPubli = await fetch(urlPubli, {
         headers : {
           'Content-Type' : 'application/json',
           'nick' : nick,
-          'offset' : offset,
-          'limit' : 12,
+          'offset' : offs,
+          'limit' : 4,
           'token' : token
         }
       })
       const resultPubli = await resPubli.json()
-      // console.log('resultPubli:', resultPubli);
+      console.log('offset:', offs);
+      console.log('resultPubli:', resultPubli);
 
-      const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
-      // console.log('result',  result);
+      if(resultPubli.fin == undefined){
+        const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+        // console.log('result',  result);
+        
+        const reverse = result.map(item => item).reverse();
+        // console.log('reverse',  reverse);
+  
+        setPublicaciones(prevPublis =>  prevPublis.concat(reverse));
+        const longitud = reverse.length
+        setTimeout(()=> {
+          setLongResultadoArtic(longitud)
+        },400)
+      }else{
+        setLongResultadoArtic(0)
+      }
       
-      const reverse = result.map(item => item).reverse();
-      // console.log('reverse',  reverse);
-
-      setPublicaciones(reverse);
     } catch (error) {
       console.log(error);
     }
@@ -108,19 +129,28 @@ function PerfilPage() {
           'Content-Type' : 'application/json',
           'nick' : nick,
           'offset' : offset,
-          'limit' : 12,
+          'limit' : 9,
           'token' : token
         }
       })
       const resultRecomend = await resRecomend.json()
       // console.log('resultRecomend:', resultRecomend);
-      // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
-      const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
+      if(resultRecomend.fin == undefined){
+        // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
+        const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
 
-      const reverse = result.map(item => item).reverse();
+        const reverse = result.map(item => item).reverse();
 
-      // console.log('resultado', result);
-      setRecomendaciones(reverse);
+        // console.log('resultado', result);
+        setRecomendaciones(prevPublis =>  prevPublis.concat(reverse));
+        const longitud = reverse.length
+        setTimeout(()=> {
+          setLongResultadoRecomend(longitud)
+        },400)
+      }else{
+        setLongResultadoRecomend(0)
+      }
+      
     } catch (error) {
       console.log(error);
     }
@@ -207,28 +237,41 @@ function PerfilPage() {
     }
   }
 
-  const obtenerGuardados = async (token, offset) => {
-    console.log('offset: ',offset);
+  const obtenerGuardados = async (token, ofs) => {
+    console.log('offset: ',ofs);
 
     try {
       const urlRecomend = 'http://51.255.50.207:5000/mostrarGuardadosPaginados'
       const resRecomend = await fetch(urlRecomend, {
         headers : {
           'Content-Type' : 'application/json',
-          'offset' : offset,
-          'limit' : 12,
+          'offset' : ofs,
+          'limit' : 6,
           'token' : token
         }
       })
       const resultRecomend = await resRecomend.json()
-      // console.log('resultRecomend:', resultRecomend);
-      // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
-      const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
-      // console.log('obtenerGuardados:', result);
-      
-      const reverse = result.map(item => item).reverse();
+      // console.log('resultRecomend:', resultRecomend.fin);
+      if(resultRecomend.fin == undefined){
+        // let data = { boss: { name: "Peter", phone: "123" }, minion: { name: "Bob", phone: "456" }, slave: { name: "Pat", phone: "789" } },
+        const result = Object.entries(resultRecomend).map(([id, values]) => ({ id, ...values }));
+        // console.log('obtenerGuardados:', result);
+        
+        const reverse = result.map(item => item).reverse();
 
-      setGuardados(reverse);
+        setGuardados(prevPublis =>  prevPublis.concat(reverse));
+
+        const longitud = reverse.length
+        setTimeout(()=> {
+          setLongResultadoGuardados(longitud)
+          // console.log('longResultado', longResultado);
+        },400)
+      }else{
+        setLongResultadoGuardados(0)
+
+      }
+      
+
     } catch (error) {
       console.log(error);
     }
@@ -237,10 +280,7 @@ function PerfilPage() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token'))
     const nick = JSON.parse(localStorage.getItem('nick'))
-    setOffsetRecomend(0)
-    setOffsetArtic(0)
-    setOffsetGuardados(0)
-
+    
     obtenerDatosUserApi(token, nick)
     obtenerPubliApi(token, nick, offsetArtic)
     obtenerRecomendApi(token, nick, offsetRecomend)
@@ -277,7 +317,7 @@ function PerfilPage() {
   }
 
   const funcFoto = () => {
-    console.log('fotito', datosUser.foto_de_perfil + '?' + cont.toString()); 
+    // console.log('fotito', datosUser.foto_de_perfil + '?' + cont.toString()); 
     return(datosUser.foto_de_perfil + '?' + cont.toString())
     
   }
@@ -285,26 +325,32 @@ function PerfilPage() {
   const handleClickArticulos = () => {
     const nick = JSON.parse(localStorage.getItem('nick'))
     const token = JSON.parse(localStorage.getItem('token'))
-    setOffsetArtic(prevOffset =>  prevOffset + 1)
+    let prueba = offsetArtic
+    prueba = prueba + 1
+    setOffsetArtic(prueba)
     // console.log('offset: ',offset);
-    obtenerPubliApi(token, nick, offset)
+    obtenerPubliApi(token, nick, prueba)
     
   };
 
   const handleClickRecomend = () => {
     const nick = JSON.parse(localStorage.getItem('nick'))
     const token = JSON.parse(localStorage.getItem('token'))
-    setOffsetRecomend(prevOffset =>  prevOffset + 1)
+    let prueba = offsetRecomend
+    prueba = prueba + 1
+    setOffsetRecomend(prueba)
     // console.log('offset: ',offset);
-    obtenerRecomendApi(token, nick, offset)
+    obtenerRecomendApi(token, nick, prueba)
     
   };
 
   const handleClickGuardados = () => {
     const token = JSON.parse(localStorage.getItem('token'))
-    setOffsetGuardados(prevOffset =>  prevOffset + 1)
+    let prueba = offsetGuardados
+    prueba = prueba + 1
+    setOffsetGuardados(prueba)
     // console.log('offset: ',offset);
-    obtenerGuardados(token, offset)
+    obtenerGuardados(token, prueba)
     
   };
 
@@ -485,8 +531,9 @@ function PerfilPage() {
                       nguardados={publicacion.nguardados}
                       guardadomio={publicacion.guardadomio}
                     />  
-                  ))}
-                  { publicaciones.length >  10 
+                  ))}                  
+                </div>}
+                { longResultadoArtic >  3 
                   ? 
                     
                     <div className="flex flex-col items-center justify-center pb-4">
@@ -499,9 +546,7 @@ function PerfilPage() {
                     
                   :
                     <div></div>
-                  }    
-                  
-                </div>}
+                  }
               
             </div>
 
@@ -534,7 +579,8 @@ function PerfilPage() {
                       guardadomio={recomendacion.guardadomio}
                      />  
                    ))}
-                    { recomendaciones.length >  10 
+               </div>}
+               { longResultadoRecomend >  8 
                     ? 
                       
                       <div className="flex flex-col items-center justify-center pb-4">
@@ -547,8 +593,7 @@ function PerfilPage() {
                       
                     :
                       <div></div>
-                    } 
-               </div>}
+                    }
             </div>
           </div>
           <div className="tab-pane fade" id="tabs-messagesJustify" role="tabpanel" aria-labelledby="tabs-profile-tabJustify">
@@ -563,7 +608,7 @@ function PerfilPage() {
                :<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4">
                     {guardados.map(myFunct)}
                </div>}
-              { guardados.length >  9 
+              { longResultadoGuardados >  5 
               ? 
                 <div className="flex flex-col items-center justify-center pb-4">
                   <button type="button" onClick={handleClickGuardados}>

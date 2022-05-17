@@ -4,59 +4,11 @@ import CardRecomend from "../components/CardRecomend"
 
 
 function ModalPubli(props) {
-  const [infoPubli, setInfoPubli] = useState({});
-  const [infoRecomend, setInfoRecomend] = useState({});
-  // const [descripcion, setDescripcion] = useState('');
-  // const [link, setLink] = useState('');
-  // const [foto, setFoto] = useState('');
-
-  // const [error, setError] = useState(false);
-
-  // const [selected, setSelected] = useState([]);
-
-  const obtenerInfoPubliApi = async () => {
-    try {
-      
-      const urlDatos = `http://localhost:4000/publicaciones/${props.idPubliAMostrar}`
-      const resDatos = await fetch(urlDatos)
-      const resultDatos = await resDatos.json()
-      console.log(resultDatos);
-      setInfoPubli(resultDatos);
-
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const obtenerRecomendApi = async () => {
-    try {
-      const urlRecomend = `http://localhost:4000/recomendaciones/${props.idPubliAMostrar}`
-      const resRecomend = await fetch(urlRecomend)
-      const resultRecomend = await resRecomend.json()
-      console.log(resultRecomend);
-      setInfoRecomend(resultRecomend);
-    } catch (error) {
-      console.log(error);
-    }
-  }
   
-  useEffect(() => {
-    if(props.tipoPubli == true){ //es una publicacion
-      obtenerInfoPubliApi()
-    } else{
-      obtenerRecomendApi()
-    }
-  }, []);
-
-
-
   const handleModal = () => {
     console.log('modal a falso');
     props.setModal(false)
   }
-
-  
-
 
   return (
     <div id="medium-modal" tabIndex="-1" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full bg-zinc-600 bg-opacity-50">
@@ -78,28 +30,39 @@ function ModalPubli(props) {
               </div>
               {/* <!-- Modal body --> */}
               <div className="p-3 space-y-3">
-                  {props.tipoPubli === true ? 
-                    <CardPubli 
-                      id={infoPubli.id}
-                      fotoPerfil={infoPubli.fotoPerfil}
-                      nick={infoPubli.nick}
-                      portada={infoPubli.portada}
-                      comentario={infoPubli.comentario}
-                      nLikes={infoPubli.nLikes}
-                      nComents={infoPubli.nComents}
-                      nGuardados={infoPubli.nGuardados}
+                  {props.tipo === 1 ? 
+                    <CardPubli
+                      //revisar key e id
+                      key={props.cartelera.id}
+                      id={props.cartelera.id}
+      
+                      pdf={props.cartelera.pdf}
+                      portada={props.cartelera.portada}
+                      foto_de_perfil={props.cartelera.foto_de_perfil}
+                      usuario={props.cartelera.usuario}
+                      descripcion={props.cartelera.descripcion}
+                      nlikes={props.cartelera.nlikes}
+                      likemio={props.cartelera.likemio}
+                      ncomentarios={props.cartelera.ncomentarios}
+                      nguardados={props.cartelera.nguardados}
+                      guardadomio={props.cartelera.guardadomio}
                     /> :
 
                     <CardRecomend
-                      id={infoRecomend.id}
-                      fotoPerfil={infoRecomend.fotoPerfil}
-                      nick={infoRecomend.nick}
-                      titArticulo={infoRecomend.titArticulo}
-                      autorArticulo={infoRecomend.autorArticulo}
-                      comentario={infoRecomend.comentario}
-                      nLikes={infoRecomend.nLikes}
-                      nComents={infoRecomend.nComents}
-                      nGuardados={infoRecomend.nGuardados}
+                      key={props.cartelera.id}
+                      id={props.cartelera.id}
+                      
+                      titulo={props.cartelera.titulo}
+                      autor={props.cartelera.autor}
+                      descripcion={props.cartelera.descripcion}
+                      link={props.cartelera.link}
+                      usuario={props.cartelera.usuario}
+                      foto_de_perfil={props.cartelera.foto_de_perfil}
+                      nlikes={props.cartelera.nlikes}
+                      likemio={props.cartelera.likemio}
+                      ncomentarios={props.cartelera.ncomentarios}
+                      nguardados={props.cartelera.nguardados}
+                      guardadomio={props.cartelera.guardadomio}
                     />  
 
                   }

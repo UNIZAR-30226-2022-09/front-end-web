@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {useLocation} from 'react-router-dom';
 import ModalArticulo from '../components/ModalArticulo'
 import ModalRecom from '../components/ModalRecom'
@@ -50,8 +50,8 @@ Modal.setAppElement('#root');
 const PublicarPage = () => {
 
   //----------Necesario para el futuro para recomendar--------------------------
-  // const location = useLocation();
   // <div>{location.state.id} {location.state.name}</div>
+    const location = useLocation();
 
     const [modalArticulo,setModalArticulo] = useState(false)
     const [modalRecom,setModalRecom] = useState(false)
@@ -67,9 +67,20 @@ const PublicarPage = () => {
       setModalRecom(true)
     }
 
+<<<<<<< HEAD
     const [nombre,setNombre] = useState('')
     const [escritor,setEscritor] = useState('') 
     
+=======
+    useEffect(() => {
+      const tipo = location.state.tipo
+      if(tipo == true){//artic
+        //poner modal artic a true
+      } else if(tipo == false){ //recom
+        //poner modal recomendacion a true
+      }
+    }, []);
+>>>>>>> 6b00950ec8c9380c5d1c514f0bde47c6891c00f0
 
 
     return (
@@ -77,6 +88,7 @@ const PublicarPage = () => {
         <div className='md:w-2/3 h-full mx-auto container grid'>
           <form className='p-2 md:w-2/3 bg-slate-50 dark:bg-gray-900 rounded-lg place-self-center grid text-center'>
               <h1 className='font-noto text-verde dark:text-blak dark:text-dorado uppercase text-4xl mt-2 mb-2'>Publicaciones</h1>
+              {location.state.id} {location.state.titulo} {location.state.autor} {location.state.link} {location.state.usuario} {location.state.tipo}
               <div className='grid m-2 p-3'>
                 <button 
                   className='text-white dark:text-black dark:hover:bg-doradoClaro dark:bg-dorado dark:border-white font-roboto bg-verde rounded-3xl hover:bg-green-600 mx-2 border-2 border-dorado'
