@@ -74,7 +74,6 @@ const PublicarPage = () => {
       } else if(tipo == false){ //recom
         //poner modal recomendacion a true
       }
-
     }, []);
 
 
