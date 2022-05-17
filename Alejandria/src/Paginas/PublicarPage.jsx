@@ -67,6 +67,8 @@ const PublicarPage = () => {
       setModalRecom(true)
     }
 
+    const [nombre,setNombre] = useState('')
+    const [escritor,setEscritor] = useState('') 
     
 
 
@@ -104,7 +106,7 @@ const PublicarPage = () => {
             </Modal>
           ): (
             <Modal isOpen={modalArticulo} style={customStyles}>
-              <ModalArticulo modalArticulo={modalArticulo} setModalArticulo={setModalArticulo}/>
+              <ModalArticulo modalArticulo={modalArticulo} setModalArticulo={setModalArticulo} />
             </Modal>
           )}
 
@@ -114,7 +116,7 @@ const PublicarPage = () => {
             </Modal>
           ): 
             <Modal isOpen={modalRecom} style={customStylesRecom}>
-            <ModalRecom modalRecom={modalRecom} setModalRecom={setModalRecom}/>
+            <ModalRecom modalRecom={modalRecom} setModalRecom={setModalRecom} nombre={nombre} escritor={escritor} />
             </Modal>
           }
           

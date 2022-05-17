@@ -58,10 +58,10 @@ const divStyleDarkMarked = {
 }
 
 
-const ModalRecom = ({modalRecom,setModalRecom}) => {
+const ModalRecom = ({modalRecom,setModalRecom,nombre,escritor}) => {
 
-    const [titulo,setTitulo] = useState('')
-    const [autor,setAutor] = useState('')
+    const [titulo,setTitulo] = useState(nombre)
+    const [autor,setAutor] = useState(escritor)
     const [descripcion,setDescripcion] = useState('')
     const [link,setLink] = useState('')
 
