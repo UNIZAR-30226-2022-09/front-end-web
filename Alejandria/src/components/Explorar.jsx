@@ -3,6 +3,8 @@ import CardPubliPop from "./CardPubliPop"
 import {useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import CardRecomend from "./CardRecomend"
+import ModalPubli from "./ModalPubli"
+
 
 
 
@@ -13,11 +15,18 @@ function Explorar() {
   const [filteredData, setFilteredData] = useState([])
   const navigate = useNavigate()
   const [colorTheme, setTheme] = useDarkmode();
+  const [modal, setModal] = useState(false)
+
 
   const [palabraABuscar, setPalabraABuscar] = useState('')
   const [tematicaFiltro, setTematicaFiltro] = useState('pref')
 
-
+  const [offsetArtic, setOffsetArtic] = useState(0)
+  const [offsetRecomend, setOffsetRecomend] = useState(0)
+  
+  const [longResultadoRecomend, setLongResultadoRecomend] = useState(0)
+  const [longResultadoNovedades, setLongResultadoNovedades] = useState(0)
+  const [longResultadoArtic, setLongResultadoArtic] = useState(0)
   
   const obtenerExplorar = async (token, filtrado, tematicas) => {
     try {
@@ -35,48 +44,75 @@ function Explorar() {
       console.log('resultExplorar:', resultPubli);
 
       if(resultPubli.fin == undefined){
-        console.log('resultExplorar:', resultPubli);
-
-        const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
-        console.log('result:', result);
-
-
-        setExplorar(result);
-      }else{
-        setExplorar([]);
-      }
-      
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const obtenerPopularesArticulos = async (token, filtrado, tematicas) => {
-    try {
-      const urlPubli = 'http://51.255.50.207:5000/PopularesArticulos'
-      const resRecomend = await fetch(urlPubli, {
-        headers : {
-          'Content-Type' : 'application/json',
-          'filtrado' : filtrado,
-          'limit' : 100,
-          'tematicas' : tematicas,
-          'token' : token
-        }
-      })
-      const resultPubli = await resRecomend.json()
-      console.log('resultPopArt:', resultPubli);
-
-      if(resultPubli.fin == undefined){
         // console.log('resultExplorar:', resultPubli);
 
         const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
         // console.log('result:', result);
 
 
-        setPopArticulos(result);
+        setExplorar(result);
+
+        const longitud = result.length
+        setTimeout(()=> {
+          setLongResultadoNovedades(longitud)
+        },400)
+
       }else{
-        setPopArticulos([]);
-        console.log('reseteando pop articulos');
+        if(noSeEncuentran){
+          setExplorar([]);
+        }
+        setLongResultadoNovedades(0)
+      }
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const obtenerPopularesArticulos = async (token, filtrado, tematicas, offs) => {
+    try {
+      const urlPubli = 'http://51.255.50.207:5000/PopularesArticulos'
+      const resRecomend = await fetch(urlPubli, {
+        headers : {
+          'Content-Type' : 'application/json',
+          'filtrado' : filtrado,
+          'limit' : 4,
+          'tematicas' : tematicas,
+          'token' : token,
+          'offset' : offs
+        }
+      })
+      const resultPubli = await resRecomend.json()
+      console.log('resultPopArt:', resultPubli);
+      // console.log('ofsset desde obtenerPopularesArticulos',offs);
+
+      let noSeEncuentran = (resultPubli.fin != undefined && offs == 0)
+
+      if(resultPubli.fin == undefined){
+        // console.log('resultExplorar:', resultPubli);
+
+        const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+        console.log('offset:', offs);
+        // console.log('resultArtic:', result);
+
+        setPopArticulos(prevPublis =>  prevPublis.concat(result));
+        // console.log('popArticulos', popArticulos);
+
+        const longitud = result.length
+        setTimeout(()=> {
+          setLongResultadoArtic(longitud)
+        },400)
+
+      }else{
+        if(noSeEncuentran){
+          setPopArticulos([]);
+        }
+
+        setLongResultadoArtic(0)
+
+        setOffsetArtic(0)
+
+        // console.log('reseteando pop articulos');
 
       }
       
@@ -85,7 +121,7 @@ function Explorar() {
     }
   }
 
-  const obtenerPopularesRecomendaciones = async (token, filtrado, tematicas) => {
+  const obtenerPopularesRecomendaciones = async (token, filtrado, tematicas, offs) => {
     try {
       const urlPubli = 'http://51.255.50.207:5000/PopularesRecomendaciones'
       
@@ -93,49 +129,154 @@ function Explorar() {
         headers : {
           'Content-Type' : 'application/json',
           'filtrado' : filtrado,
-          'limit' : 100,
+          'limit' : 4,
           'tematicas' : tematicas,
-          'token' : token
+          'token' : token,
+          'offset' : offs
         }
       })
+      
       const resultPubli = await resRecomend.json()
-      console.log('resultPopRecomend:', resultPubli);
+      // console.log('resultPopRecomend:', resultPubli);
+
+      let noSeEncuentran = (resultPubli.fin != undefined && offs == 0)
 
       if(resultPubli.fin == undefined){
-        // console.log('resultExplorar:', resultPubli);
+        console.log('resultPopRecomend:', resultPubli);
 
         const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
-        // console.log('result:', result);
+        // console.log('offset:', offs);
+        // console.log('resultArtic:', result);
+        if(offs == 0){
+          setPopRecomend(result);
+        }else{
+          setPopRecomend(prevPublis =>  prevPublis.concat(result));
 
+        }
 
-        setPopRecomend(result);
+        const longitud = result.length
+        setTimeout(()=> {
+          setLongResultadoRecomend(longitud)
+        },400)
+        
       }else{
-        setPopRecomend([]);
-        console.log('reseteando pop recomend');
-
+        if(noSeEncuentran){
+          setPopRecomend([]);
+        }
+        setLongResultadoRecomend(0)
+        setOffsetRecomend(0)
       }
       
     } catch (error) {
       console.log(error);
     }
   }
+
+  const handleModal = () => {
+    console.log('dsafjkdbnsflsbdfdsa');
+    setModal(true)
+  }
   
   function myFunct(cartelera, i){
-    if(i === 1){
-      return <div className="carousel-item active relative float-left w-full" key={cartelera.id}>
-              <img
-                src="https://www.cleverfiles.com/howto/wp-content/uploads/2018/03/minion.jpg"
-                className="block h-[28vh]"
-              />
-            </div>  
+    if(longResultadoNovedades == 1){
+      if(cartelera.tipo == 1){
+        return    <button type="button" onClick={handleModal}>
+                    <img
+                      src={cartelera.portada}
+                      className="block h-[28vh]"
+                    />
+                    {modal && <ModalPubli cartelera={cartelera} setModal={setModal} tipo={1}/>}
+                  </button> 
+                
+      }else{
+          return  <CardRecomend
+                      key={cartelera.id}
+                      id={cartelera.id}
+                      
+                      titulo={cartelera.titulo}
+                      autor={cartelera.autor}
+                      descripcion={cartelera.descripcion}
+                      link={cartelera.link}
+                      usuario={cartelera.usuario}
+                      foto_de_perfil={cartelera.foto_de_perfil}
+                      nlikes={cartelera.nlikes}
+                      likemio={cartelera.likemio}
+                      ncomentarios={cartelera.ncomentarios}
+                      nguardados={cartelera.nguardados}
+                      guardadomio={cartelera.guardadomio}
+                    />
+      }
     }else{
-      return <div className="carousel-item relative float-left w-full h-fit">
-              <img
-                src='http://51.255.50.207:5000/display3/60.png'
-                className="block h-[28vh]"
-              />
-            </div>
+      if(i == 1){
+        if(cartelera.tipo == 1){
+          return   <div className="carousel-item active relative float-left w-full h-fit" key={i}>
+                    <button type="button" onClick={handleModal}>
+                      <img
+                        src={cartelera.portada}
+                        className="block h-[28vh]"
+                      />
+                    </button>
+                    {modal && <ModalPubli cartelera={cartelera} setModal={setModal} tipo={1}/>}
+
+                  </div>
+        }else{
+            return  <div className="carousel-item active relative float-left w-full h-[28vh] overflow-y-auto" key={i}> 
+                      <CardRecomend
+                        key={cartelera.id}
+                        id={cartelera.id}
+                        
+                        titulo={cartelera.titulo}
+                        autor={cartelera.autor}
+                        descripcion={cartelera.descripcion}
+                        link={cartelera.link}
+                        usuario={cartelera.usuario}
+                        foto_de_perfil={cartelera.foto_de_perfil}
+                        nlikes={cartelera.nlikes}
+                        likemio={cartelera.likemio}
+                        ncomentarios={cartelera.ncomentarios}
+                        nguardados={cartelera.nguardados}
+                        guardadomio={cartelera.guardadomio}
+                      />
+                    </div>
+        }
+         
+      }else{
+        if(cartelera.tipo == 1){
+          return    <div className="carousel-item relative float-left w-full h-fit" key={i}>
+                      <button type="button" onClick={handleModal}>
+                        <img
+                          src={cartelera.portada}
+                          className="block h-[28vh]"
+                        />
+                      </button>
+                      {modal && <ModalPubli cartelera={cartelera} setModal={setModal} tipo={1}/>}
+                      
+                    </div>
+        }else{
+          return    <div className="carousel-item relative float-left w-full h-[28vh] overflow-y-auto" key={i}>
+                      <CardRecomend
+                        key={cartelera.id}
+                        id={cartelera.id}
+                        
+                        titulo={cartelera.titulo}
+                        autor={cartelera.autor}
+                        descripcion={cartelera.descripcion}
+                        link={cartelera.link}
+                        usuario={cartelera.usuario}
+                        foto_de_perfil={cartelera.foto_de_perfil}
+                        nlikes={cartelera.nlikes}
+                        likemio={cartelera.likemio}
+                        ncomentarios={cartelera.ncomentarios}
+                        nguardados={cartelera.nguardados}
+                        guardadomio={cartelera.guardadomio}
+                      />
+                    </div>
+        }
+  
+        
+      }
     }
+    
      
   }
 
@@ -207,9 +348,9 @@ function Explorar() {
     console.log('handleClickFiltroTematica -> tematica: ', tematicaFiltro);
     console.log('handleClickFiltroTematica -> palabraABuscar: ', palabraABuscar);
 
-    // obtenerExplorar(token, palabraABuscar, tematicaFiltro)
-    obtenerPopularesArticulos(token, palabraABuscar, tematicaFiltro)
-    obtenerPopularesRecomendaciones(token, palabraABuscar, tematicaFiltro)
+    obtenerExplorar(token, palabraABuscar, tematicaFiltro)
+    obtenerPopularesArticulos(token, palabraABuscar, tematicaFiltro, offsetArtic)
+    obtenerPopularesRecomendaciones(token, palabraABuscar, tematicaFiltro, offsetRecomend)
     setPalabraABuscar('');
   }
 
@@ -218,18 +359,42 @@ function Explorar() {
     setTematicaFiltro(tematica)
     console.log('handleClickFiltroTematica -> tematica: ', tematica);
     console.log('handleClickFiltroTematica -> palabraABuscar: ', palabraABuscar);
+    setOffsetRecomend(0)
+    setOffsetArtic(0)
 
-    // obtenerExplorar(token, palabraABuscar, tematica)
-    obtenerPopularesArticulos(token, palabraABuscar, tematica)
-    obtenerPopularesRecomendaciones(token, palabraABuscar, tematica)
+    obtenerExplorar(token, palabraABuscar, tematica)
+    obtenerPopularesArticulos(token, palabraABuscar, tematica, offsetArtic)
+    obtenerPopularesRecomendaciones(token, palabraABuscar, tematica, offsetRecomend)
   };
 
+  const handleClickArticulos= () => {
+    const token = JSON.parse(localStorage.getItem('token'))
+    let prueba = offsetArtic
+    prueba = prueba + 1
+    setOffsetArtic(prueba)
+    console.log('ofsset desde handleclick',offsetArtic);
+    // console.log('offset: ',offset);
+    obtenerPopularesArticulos(token, palabraABuscar, tematicaFiltro, prueba)
+
+    
+  };
+
+  const handleClickRecomend = () => {
+    const token = JSON.parse(localStorage.getItem('token'))
+    let prueba = offsetRecomend
+    prueba = prueba + 1
+    setOffsetRecomend(prueba)
+    // console.log('offset: ',offset);
+    obtenerPopularesRecomendaciones(token, palabraABuscar, tematicaFiltro, prueba)
+
+    
+  };
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('token'))
     obtenerExplorar(token, palabraABuscar, tematicaFiltro)
-    obtenerPopularesArticulos(token, palabraABuscar, tematicaFiltro)
-    obtenerPopularesRecomendaciones(token, palabraABuscar, tematicaFiltro)
+    obtenerPopularesArticulos(token, palabraABuscar, tematicaFiltro, offsetArtic)
+    obtenerPopularesRecomendaciones(token, palabraABuscar, tematicaFiltro, offsetRecomend)
   }, []);
 
   return (
@@ -337,8 +502,15 @@ function Explorar() {
       {/* CARROUSEL */}
       <div className="">
         <h1 className="mt-2 mb-1 text-lg text-left font-noto">Explora <span className="uppercase text-verde dark:text-dorado">novedades</span></h1>
+        {longResultadoNovedades === 0 ? 
+          <div className="text-gray-500 pt-5 text-center h-[27vh]">
+            <div className="italic font-roboto text-3xl pt-2">
+              No se ha encontrado ningún resultado
+            </div>
+          </div>
+        : 
         <div id="carouselExampleControls" className="carousel slide relative " data-bs-ride="carousel">
-          <div className="w-6/12 h-[28vh] mx-auto">
+          <div className="w-6/12 h-[27vh] mx-auto">
             <div className="carousel-inner relative w-full overflow-hidden">
               {explorar.map(myFunct)}  
             </div>
@@ -356,48 +528,93 @@ function Explorar() {
               data-bs-target="#carouselExampleControls"
               data-bs-slide="next"
             >
-              <span className="text-verde dark:text-dorado font-roboto text-6xl carousel-control-next-icon inline-block bg-no-repeat" aria-hidden="false"> {'>'} </span>
-
+            <span className="text-verde dark:text-dorado font-roboto text-6xl carousel-control-next-icon inline-block bg-no-repeat" aria-hidden="false"> {'>'} </span>
             </button>
           </div>
-          
         </div>
+        }
+        
       </div>
 
       <div className="">
         <h1 className="mt-2 mb-1 text-lg text-left font-noto">Explora <span className="uppercase text-verde dark:text-dorado">Populares - Artículos</span></h1>
-        <div className="flex overflow-x-auto space-x-4">
-          {popArticulos.map( cartelera => (
+        <div className="flex h-[27vh] overflow-x-auto space-x-4 items-center justify-center">
+          {popArticulos.length === 0 
+          ? 
+          <div className="text-gray-500 pt-5 text-center ">
+            <div className="italic font-roboto text-3xl pt-2">
+              No se ha encontrado ningún resultado
+            </div>
+          </div>
+          : 
+          popArticulos.map( cartelera => (
             <CardPubliPop 
               key={cartelera.id}
               cartelera={cartelera}
             />
-            ))} 
+          ))}
+
+          { longResultadoArtic >  3 
+            ? 
+              
+              <div className="flex flex-col items-center justify-center pb-4">
+                <button type="button" onClick={handleClickArticulos}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="cursor-pointer text-verde h-8 w-8 hover:h-10 hover:w-10 dark:text-dorado" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+              </div>
+              
+            :
+              <div></div>
+          } 
           
         </div>
       </div>
       <h1 className="mt-1 mb-1 text-lg text-left font-noto">Explora <span className="uppercase text-verde dark:text-dorado">Populares - Recomendaciones</span></h1>
       
-      <div className="h-[24vh] overflow-y-scroll scrollbar-hide">
-        <div className="items-center justify-center">
-          {popRecomend.map( cartelera => (
-            <CardRecomend
-              key={cartelera.id}
-              id={cartelera.id}
+      <div className="h-[24vh] overflow-y-scroll scrollbar-hide items-center justify-center">
+        <div className="">
+          {popRecomend.length === 0 
+          ? 
+          <div className="text-gray-500 pt-5 text-center">
+            <div className="italic font-roboto text-3xl pt-2">
+              No se ha encontrado ningún resultado
+            </div>
+          </div>
+          : 
+            popRecomend.map( cartelera => (
+              <CardRecomend
+                key={cartelera.id}
+                id={cartelera.id}
+                
+                titulo={cartelera.titulo}
+                autor={cartelera.autor}
+                descripcion={cartelera.descripcion}
+                link={cartelera.link}
+                usuario={cartelera.usuario}
+                foto_de_perfil={cartelera.foto_de_perfil}
+                nlikes={cartelera.nlikes}
+                likemio={cartelera.likemio}
+                ncomentarios={cartelera.ncomentarios}
+                nguardados={cartelera.nguardados}
+                guardadomio={cartelera.guardadomio}
+              /> 
+            )) }
+          { longResultadoRecomend >  3 
+            ? 
               
-              titulo={cartelera.titulo}
-              autor={cartelera.autor}
-              descripcion={cartelera.descripcion}
-              link={cartelera.link}
-              usuario={cartelera.usuario}
-              foto_de_perfil={cartelera.foto_de_perfil}
-              nlikes={cartelera.nlikes}
-              likemio={cartelera.likemio}
-              ncomentarios={cartelera.ncomentarios}
-              nguardados={cartelera.nguardados}
-              guardadomio={cartelera.guardadomio}
-            /> 
-          ))}
+              <div className="flex flex-col items-center justify-center pb-4">
+                <button type="button" onClick={handleClickRecomend}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="cursor-pointer text-verde h-8 w-8 hover:h-10 hover:w-10 dark:text-dorado" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+              </div>
+              
+            :
+              <div></div>
+          }
         </div>
       </div>
       
