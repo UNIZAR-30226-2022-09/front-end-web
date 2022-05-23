@@ -1,14 +1,61 @@
 import UsuarioChat from "../components/UsuarioChat"
 import icon from "../public/icon.png"
+import { useState,useEffect } from "react"
+import { io } from "socket.io-client"
+
+
+
+let socket
+
 
 
 function ChatPage() {
 
+  const [users,setUsers] = useState([]) //Conversaciones de un usuario
+  const [nicks,setNicks] = useState([]) //Usuarios completos
 
+
+
+  const obtenerDatosUser = async () => {
+    try {
+      const urlChat = 'http://51.255.50.207:5000/chat' 
+      const urlMostrarPerfil = 'http://51.255.50.207:5000/mostrarPerfil' 
+
+      const resDatos = await fetch(urlChat,{
+        headers: {
+          'Content-Type': 'application/json',
+          'token': localStorage.getItem('token'),
+          'current_user': localStorage.getItem('nick')
+        }
+      })
+
+      const resultDatos = await resDatos.json()
+      setNicks(resultDatos)
+
+      const resP = await fetch(urlMostrarPerfil,{
+        headers:{
+          'Content-Type': 'application/json',
+          'token': localStorage.getItem('token'),
+          'nick': localStorage.getItem('nick')  
+        }
+      })
+      const resulPerfil = await resP.json()
+
+      setUsers(resulPerfil)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+
+
+  useEffect( () => {
+    obtenerDatosUser()
+  },[])
 
     return (
         <section className="flex h-screen overflow-hidden">
-
 
           <div className="md:w-3/12 container p-4 ">
             <h3 className="text-center dark:text-dorado
@@ -17,24 +64,9 @@ function ChatPage() {
             </h3>
 
             <div className="overflow-auto h-screen mt-3">
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />
-              <UsuarioChat />    
+              {/* {users.map( publicacion => {
+                  return <UsuarioChat foto={users.foto_de_perfil} nombreUser={users.nick}/>
+              })}      */}
             </div>
           </div>
 
@@ -97,11 +129,11 @@ function ChatPage() {
               </div>
             </div>
       
-            <div className=" p-6 border-t flex">
+            <div className=" py-4 px-3 border-t flex">
               <input
                 placeholder="Envía un mensaje..."
                 type='text'
-                className="px-4 py-2 bg-gray-300 object-center place-self-center rounded-lg w-full font-light focus:outline-none border-none mr-2 "
+                className="px-2 py-2 bg-gray-300 object-center place-self-center rounded-lg w-full font-light focus:outline-none border-none mr-2 "
               />
               <button className="bg-verde rounded-lg px-4 text-white hover:bg-green-800">Enviar</button>
 

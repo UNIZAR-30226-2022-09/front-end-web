@@ -52,6 +52,9 @@ function PerfilPage() {
         if (resultado.error != null){ //Si ha ido MAL
           setComment(false)
         }
+
+        socket.emit('seguir',id)
+
       } catch (error) {
         console.log(error);
       }

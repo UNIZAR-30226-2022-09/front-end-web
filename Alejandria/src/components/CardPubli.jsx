@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import ModalComentarios from "./ModalComentarios"
+import socket from "../Paginas/HomePage"
 
 
 function CardPubli(props) {
@@ -29,6 +30,7 @@ function CardPubli(props) {
           id :  props.id
         }
         try {
+
           
           const url = 'http://51.255.50.207:5000/darLike'
           const respuesta = await fetch (url, {
@@ -45,6 +47,8 @@ function CardPubli(props) {
           if (resultado.error != null){ //Si ha ido MAL
             setMg(true)
           }
+
+          //socket
         } catch (error) {
           console.log(error);
         }

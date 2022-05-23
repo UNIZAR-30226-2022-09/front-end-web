@@ -42,7 +42,7 @@ function CardNotiLike(props) {
           >
             <span className="text-verde underline">
               {' '}publicacion
-            </span>.
+            </span>
           </button> 
         </h1>
 

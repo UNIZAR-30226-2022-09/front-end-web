@@ -23,6 +23,8 @@
     "react-modal": "^3.15.1",
     "react-multi-select-component": "^4.2.4",
     "react-router-dom": "^6.2.2",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tw-elements": "^1.0.0-alpha12",
     "use-file-picker": "^1.4.2",
