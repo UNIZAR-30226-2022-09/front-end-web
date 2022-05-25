@@ -86,7 +86,7 @@ const FormularioLog = () => {
                         <Field
                             id="nombre"  
                             type='text'
-                            className="mt-4 block w-full p-3 bg-gray-200 rounded-lg border-transparent"
+                            className="mt-4 block w-full p-3 bg-gray-100 rounded-lg border-transparent"
                             placeholder="Introduzca su nombre de usuario"
                             name="nickOcorreo"
                         />
@@ -105,12 +105,15 @@ const FormularioLog = () => {
                         <Field
                             id="passwd"  
                             type='password'
-                            className="mt-4 block w-full p-3 bg-gray-200 rounded-lg border-transparent"
+                            className="mt-4 block w-full p-3 bg-gray-100 rounded-lg border-transparent"
                             placeholder="Introduzca su correo electrónico"
                             name="password"
                         />
                         {errors.password && touched.password ? (
-                            <Alerta>{errors.password}</Alerta>
+                        
+                             <Alerta>{errors.password}</Alerta>
+                             
+                            
                         ) : null }
                     </div>
 

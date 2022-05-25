@@ -53,7 +53,6 @@ function PerfilPage() {
           setComment(false)
         }
 
-        socket.emit('seguir',id)
 
       } catch (error) {
         console.log(error);

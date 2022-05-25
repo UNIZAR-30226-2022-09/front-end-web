@@ -2,64 +2,70 @@ import {useEffect, useState} from 'react'
 import CardNotiLike from "../components/CardNotiLike"
 import CardNotiComent from "../components/CardNotiComent"
 import CardNotiSeguir from '../components/CardNotiSeguir'
-import ModalPubli from "../components/ModalPubli"
+import ModalPubliNotif from '../components/ModalPubliNotif'
 import useDarkmode from "../hook/useDarkmode";
+import icon from "../public/bck-notif.png" 
+import { Navigate, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 
-let notif = 
-  {
-    tipo: 1, //1 es like, 2 coment y 3 seguimiento
-    nickEmisor: 'fulano', //El nick de la persona que me ha dado like, me ha seguido o me ha comentado
-    idPubli: 'dfd', //id de la publicacion a la que me ha dado like o ha comentado, si tipo = 3 => idPubli:null
-    idEmisor:'',
-    fotoPerfil: '', //Mi foto de perfil
-    comentario: '' //Si es de tipo 2, el comentario que ha hecho el 'nickEmisor' sino, comentario = null
-  }
+
 
 function NotificacionPage() {
   const [notificaciones, setNotificaciones] = useState([])
-  const [datosUser, setDatosUser] = useState([])
   const [colorTheme, setTheme] = useDarkmode();
 
+  const [idPubli,setPubli] = useState(undefined)
+
+  const [offset,setOffset] = useState(0)
+  
+
   const [modal, setModal] = useState(false)
-  const [tipoPubli, setTipoPubli] = useState() //false recomendacion, true publicación
-  const [idPubliAMostrar, setIdPubliAMostrar] = useState(0)
+  const [tipo, setTipo] = useState(undefined)
+
+  const [longResultado, setLongResultado] = useState(null)
 
 
-  function myFunct(noti, i){
-    if(noti === 1){
+  const navigate = useNavigate()
+
+
+  function myFunct(notificaciones, i){
+    if(notificaciones.tipo === 1){
       return  <CardNotiLike
                 key={i}
 
-                fotoPerfil={notificaciones.fotoPerfil}
-                idOtroUser={notificaciones.idEmisor}
-                nickUser={notificaciones.nickUser}
+                fotoPerfil={notificaciones.foto_de_perfil}
+                nickUser={JSON.parse(localStorage.getItem('nick'))}
                 nickOtroUser={notificaciones.nickEmisor}
                 idPubli={notificaciones.idPubli}
-
-                abrirModal={abrirModal}
-                setTipoPubli={setTipoPubli}
+                setModal={setModal}
+                setPubli={setPubli}
+                setTipo={setTipo}
+                // abrirModal={abrirModal(notificaciones.idPubli)}
+                // setTipoPubli={tipoPubli}
               />
-    }else if(noti === 2){
+    }else if(notificaciones.tipo === 2){
       return <CardNotiComent 
                 key={i}
 
-                nickUser={datosUser.nick}
-                fotoPerfil={datosUser.fotoPerfil}
+                nickUser={JSON.parse(localStorage.getItem('nick'))}
+                fotoPerfil={notificaciones.foto_de_perfil}
                 
-                idOtroUser={noti.idUser}
-                nickOtroUser={noti.nick}
-                comentario={noti.comentario}
-                idPubli={noti.idPublicacion}
+                nickOtroUser={notificaciones.nickEmisor}
+                comentario={notificaciones.comentario}
+                idPubli={notificaciones.idPubli}
 
-                abrirModal={abrirModal}
-                setTipoPubli={setTipoPubli}
+                setModal={setModal}
+                setPubli={setPubli}
+                setTipo={setTipo}
+
+                // abrirModal={abrirModal(notificaciones.idPubli)}
+                // setTipoPubli={tipoPubli}
               />
     } else {
         return <CardNotiSeguir 
-                  fotoPerfil={notificaciones.fotoPerfil}
-                  nickUser={notificaciones.nickUser} 
-                  idOtroUser={notificaciones.idEmisor}
+                  fotoPerfil={notificaciones.foto_de_perfil}
+                  nickUser={JSON.parse(localStorage.getItem('nick'))} 
                   nickOtroUser={notificaciones.nickEmisor}
                   key={i}
                 />
@@ -69,30 +75,66 @@ function NotificacionPage() {
   
   const obtenerDatosUserApi = async () => {
     try {
-      const urlDatos = 'http://51.255.50.207:5000/notifications'
-      const resDatos = await fetch(urlDatos)
-      const resultDatos = await resDatos.json()
-      console.log(resultDatos)
-      setNotificaciones(resultDatos);
+      const urlDatos = 'http://51.255.50.207:5000/notificaciones'
+
+      const token = JSON.parse(localStorage.getItem('token'))
+      const respuesta = await fetch(urlDatos,{
+        headers: {
+          'token': token,
+          'offset': offset,
+          'limit': 4,
+        }
+      })
+
+      const resultado = await respuesta.json()
+
+      const result = Object.entries(resultado).map(([id, values]) => ({ id, ...values }));
+      const reverse = result.map(item => item).reverse();
+
+      console.log(resultado)
+
+      if(resultado.fin === undefined){
+        setNotificaciones((prevNotifs =>  prevNotifs.concat(reverse)))
+      }
+
+      setLongResultado(reverse.length)
+
+
+    
+      
+
+      
+      
+
+      
 
     } catch (error) {
       console.log(error);
     }
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  }
   
-  const abrirModal = id =>{
-    console.log('id:',id);
-    setIdPubliAMostrar(id)
-    setModal(true)
-  }
+  // const abrirModal = id =>{
+  //   console.log('id:',id);
+  //   setIdPubliAMostrar(id)
+  //   setModal(true)
+  // }
   
   useEffect(() => {
+    const token = JSON.parse(localStorage.getItem('token'))
+    if(token === null){
+      navigate('/')
+    }
     obtenerDatosUserApi() 
   }, []);
+
+
+  const handleClick = () => {
+    setOffset(1+offset)
+    obtenerDatosUserApi()
+  }
+
+  
 
   return (
     <div className="flex">
@@ -100,23 +142,41 @@ function NotificacionPage() {
           <div className="h-screen overflow-y-scroll scrollbar-hide w-[90hw]">
             <div className="ml-3 mr-2 mt-3 items-center justify-center">
               <div className="w-full">
-                {/* {notificaciones.map(myFunct(notificaciones.tipo,Math.random()))} */}
-                <CardNotiLike 
-                  fotoPerfil={''}
-                  nickUser={'raul'} 
-                  idOtroUser={44}
-                  nickOtroUser={'pepe'}
-                  idPubli={3}
-                  abrirModal={abrirModal}
-                  setTipoPubli={setTipoPubli}
-                />
-                {modal && <ModalPubli idPubliAMostrar={idPubliAMostrar} setModal={setModal} tipoPubli={tipoPubli}/>}
-              </div>         
+
+                {notificaciones.length === 0 && (
+                  <div className="italic font-roboto text-3xl pt-2">
+                  Todavía no tienes notificaciones
+                </div>
+                )}
+
+                { notificaciones.map(notif => myFunct(notif,Math.floor(Math.random() * (19454543543543 - 1)) + 1)) } 
+                
+                { modal && <ModalPubliNotif idPubli={idPubli} setModal={setModal} modal={modal}/>}
+                
+              </div>     
+
+              {longResultado > 3 && (
+                  <div className="flex flex-col items-center justify-center pb-4">
+                    <button type="button" onClick={handleClick}>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="cursor-pointer text-verde h-8 w-8 hover:h-10 hover:w-10 dark:text-dorado" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </button>
+                  </div>
+              )}
+                
+            
+ 
             </div>
           </div>
-      </div>
+        </div>
 
-      <div className='w-2/5 bg-bck-notif bg-cover'></div>
+
+        <div className='w-2/5 h-screen'>
+          <img src={icon}/>
+        </div>
+
+    
       
     </div>
   )

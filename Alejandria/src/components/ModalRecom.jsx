@@ -254,6 +254,9 @@ const ModalRecom = ({modalRecom,setModalRecom,nombre,escritor,enlace}) => {
                 link,
                 tipo: '2',
             }
+
+            console.log(obj)
+
             const token = JSON.parse(localStorage.getItem('token'))
             const respuesta = await fetch(url,{
                 method:'POST',

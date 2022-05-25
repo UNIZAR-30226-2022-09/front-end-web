@@ -4,8 +4,8 @@ function CardNotiComent(props) {
   const navigate = useNavigate()
 
   const mostrarmodalPublicacion = () => {
-    props.setTipoPubli(false)
-    props.abrirModal(props.idPubli)
+    props.setModal(true)
+    props.setPubli(props.idPubli)
   }
 
   return (
@@ -19,7 +19,7 @@ function CardNotiComent(props) {
               onClick={() => navigate('/myAccount/perfil')}
             >
             <img className="w-10 h-10 rounded-full shadow-sm" 
-             src= {props.fotoPerfil} 
+             src= {`${props.fotoPerfil}`} 
              alt="" 
             /> 
             <div className="font-roboto">@{props.nickUser}</div>
@@ -31,14 +31,14 @@ function CardNotiComent(props) {
 
         <h1 className="mt-2 text-justify font-roboto">
         <button type="button"
-                  onClick={() => navigate(`/myAccount/externalUser/${props.idOtroUser}`)}
+                  onClick={() => navigate(`/myAccount/externalUser/${props.nickOtroUser}`)}
           
           >
             <span className="text-lg cursor-pointer transition-all hover:underline font-noto">@{props.nickOtroUser}</span>
           </button> 
           {' '}ha comentado 
           <span className="italic">
-          {' '}{props.comentario}{' '}
+          {' '}{'"'.concat(props.comentario,'"')}{' '}
           </span>
           en tu{' '}
           

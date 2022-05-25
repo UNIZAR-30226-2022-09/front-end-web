@@ -79,6 +79,7 @@ function HomePage() {
       
       if(resultPubli.fin == undefined){
         const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+        console.log(result)
         const reverse = result.map(item => item).reverse();
 
         // console.log('reverse:',reverse);

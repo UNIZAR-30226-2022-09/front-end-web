@@ -104,7 +104,7 @@ const PublicarPage = () => {
                 <button 
                   className='text-white dark:text-black dark:hover:bg-doradoClaro dark:bg-dorado dark:border-white font-roboto bg-verde rounded-3xl hover:bg-green-600 mx-2 border-2 border-dorado'
                   onClick = {handleSubmitArticulo}
-                  type = 'button'
+                  type='button'
                   
                 >
                   <h1 className='text-2xl text-white dark:text-black font-noto mt-2'>Nuevo artículo </h1>

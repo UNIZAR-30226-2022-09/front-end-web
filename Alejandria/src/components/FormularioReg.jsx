@@ -96,7 +96,7 @@ const FormularioReg = () => {
                         <Field
                             id="nombre"  
                             type='text'
-                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent"
+                            className="mt-4 block w-full p-3 bg-gray-100 rounded-lg border-transparent"
                             placeholder="Introduzca su nombre de usuario"
                             name="nick"
                         />
@@ -115,7 +115,7 @@ const FormularioReg = () => {
                         <Field
                             id="email"  
                             type='text'
-                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent"
+                            className="mt-4 block w-full p-3 bg-gray-100 rounded-lg border-transparent"
                             placeholder="Introduzca su correo electrónico"
                             name="e_mail"
                         />
@@ -132,7 +132,7 @@ const FormularioReg = () => {
                         <Field
                             id="passwd"  
                             type='password'
-                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent"
+                            className="mt-4 block w-full p-3 bg-gray-100 rounded-lg border-transparent"
                             placeholder="Introduzca su contraseña"
                             name="password"
                         />
