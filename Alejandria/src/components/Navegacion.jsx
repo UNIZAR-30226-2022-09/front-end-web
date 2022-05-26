@@ -17,8 +17,6 @@ function Navegacion() {
 
 
 
-  const [modal,setModal] = useState(false)
-
   return (
 
       <div className="px-3 items-center dark:text-white">

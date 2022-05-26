@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import ModalComentarios from "./ModalComentarios"
+import socket from "../Paginas/HomePage"
 
 
 function CardPubli(props) {
@@ -29,6 +30,7 @@ function CardPubli(props) {
           id :  props.id
         }
         try {
+
           
           const url = 'http://51.255.50.207:5000/darLike'
           const respuesta = await fetch (url, {
@@ -45,6 +47,8 @@ function CardPubli(props) {
           if (resultado.error != null){ //Si ha ido MAL
             setMg(true)
           }
+
+          //socket
         } catch (error) {
           console.log(error);
         }
@@ -188,10 +192,10 @@ function CardPubli(props) {
             </button>
 
         </div>
-        <div className='justify-center '>
-          <a href={props.pdf} target="_blank" rel="noreferrer">
-              {/* <img className="object-scale-down h-96 w-52" */}
-              <img className="object-none object-center "  
+        <div className='text-center items-center flex mb-2 mt-2'>
+          <a href={props.pdf} target="_blank" rel="noreferrer" className='break-all'>
+              <img className="object-cover w-full"
+              // <img className="object-scale-down h-96 w-52 "  
                   src={props.portada}  
                   alt="Portada del pdf"   
               />
@@ -277,7 +281,7 @@ function CardPubli(props) {
                 
                 
             </div>
-            <button onClick={() => navigate('/myAccount/publicar', {state:{link:`https://www.Alejandria.es/${props.id}`, usuario:`@${props.usuario}`, tipo:true}})}>
+            <button onClick={() => navigate('/myAccount/publicar', {state:{link:`https://www.alejandria.es/${props.id}`, usuario:`@${props.usuario}`, tipo:true}})}>
               <div className="flex mt-2 mb-2 gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
@@ -287,7 +291,7 @@ function CardPubli(props) {
             
         </div>
 
-        <h1 className="mt-2 text-justify font-roboto">
+        <h1 className="mt-2 text-justify font-roboto break-all">
           {props.descripcion}
         </h1>
 

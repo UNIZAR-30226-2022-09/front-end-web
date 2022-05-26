@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import ModalComentarios from "./ModalComentarios"
+import ModalPubliNotif from "./ModalPubliNotif"
 
 
 function CardRecomend(props) {
@@ -9,7 +10,9 @@ function CardRecomend(props) {
   const [comment, setComment] = useState(props.ncomentarios)
   const [guardar, setGuardar] = useState(false)
   const [modal, setModal] = useState(false)
+  const [modalLink, setModalLink] = useState(false)
   const [idPubliAMostrar, setIdPubliAMostrar] = useState(0)
+  const [idPubli, setIdPubli] = useState(0)
 
   useEffect(() => {
     setMg(props.likemio)
@@ -159,6 +162,14 @@ function CardRecomend(props) {
     }
   }
 
+  const handleLINK = () => {
+    setModalLink(true)
+    setIdPubli(props.link.split("/")[3])
+    console.log(props.link.split("/")[3]);
+  }
+
+  
+
   const incrementarComentario = () => {
     setComment(prev => prev + 1)
   }
@@ -184,16 +195,27 @@ function CardRecomend(props) {
         <h1 className="text-xl mt-2 font-bold text-left">
           {props.titulo} - {props.autor}
         </h1>
-        <h1 className="mt-2 text-justify font-roboto">
+        <h1 className="mt-2 text-justify font-roboto break-all">
           {props.descripcion}
         </h1>
         {modal && <ModalComentarios setModal={setModal} idPubliAMostrar={idPubliAMostrar} incrementarComentario={incrementarComentario}/>}
 
         <h1 className="mt-2 text-justify font-roboto text-blue-500">
-          <a href={props.link} target="_blank" rel="noreferrer noopener">
+          {props.link.includes('https://www.alejandria') 
+          
+          ? 
+          <button className='italic' onClick={handleLINK}>
+            Ver post original
+          </button>
+          :
+          <a href={props.link} target="_blank" rel="noreferrer noopener" className='break-all'>
             {props.link}
           </a>
+          }
+          
         </h1>
+
+        { modalLink && <ModalPubliNotif idPubli={idPubli} setModal={setModalLink} modal={modalLink}/>}
         
         <div className="flex space-x-5 ">
             <div className="flex mt-2 mb-2 gap-1">

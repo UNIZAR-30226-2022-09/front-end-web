@@ -109,7 +109,7 @@ function ModalComentarios({setModal, idPubliAMostrar, incrementarComentario}) {
     <div id="medium-modal" tabIndex="-1" className="overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full bg-zinc-600 bg-opacity-50">
       <div className="relative p-4 w-full max-w-2xl h-full md:h-auto mx-auto my-auto">
           {/* <!-- Modal content --> */}
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="relative bg-white rounded-lg shadow dark:bg-gray-900">
               {/* <!-- Modal header --> */}
               <div className="flex justify-between items-center p-3 rounded-t border-b dark:border-gray-600">
                   <h3 className="pl-3 text-left text-2xl font-roboto text-gray-900 dark:text-white">
@@ -162,7 +162,7 @@ function ModalComentarios({setModal, idPubliAMostrar, incrementarComentario}) {
                       <div></div>
                   }
 
-                <div className="flex">
+                <div className="flex w-full">
                   <input className="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white dark:bg-gray-600" placeholder="Escribe un comentario" onChange={handleChange} value={coment}/>
                   <button className="font-roboto rounded-r-lg bg-verde p-1 text-white uppercase dark:bg-dorado" onClick={handleClickEnviarComent}>ENVIAR</button>
                 </div>

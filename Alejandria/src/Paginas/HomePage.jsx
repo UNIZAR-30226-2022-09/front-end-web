@@ -12,14 +12,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser} from '@fortawesome/free-solid-svg-icons'
 
 
-
 function HomePage() {
   const navigate = useNavigate()
+
 
   const [colorTheme, setTheme] = useDarkmode();
   const [publiYRecomends, setPubliYRecomends] = useState([])
   const [offset, setOffset] = useState(0)
   const [longResultado, setLongResultado] = useState(null)
+
 
 
   
@@ -62,8 +63,6 @@ function HomePage() {
   }
   
   const obtenerPubliYRecomendApi = async (token, ofs) => {
-    console.log('offset llamada api: ',ofs);
-
     try {
       const urlRecomend = 'http://51.255.50.207:5000/HomePaginado'
       const resRecomend = await fetch(urlRecomend, {
@@ -84,6 +83,7 @@ function HomePage() {
       
       if(resultPubli.fin == undefined){
         const result = Object.entries(resultPubli).map(([id, values]) => ({ id, ...values }));
+        console.log(result)
         const reverse = result.map(item => item).reverse();
 
         // console.log('reverse:',reverse);
@@ -123,6 +123,7 @@ function HomePage() {
     console.log('useEffect');
     obtenerPubliYRecomendApi(token, offset)
   }, []);
+
 
 
   return (

@@ -201,7 +201,8 @@ function Explorar() {
                   </button> 
                 
       }else{
-          return  <CardRecomend
+          return  <div className="carousel-item active relative float-left w-full h-[28vh] overflow-y-auto" key={i}> 
+                    <CardRecomend
                       key={cartelera.id}
                       id={cartelera.id}
                       
@@ -217,6 +218,7 @@ function Explorar() {
                       nguardados={cartelera.nguardados}
                       guardadomio={cartelera.guardadomio}
                     />
+                  </div>
       }
     }else{
       if(i == 1){
@@ -435,7 +437,7 @@ function Explorar() {
           
           </div>
           { filteredData.length != 0 && (
-            <div className="mt-2 w-72 h-48 bg-white overflow-hidden overflow-y-auto scrollbar-hide dark:bg-gray-800 ">
+            <div className="mt-2 w-72 h-48 bg-white overflow-hidden overflow-y-auto scrollbar-hide dark:bg-gray-900 ">
               
               {filteredData.map( data => (
                     <div className="py-2 gap-2 border-b-2 items-center dark:border-dorado" key={data.nick}>
@@ -529,27 +531,6 @@ function Explorar() {
           <div className="w-6/12 h-[27vh] mx-auto">
             <div className="carousel-inner relative w-full overflow-hidden">
               {explorar.map(myFunct)}  
-              {/* <div className="carousel-item active relative float-left w-full">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/new/slides/041.webp"
-                  className="block w-full"
-                  alt="Wild Landscape"
-                />
-              </div>
-              <div className="carousel-item relative float-left w-full">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/new/slides/042.webp"
-                  className="block w-full"
-                  alt="Camera"
-                />
-              </div>
-              <div className="carousel-item relative float-left w-full">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/new/slides/043.webp"
-                  className="block w-full"
-                  alt="Exotic Fruits"
-                />
-              </div>*/}
             </div> 
             <button
               className="carousel-control-prev absolute top-0 bottom-0 items-center justify-center p-0 text-center hover:outline-none hover:no-underline focus:outline-none focus:no-underline left-0"
@@ -557,7 +538,7 @@ function Explorar() {
               data-bs-target="#carouselExampleControls"
               data-bs-slide="prev"
             >
-              <span className="text-verde dark:text-dorado  font-roboto text-6xl carousel-control-prev-icon inline-block bg-no-repeat" aria-hidden="false"> {'<'} </span>
+              <span className="text-verde dark:text-transparent  font-roboto text-6xl carousel-control-prev-icon inline-block bg-no-repeat" aria-hidden="false"> {'<'} </span>
             </button>
             <button
               className="carousel-control-next absolute top-0 bottom-0 items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline right-0"
@@ -565,7 +546,7 @@ function Explorar() {
               data-bs-target="#carouselExampleControls"
               data-bs-slide="next"
             >
-            <span className="text-verde dark:text-dorado font-roboto text-6xl carousel-control-next-icon inline-block bg-no-repeat" aria-hidden="false"> {'>'} </span>
+            <span className="text-verde dark:text-transparent font-roboto text-6xl carousel-control-next-icon inline-block bg-no-repeat" aria-hidden="false"> {'>'} </span>
             </button>
           </div>
         </div>

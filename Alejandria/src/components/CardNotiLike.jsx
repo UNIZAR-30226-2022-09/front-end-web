@@ -5,8 +5,8 @@ function CardNotiLike(props) {
   const navigate = useNavigate()
 
   const mostrarmodalPublicacion = () => {
-    props.setTipoPubli(true)
-    props.abrirModal(props.idPubli)
+    props.setModal(true)
+    props.setPubli(props.idPubli)
   }
 
   return (
@@ -19,7 +19,7 @@ function CardNotiLike(props) {
               onClick={() => navigate('/myAccount/perfil')}
             >
             <img className="w-10 h-10 rounded-full shadow-sm" 
-             src= {props.fotoPerfil} 
+             src= {`${props.fotoPerfil}`} 
              alt="" 
             /> 
             <div className="font-roboto">@{props.nickUser}</div>
@@ -31,7 +31,7 @@ function CardNotiLike(props) {
 
         <h1 className="mt-2 text-justify font-roboto">
           <button type="button"
-                  onClick={() => navigate(`/myAccount/externalUser/${props.idOtroUser}`)}
+                  onClick={() => navigate(`/myAccount/externalUser/${props.nickOtroUser}`)}
           
           >
             <span className="text-lg cursor-pointer transition-all hover:underline font-noto">@{props.nickOtroUser}</span>
@@ -40,9 +40,9 @@ function CardNotiLike(props) {
           <button type="button"
                   onClick={mostrarmodalPublicacion}
           >
-            <span className="text-verde underline">
+            <span className="text-verde underline dark:text-dorado">
               {' '}publicacion
-            </span>.
+            </span>
           </button> 
         </h1>
 

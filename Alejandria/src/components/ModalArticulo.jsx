@@ -1,7 +1,7 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faBrain, faPersonDotsFromLine} from '@fortawesome/free-solid-svg-icons'
+import {faBrain, faEarthEurope, faPersonDotsFromLine} from '@fortawesome/free-solid-svg-icons'
 import {faDna} from '@fortawesome/free-solid-svg-icons'
 import {faCoins} from '@fortawesome/free-solid-svg-icons'
 import {faLightbulb} from '@fortawesome/free-solid-svg-icons'
@@ -12,6 +12,9 @@ import {faLandmark} from '@fortawesome/free-solid-svg-icons'
 import {faMicrochip} from '@fortawesome/free-solid-svg-icons'
 import {faStethoscope} from '@fortawesome/free-solid-svg-icons'
 import {faAtom} from '@fortawesome/free-solid-svg-icons'
+import { faCalculator } from '@fortawesome/free-solid-svg-icons'
+import { faGear } from '@fortawesome/free-solid-svg-icons'
+import { faGem } from '@fortawesome/free-solid-svg-icons'
 import Alerta from './Alerta'
 import axios, { Axios } from 'axios'
 import { useNavigate } from 'react-router-dom'
@@ -77,7 +80,7 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
             marcado: false,
             nEnvio: 'C.Sociales',
             id: 2,
-            icon: faRuler
+            icon: faEarthEurope
         },
         {
             nombre: 'Economía',
@@ -119,7 +122,7 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
             marcado: false,
             nEnvio: 'Geologia',
             id: 8,
-            icon: faLandmark
+            icon: faGem
         },
         {
             nombre: 'Historia',
@@ -147,14 +150,14 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
             marcado: false,
             nEnvio: 'Matematicas',
             id: 12,
-            icon: faRuler
+            icon: faCalculator
         },
         {
             nombre: 'Mecánica',
             marcado: false,
             nEnvio: 'Mecanica',
             id: 13,
-            icon: faRuler
+            icon: faGear
         },
         {
             nombre: 'Medicina',
@@ -176,6 +179,7 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
     const [descripcion,setDescripcion] = useState('')
     const [error,setError] = useState(false)
     const [errorTematicas,setErrorTematicas] = useState(false)
+    const [longDesc,setLongDesc] = useState(false)
     const [file,setFile] = useState(null)
 
     const navigate = useNavigate()
@@ -202,6 +206,7 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
             pdf.append('pdf',file)
             console.log(file)
 
+            console.log('hola')
 
             if(!file){
                 setError(true)
@@ -219,10 +224,20 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
                 return item.nEnvio
             })
 
+            console.log(tematicas)
+
             if(tematicas.length === 0){
                 setErrorTematicas(true)
                 setTimeout( () => {
                     setErrorTematicas(false)
+                },1500)
+                return
+            }
+
+            if(descripcion.length > 100){
+                setLongDesc(true)
+                setTimeout( () => {
+                    setLongDesc(false)
                 },1500)
                 return
             }
@@ -233,6 +248,7 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
                 tipo: '1',
             }
             const token = JSON.parse(localStorage.getItem('token'))
+            console.log(token)
             const respuesta = await fetch(url,{
                 method:'POST',
                 body:JSON.stringify(obj),
@@ -270,7 +286,7 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
             <div className='flex justify-end'>
                   <button
                       onClick={handleChangeModal}
-                      className='hover:bg-gray-100 hover:rounded-xl p-1'
+                      className='hover:bg-gray-100 dark:hover:bg-dorado hover:rounded-xl p-1'
                   >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -283,8 +299,8 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
                 <h1 className='text-2xl text-verde dark:text-dorado uppercase font-bold font-roboto text-center'>Nuevo post</h1>
                 <input 
                     className='mt-3 dark:text-white'
-                    type='file'
-                    accept='application/pdf'
+                    type="file"
+                    accept='.pdf'
                     onChange={(e) => {
                         setFile(e.target.files[0]);
                     }}
@@ -303,6 +319,8 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
                         value={descripcion}
                         onChange={(e) => setDescripcion(e.target.value)}
                 />
+
+                {longDesc && <Alerta>{'La descripción no puede tener más de 100 caracteres'}</Alerta>}
 
                 {errorTematicas && <Alerta>{'Hay que seleccionar al menos una temática'}</Alerta>}  
 

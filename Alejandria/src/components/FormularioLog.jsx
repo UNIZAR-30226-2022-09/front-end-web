@@ -82,12 +82,12 @@ const FormularioLog = () => {
                         <label 
                             className='text-verde uppercase font-roboto text-xl'
                             htmlFor='nombre'
-                        > Nombre de usuario</label>
+                        > Nombre de usuario o correo</label>
                         <Field
                             id="nombre"  
                             type='text'
-                            className="mt-4 block w-full p-3 bg-gray-200 rounded-lg border-transparent"
-                            placeholder="Introduzca su nombre de usuario"
+                            className="mt-4 block w-full p-3 bg-gray-100 rounded-lg border-transparent"
+                            placeholder="Introduzca su nombre de usuario o correo electrónico"
                             name="nickOcorreo"
                         />
 
@@ -105,12 +105,15 @@ const FormularioLog = () => {
                         <Field
                             id="passwd"  
                             type='password'
-                            className="mt-4 block w-full p-3 bg-gray-200 rounded-lg border-transparent"
+                            className="mt-4 block w-full p-3 bg-gray-100 rounded-lg border-transparent"
                             placeholder="Introduzca su correo electrónico"
                             name="password"
                         />
                         {errors.password && touched.password ? (
-                            <Alerta>{errors.password}</Alerta>
+                        
+                             <Alerta>{errors.password}</Alerta>
+                             
+                            
                         ) : null }
                     </div>
 

@@ -12,6 +12,10 @@ import {faLandmark} from '@fortawesome/free-solid-svg-icons'
 import {faMicrochip} from '@fortawesome/free-solid-svg-icons'
 import {faStethoscope} from '@fortawesome/free-solid-svg-icons'
 import {faAtom} from '@fortawesome/free-solid-svg-icons'
+import { faCalculator } from '@fortawesome/free-solid-svg-icons'
+import { faGear } from '@fortawesome/free-solid-svg-icons'
+import { faGem } from '@fortawesome/free-solid-svg-icons'
+import { faEarthEurope } from '@fortawesome/free-solid-svg-icons'
 import Alerta from './Alerta'
 import axios, { Axios } from 'axios'
 import useDarkmode from '../hook/useDarkmode'
@@ -58,12 +62,12 @@ const divStyleDarkMarked = {
 }
 
 
-const ModalRecom = ({modalRecom,setModalRecom}) => {
+const ModalRecom = ({modalRecom,setModalRecom,nombre,escritor,enlace}) => {
 
-    const [titulo,setTitulo] = useState('')
-    const [autor,setAutor] = useState('')
+    const [titulo,setTitulo] = useState(nombre)
+    const [autor,setAutor] = useState(escritor)
     const [descripcion,setDescripcion] = useState('')
-    const [link,setLink] = useState('')
+    const [link,setLink] = useState(enlace)
 
     const navigate = useNavigate()
 
@@ -86,7 +90,7 @@ const ModalRecom = ({modalRecom,setModalRecom}) => {
             marcado: false,
             nEnvio: 'C.Sociales',
             id: 2,
-            icon: faRuler
+            icon: faEarthEurope
         },
         {
             nombre: 'Economía',
@@ -128,7 +132,7 @@ const ModalRecom = ({modalRecom,setModalRecom}) => {
             marcado: false,
             nEnvio: 'Geologia',
             id: 8,
-            icon: faLandmark
+            icon: faGem
         },
         {
             nombre: 'Historia',
@@ -156,14 +160,14 @@ const ModalRecom = ({modalRecom,setModalRecom}) => {
             marcado: false,
             nEnvio: 'Matematicas',
             id: 12,
-            icon: faRuler
+            icon: faCalculator
         },
         {
             nombre: 'Mecánica',
             marcado: false,
             nEnvio: 'Mecanica',
             id: 13,
-            icon: faRuler
+            icon: faGear
         },
         {
             nombre: 'Medicina',
@@ -183,11 +187,20 @@ const ModalRecom = ({modalRecom,setModalRecom}) => {
 
     const [error,setError] = useState(false)
     const [errorTematicas,setErrorTematicas] = useState(false)
+    const [errorTitulo,setErrorTitulo] = useState(false)
+    const [errorDescripcion,setErrorDescripcion] = useState(false)
+    const [errorAutor,setErrorAutor] = useState(false)
+    
+    
 
 
 
     const handleChangeModal = () => {
       setModalRecom(!modalRecom)
+      setTitulo('')
+      setAutor('')
+      setDescripcion('')
+      setLink('')
     }
 
     const handleSubmit = async (e) => {
@@ -198,7 +211,7 @@ const ModalRecom = ({modalRecom,setModalRecom}) => {
             const url = 'http://51.255.50.207:5000/subirPost'
 
 
-            if([titulo,autor,descripcion,link].includes('')){
+            if([titulo,autor].includes('')){
               setError(true)
               setTimeout( () => {
                   setError(false)
@@ -219,6 +232,24 @@ const ModalRecom = ({modalRecom,setModalRecom}) => {
                 return
             }
 
+            if(titulo.length > 40){
+                setErrorTitulo(true)
+                setTimeout( () => {
+                    setErrorTitulo(false)
+                },1500)
+                return
+            }
+
+            if(autor.length > 25){
+                setErrorAutor(true)
+                setTimeout( () => {
+                    setErrorAutor(false)
+                },1500)
+                return
+            }
+
+
+
             const obj = {
                 tematicas,
                 titulo,
@@ -227,6 +258,9 @@ const ModalRecom = ({modalRecom,setModalRecom}) => {
                 link,
                 tipo: '2',
             }
+
+            console.log(obj)
+
             const token = JSON.parse(localStorage.getItem('token'))
             const respuesta = await fetch(url,{
                 method:'POST',
@@ -255,7 +289,7 @@ return (
         <div className='flex justify-end'>
                   <button
                       onClick={handleChangeModal}
-                      className='hover:bg-gray-100 hover:rounded-xl p-1'
+                      className='hover:bg-gray-100 dark:hover:bg-dorado hover:rounded-xl p-1'
                   >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -308,12 +342,15 @@ return (
               />
 
               {error && (
-                <Alerta>{'Todos los campos son obligatorios'}</Alerta>
+                <Alerta>{'Los campos título y autor son obligatorios'}</Alerta>
               )}
 
               {errorTematicas && (
                   <Alerta>{'Hay que seleccionar al menos una temática'}</Alerta>
               )}
+
+              {errorTitulo && <Alerta>{'El máximo de caracteres de titulo son 40'}</Alerta>}
+
 
             <div className='text-verde dark:text-dorado font-roboto text-center mt-2 font-bold text-lg'>Temática(s) de la recomendación</div>
 

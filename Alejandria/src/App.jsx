@@ -1,6 +1,7 @@
 import Login from "./Paginas/Login"
 import Presentacion from "./layout/Presentacion"
 import LayoutNavegacion from "./layout/LayoutNavegacion"
+import {useState} from 'react'
 import Registrar from "./Paginas/Registrar"
 import { BrowserRouter, Routes, Route} from "react-router-dom"
 import HomePage from "./Paginas/HomePage"
@@ -11,10 +12,9 @@ import PerfilPage from "./Paginas/PerfilPage"
 import ExternalUserPage from "./Paginas/ExternalUserPage"
 
 
-//import useDarkmode from "./hook/useDarkmode"
-
-
 function App() {
+
+
   return (
       <BrowserRouter>
         <Routes>
@@ -26,12 +26,12 @@ function App() {
           <Route path="/myAccount" element={<LayoutNavegacion />}>
             <Route index element={<HomePage />}/>
             <Route path="notificaciones" index element={<NotificacionPage />}/>
-            <Route path="publicar" index element={<PublicarPage />}/>
+            <Route path="publicar" element={<PublicarPage />}/>
             <Route path="chat" index element={<ChatPage />}/>
             <Route path="perfil" index element={<PerfilPage />}/>
             <Route path="externalUser/:id" index element={<ExternalUserPage />}/>
           </Route>
-
+          
         </Routes>
       </BrowserRouter>
   )

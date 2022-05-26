@@ -22,10 +22,11 @@ const FormularioReg = () => {
 
 
         e_mail: Yup.string().required('El email es obligatorio')
-                        .email('Email no válido'),
+                        .email('Email no válido')
+                        .max(50, 'El email debe tener como máximo 50 caracteres'),
 
         password: Yup.string().required('La contraseña es obligatoria')
-                    .min(8, 'La contraseña debe tener al menos 8 caracteres')
+                    .min(8, 'La contraseña debe tener al menos 8 caracteres')   
     })
 
 
@@ -95,7 +96,7 @@ const FormularioReg = () => {
                         <Field
                             id="nombre"  
                             type='text'
-                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent font-roboto"
+                            className="mt-4 block w-full p-3 bg-gray-100 rounded-lg border-transparent"
                             placeholder="Introduzca su nombre de usuario"
                             name="nick"
                         />
@@ -114,7 +115,7 @@ const FormularioReg = () => {
                         <Field
                             id="email"  
                             type='text'
-                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent font-roboto"
+                            className="mt-4 block w-full p-3 bg-gray-100 rounded-lg border-transparent"
                             placeholder="Introduzca su correo electrónico"
                             name="e_mail"
                         />
@@ -131,7 +132,7 @@ const FormularioReg = () => {
                         <Field
                             id="passwd"  
                             type='password'
-                            className="mt-4 block w-full p-3 bg-gray-50 rounded-lg border-transparent font-roboto"
+                            className="mt-4 block w-full p-3 bg-gray-100 rounded-lg border-transparent"
                             placeholder="Introduzca su contraseña"
                             name="password"
                         />
