@@ -556,11 +556,11 @@ function Explorar() {
 
       <div className="">
         <h1 className="mt-2 text-lg text-left font-noto">Explora <span className="uppercase text-verde dark:text-dorado">Populares - Artículos</span></h1>
-        <div className="flex h-[27vh] overflow-x-auto space-x-4 items-center justify-center">
+        <div className="flex h-[27vh] overflow-x-auto space-x-4 ">
           {popArticulos.length === 0 
           ? 
-          <div className="text-gray-500 pt-5 text-center ">
-            <div className="italic font-roboto text-3xl pt-2">
+          <div className="text-gray-500 pt-5 ">
+            <div className="italic font-roboto text-3xl pt-2 text-center">
               No se ha encontrado ningún resultado
             </div>
           </div>

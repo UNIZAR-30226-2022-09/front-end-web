@@ -34,9 +34,6 @@ function ModalComentarios({setModal, idPubliAMostrar, incrementarComentario}) {
           'Content-Type' : 'application/json',
           'token' : token,
           'id' : id
-          // 'offset' : offset,
-          // 'limit' : 4,
-
         }
       })
       const resultPubli = await resRecomend.json()
@@ -46,7 +43,8 @@ function ModalComentarios({setModal, idPubliAMostrar, incrementarComentario}) {
       }else{
         setComentarios(result)
       }
-      console.log('result: ', result);
+
+      console.log('result: comentssss', result);
     } catch (error) {
       console.log(error);
     }
@@ -88,8 +86,7 @@ function ModalComentarios({setModal, idPubliAMostrar, incrementarComentario}) {
 
   const handleClickMas = () => {
     const token = JSON.parse(localStorage.getItem('token'))
-    setOffset(prevOffset =>  prevOffset + 1)
-    console.log('offset: ',offset);
+    
     obtenerComentarios(token, idPubliAMostrar, true)
   };
 
@@ -147,21 +144,6 @@ function ModalComentarios({setModal, idPubliAMostrar, incrementarComentario}) {
           
                     </div>  
                   ))}
-                  { comentarios.length >  4 
-                    ? 
-                      
-                      <div className="flex flex-col items-center justify-center pb-4">
-                        <button type="button" onClick={handleClickMas}>
-                          <svg xmlns="http://www.w3.org/2000/svg" className="cursor-pointer text-verde h-8 w-8 hover:h-10 hover:w-10 dark:text-dorado" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                        </button>
-                      </div>
-                      
-                    :
-                      <div></div>
-                  }
-
                 <div className="flex w-full">
                   <input className="font-roboto y-0p rounded-l-lg pl-2 border-t border-b border-l border-verde bg-white dark:bg-gray-600" placeholder="Escribe un comentario" onChange={handleChange} value={coment}/>
                   <button className="font-roboto rounded-r-lg bg-verde p-1 text-white uppercase dark:bg-dorado" onClick={handleClickEnviarComent}>ENVIAR</button>

@@ -145,7 +145,7 @@ function NotificacionPage() {
                   <div className="text-gray-500 dark:text-white pt-5 text-center">
                     <FontAwesomeIcon icon={faHouseUser} size={'xl'} style={{color: oscuro ? 'white'  : '#27272a'}} />
                     <div className="italic font-roboto text-3xl pt-2">
-                      Todavía no sigues a ningún usuario
+                      Todavía no tienes notificaciones
                     </div>
                   </div>
                 )}
