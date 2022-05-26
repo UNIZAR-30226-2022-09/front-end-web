@@ -4,9 +4,11 @@ import CardNotiComent from "../components/CardNotiComent"
 import CardNotiSeguir from '../components/CardNotiSeguir'
 import ModalPubliNotif from '../components/ModalPubliNotif'
 import useDarkmode from "../hook/useDarkmode";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHouseUser } from '@fortawesome/free-solid-svg-icons'
 import icon from "../public/bck-notif.png" 
 import { Navigate, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import axios from 'axios' 
 
 
 
@@ -14,6 +16,8 @@ import axios from 'axios'
 function NotificacionPage() {
   const [notificaciones, setNotificaciones] = useState([])
   const [colorTheme, setTheme] = useDarkmode();
+
+  const oscuro = (colorTheme === 'dark') ? false : true 
 
   const [idPubli,setPubli] = useState(undefined)
 
@@ -99,15 +103,6 @@ function NotificacionPage() {
 
       setLongResultado(reverse.length)
 
-
-    
-      
-
-      
-      
-
-      
-
     } catch (error) {
       console.log(error);
     }
@@ -138,15 +133,18 @@ function NotificacionPage() {
 
   return (
     <div className="flex">
-        <div className="w-3/5 border-l-2 border-r-2 dark:bg-gray-900 dark:border-l-dorado dark:border-r-dorado">
+        <div className="w-3/5 border-l-2 border-r-2 dark:bg-gray-800 dark:border-l-dorado dark:border-r-dorado">
           <div className="h-screen overflow-y-scroll scrollbar-hide w-[90hw]">
             <div className="ml-3 mr-2 mt-3 items-center justify-center">
               <div className="w-full">
 
                 {notificaciones.length === 0 && (
-                  <div className="italic font-roboto text-3xl pt-2">
-                  Todavía no tienes notificaciones
-                </div>
+                  <div className="text-gray-500 dark:text-white pt-5 text-center">
+                    <FontAwesomeIcon icon={faHouseUser} size={'xl'} style={{color: oscuro ? 'white'  : '#27272a'}} />
+                    <div className="italic font-roboto text-3xl pt-2">
+                      Todavía no sigues a ningún usuario
+                    </div>
+                  </div>
                 )}
 
                 { notificaciones.map(notif => myFunct(notif,Math.floor(Math.random() * (19454543543543 - 1)) + 1)) } 
@@ -172,8 +170,8 @@ function NotificacionPage() {
         </div>
 
 
-        <div className='w-2/5 h-screen'>
-          <img src={icon}/>
+        <div className='w-2/5 h-screen bg-bck-img bg-cover dark:bg-bck-dark'>
+          {/* <img src={icon} /> */}
         </div>
 
     

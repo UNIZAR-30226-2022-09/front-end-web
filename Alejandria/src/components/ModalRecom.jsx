@@ -12,6 +12,10 @@ import {faLandmark} from '@fortawesome/free-solid-svg-icons'
 import {faMicrochip} from '@fortawesome/free-solid-svg-icons'
 import {faStethoscope} from '@fortawesome/free-solid-svg-icons'
 import {faAtom} from '@fortawesome/free-solid-svg-icons'
+import { faCalculator } from '@fortawesome/free-solid-svg-icons'
+import { faGear } from '@fortawesome/free-solid-svg-icons'
+import { faGem } from '@fortawesome/free-solid-svg-icons'
+import { faEarthEurope } from '@fortawesome/free-solid-svg-icons'
 import Alerta from './Alerta'
 import axios, { Axios } from 'axios'
 import useDarkmode from '../hook/useDarkmode'
@@ -86,7 +90,7 @@ const ModalRecom = ({modalRecom,setModalRecom,nombre,escritor,enlace}) => {
             marcado: false,
             nEnvio: 'C.Sociales',
             id: 2,
-            icon: faRuler
+            icon: faEarthEurope
         },
         {
             nombre: 'Economía',
@@ -128,7 +132,7 @@ const ModalRecom = ({modalRecom,setModalRecom,nombre,escritor,enlace}) => {
             marcado: false,
             nEnvio: 'Geologia',
             id: 8,
-            icon: faLandmark
+            icon: faGem
         },
         {
             nombre: 'Historia',
@@ -156,14 +160,14 @@ const ModalRecom = ({modalRecom,setModalRecom,nombre,escritor,enlace}) => {
             marcado: false,
             nEnvio: 'Matematicas',
             id: 12,
-            icon: faRuler
+            icon: faCalculator
         },
         {
             nombre: 'Mecánica',
             marcado: false,
             nEnvio: 'Mecanica',
             id: 13,
-            icon: faRuler
+            icon: faGear
         },
         {
             nombre: 'Medicina',
@@ -207,7 +211,7 @@ const ModalRecom = ({modalRecom,setModalRecom,nombre,escritor,enlace}) => {
             const url = 'http://51.255.50.207:5000/subirPost'
 
 
-            if([titulo,autor,descripcion,link].includes('')){
+            if([titulo,autor,link].includes('')){
               setError(true)
               setTimeout( () => {
                   setError(false)

@@ -1,7 +1,7 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faBrain, faPersonDotsFromLine} from '@fortawesome/free-solid-svg-icons'
+import {faBrain, faEarthEurope, faPersonDotsFromLine} from '@fortawesome/free-solid-svg-icons'
 import {faDna} from '@fortawesome/free-solid-svg-icons'
 import {faCoins} from '@fortawesome/free-solid-svg-icons'
 import {faLightbulb} from '@fortawesome/free-solid-svg-icons'
@@ -12,6 +12,9 @@ import {faLandmark} from '@fortawesome/free-solid-svg-icons'
 import {faMicrochip} from '@fortawesome/free-solid-svg-icons'
 import {faStethoscope} from '@fortawesome/free-solid-svg-icons'
 import {faAtom} from '@fortawesome/free-solid-svg-icons'
+import { faCalculator } from '@fortawesome/free-solid-svg-icons'
+import { faGear } from '@fortawesome/free-solid-svg-icons'
+import { faGem } from '@fortawesome/free-solid-svg-icons'
 import Alerta from './Alerta'
 import axios, { Axios } from 'axios'
 import { useNavigate } from 'react-router-dom'
@@ -77,7 +80,7 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
             marcado: false,
             nEnvio: 'C.Sociales',
             id: 2,
-            icon: faRuler
+            icon: faEarthEurope
         },
         {
             nombre: 'Economía',
@@ -119,7 +122,7 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
             marcado: false,
             nEnvio: 'Geologia',
             id: 8,
-            icon: faLandmark
+            icon: faGem
         },
         {
             nombre: 'Historia',
@@ -147,14 +150,14 @@ const ModalArticulo = ({modalArticulo,setModalArticulo}) => {
             marcado: false,
             nEnvio: 'Matematicas',
             id: 12,
-            icon: faRuler
+            icon: faCalculator
         },
         {
             nombre: 'Mecánica',
             marcado: false,
             nEnvio: 'Mecanica',
             id: 13,
-            icon: faRuler
+            icon: faGear
         },
         {
             nombre: 'Medicina',

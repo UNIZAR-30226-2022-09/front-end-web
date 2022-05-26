@@ -40,7 +40,7 @@ function CardNotiLike(props) {
           <button type="button"
                   onClick={mostrarmodalPublicacion}
           >
-            <span className="text-verde underline">
+            <span className="text-verde underline dark:text-dorado">
               {' '}publicacion
             </span>
           </button> 

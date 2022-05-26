@@ -42,7 +42,7 @@ function ModalPubliNotif(props) {
   },[])
 
   return (
-    <div id="medium-modal" tabIndex="-1" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full bg-zinc-600 bg-opacity-50">
+    <div id="medium-modal" tabIndex="-1" className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full bg-zinc-60 bg-opacity-50">
       <div className="relative p-4 w-full max-w-2xl h-full md:h-auto mx-auto my-auto">
           {/* <!-- Modal content --> */}
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
