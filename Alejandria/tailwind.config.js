@@ -1,7 +1,7 @@
 module.exports = {
-  content: ["index.html","./src/**/*.jsx",'./src/**/*.{html,js,ts,tsx}',
+  content: ['index.html','./src/**/*.jsx','./src/**/*.{html,js,ts,tsx}',
             './node_modules/tw-elements/dist/js/**/*.js',
-            "./node_modules/flowbite/**/*.js"
+            './node_modules/flowbite/**/*.js'
           ],
   theme: {
     extend: {

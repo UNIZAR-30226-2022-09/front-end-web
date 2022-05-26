@@ -68,12 +68,12 @@ const PublicarPage = () => {
     }
 
     useEffect(() => {
-      const tipo = location.state.tipo
-      if(tipo == true){//artic
-        //poner modal artic a true
-      } else if(tipo == false){ //recom
-        //poner modal recomendacion a true
-      }
+      // const tipo = location.state.tipo
+      // if(tipo == true){//artic
+      //   //poner modal artic a true
+      // } else if(tipo == false){ //recom
+      //   //poner modal recomendacion a true
+      // }
     }, []);
 
 
@@ -82,7 +82,7 @@ const PublicarPage = () => {
         <div className='md:w-2/3 h-full mx-auto container grid'>
           <form className='p-2 md:w-2/3 bg-slate-50 dark:bg-gray-900 rounded-lg place-self-center grid text-center'>
               <h1 className='font-noto text-verde dark:text-blak dark:text-dorado uppercase text-4xl mt-2 mb-2'>Publicaciones</h1>
-              {location.state.id} {location.state.titulo} {location.state.autor} {location.state.link} {location.state.usuario} {location.state.tipo}
+              {/* {location.state.id} {location.state.titulo} {location.state.autor} {location.state.link} {location.state.usuario} {location.state.tipo} */}
               <div className='grid m-2 p-3'>
                 <button 
                   className='text-white dark:text-black dark:hover:bg-doradoClaro dark:bg-dorado dark:border-white font-roboto bg-verde rounded-3xl hover:bg-green-600 mx-2 border-2 border-dorado'

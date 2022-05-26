@@ -40,8 +40,13 @@ function Explorar() {
           'token' : token
         }
       })
+
+      if (resRecomend.ok == false){
+        return obtenerExplorar(token, filtrado, tematicas, offs)
+      }
+
       const resultPubli = await resRecomend.json()
-      console.log('resultExplorar:', resultPubli);
+      console.log('resultNovedades:', resultPubli);
 
       if(resultPubli.fin == undefined){
         // console.log('resultExplorar:', resultPubli);
@@ -82,6 +87,10 @@ function Explorar() {
           'offset' : offs
         }
       })
+      if (resRecomend.ok == false){
+        return obtenerPopularesArticulos(token, filtrado, tematicas, offs)
+      }
+
       const resultPubli = await resRecomend.json()
       console.log('resultPopArt:', resultPubli);
       // console.log('ofsset desde obtenerPopularesArticulos',offs);
@@ -135,7 +144,10 @@ function Explorar() {
           'offset' : offs
         }
       })
-      
+      if (resRecomend.ok == false){
+        return obtenerPopularesRecomendaciones(token, filtrado, tematicas, offs)
+      }
+
       const resultPubli = await resRecomend.json()
       // console.log('resultPopRecomend:', resultPubli);
 
@@ -398,7 +410,7 @@ function Explorar() {
   }, []);
 
   return (
-    <div className="w-3/6 px-2 dark:bg-gray-900 dark:text-white">
+    <div className="w-3/6 px-2 dark:bg-gray-900 dark:text-white h-screen overflow-y-scroll scrollbar-hide">
       <h1 className="text-black text-center dark:text-white font-roboto text-xl">Amplía tu<span
           className="font-roboto text-verde dark:text-dorado"> {''}conocimiento</span></h1>
       
@@ -408,8 +420,8 @@ function Explorar() {
           <button type='button' className="font-roboto rounded-r-lg bg-verde dark:bg-dorado p-1 text-white uppercase" onClick={handleFiltrar}>Buscar</button>
         </form>
         
-        <div>
-        <div className="relative flex items-center text-gray-400">
+        <div className="z-40">
+          <div className="relative flex items-center text-gray-400">
             <input className="font-roboto y-0p rounded-lg pl-9 border-t border-b border-l border-verde bg-white text-base dark:bg-gray-400 dark:text-white" 
                   type='text'
                   placeholder="Buscar Usuario ..."
@@ -445,10 +457,13 @@ function Explorar() {
           )}
         </div>
         
+        
       </div>
       
+      
+      
       {/* FILTROS */}
-      <div className="pt-1 flex overflow-x-auto scrollbar-hide gap-1">
+      <div className="pt-1 flex overflow-x-auto scrollbar-hide gap-1 z-30">
         <button className="px-1 border-solid border-b-2 border-verde font-roboto focus:bg-verde focus:text-white dark:border-dorado dark:focus:bg-dorado" onClick={() => handleClickFiltroTematica('pref')}>
           Preferencias
         </button>
@@ -502,7 +517,8 @@ function Explorar() {
       {/* CARROUSEL */}
       <div className="">
         <h1 className="mt-2 mb-1 text-lg text-left font-noto">Explora <span className="uppercase text-verde dark:text-dorado">novedades</span></h1>
-        {longResultadoNovedades === 0 ? 
+        {/* 1 */}
+        { longResultadoNovedades === 0 ? 
           <div className="text-gray-500 pt-5 text-center h-[27vh]">
             <div className="italic font-roboto text-3xl pt-2">
               No se ha encontrado ningún resultado
@@ -513,7 +529,28 @@ function Explorar() {
           <div className="w-6/12 h-[27vh] mx-auto">
             <div className="carousel-inner relative w-full overflow-hidden">
               {explorar.map(myFunct)}  
-            </div>
+              {/* <div className="carousel-item active relative float-left w-full">
+                <img
+                  src="https://mdbcdn.b-cdn.net/img/new/slides/041.webp"
+                  className="block w-full"
+                  alt="Wild Landscape"
+                />
+              </div>
+              <div className="carousel-item relative float-left w-full">
+                <img
+                  src="https://mdbcdn.b-cdn.net/img/new/slides/042.webp"
+                  className="block w-full"
+                  alt="Camera"
+                />
+              </div>
+              <div className="carousel-item relative float-left w-full">
+                <img
+                  src="https://mdbcdn.b-cdn.net/img/new/slides/043.webp"
+                  className="block w-full"
+                  alt="Exotic Fruits"
+                />
+              </div>*/}
+            </div> 
             <button
               className="carousel-control-prev absolute top-0 bottom-0 items-center justify-center p-0 text-center hover:outline-none hover:no-underline focus:outline-none focus:no-underline left-0"
               type="button"
@@ -537,7 +574,7 @@ function Explorar() {
       </div>
 
       <div className="">
-        <h1 className="mt-2 mb-1 text-lg text-left font-noto">Explora <span className="uppercase text-verde dark:text-dorado">Populares - Artículos</span></h1>
+        <h1 className="mt-2 text-lg text-left font-noto">Explora <span className="uppercase text-verde dark:text-dorado">Populares - Artículos</span></h1>
         <div className="flex h-[27vh] overflow-x-auto space-x-4 items-center justify-center">
           {popArticulos.length === 0 
           ? 

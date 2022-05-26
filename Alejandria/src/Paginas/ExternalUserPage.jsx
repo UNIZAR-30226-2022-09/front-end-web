@@ -49,15 +49,23 @@ function PerfilPage() {
 
         const resultado = await respuesta.json()
         
-        if (resultado.error != null){ //Si ha ido MAL
-          setComment(false)
-        }
+        
       } catch (error) {
         console.log(error);
       }
     }
 
     actualizarSeguidos()
+    console.log(' actualizarSeguidos()');
+
+    console.log('obtenerDatosUserApi');
+    console.log('id', id);
+
+    setTimeout(()=> {
+      obtenerDatosUserApi(token, id)
+
+    },400)
+
   }
 
   
@@ -145,8 +153,9 @@ function PerfilPage() {
       })
       const resultDatos = await resDatos.json()
 
-      console.log('resultDatos', resultDatos);
+      console.log('resultDatosssss', resultDatos);
 
+      
       setDatosUser(resultDatos);
       // console.log('datosUser', resultDatos);
 
@@ -237,7 +246,7 @@ function PerfilPage() {
       </div>
       
       <div className="h-[3vh] ">
-        <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto focus:bg-verde focus:text-white hover:bg-verdeClaro hover:text-white dark:border-dorado dark:text-dorado dark:hover:bg-doradoClaro dark:hover:text-white dark:hover:opacity-70"
+        <button className="text-verde rounded-lg p-1 w-full border-solid border-2 border-verde font-roboto  hover:bg-verdeClaro hover:text-white dark:border-dorado dark:text-dorado dark:hover:bg-doradoClaro dark:hover:text-white dark:hover:opacity-70"
                 type="button"
                 onClick={handleClick}
         >

@@ -185,6 +185,7 @@ function ModalPerfil({setModal, guardarDatos, datosUser, refreshPage}) {
                             <input
                               className="font-roboto y-0p rounded-lg pl-2 border-2 border-verde bg- h-10 dark:border-dorado dark:bg-gray-500 dark:text-white" placeholder="Descripción"
                               defaultValue={descripcion}
+                              maxLength={100}
                               onChange={(e) => 
                                 setDescripcion(e.target.value)}
                             

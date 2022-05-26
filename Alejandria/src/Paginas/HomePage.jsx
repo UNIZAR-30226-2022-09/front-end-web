@@ -75,6 +75,10 @@ function HomePage() {
 
         }
       })
+      console.log('resultado peticion HOME', resRecomend.ok);
+      if (resRecomend.ok == false){
+        return obtenerPubliYRecomendApi(token, ofs)
+      }
       const resultPubli = await resRecomend.json()
       // console.log('resultPubli:', resultPubli);
       

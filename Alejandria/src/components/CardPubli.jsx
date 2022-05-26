@@ -188,9 +188,10 @@ function CardPubli(props) {
             </button>
 
         </div>
-        <div className='object-center'>
+        <div className='justify-center '>
           <a href={props.pdf} target="_blank" rel="noreferrer">
-              <img className="object-scale-down h-96 w-52" 
+              {/* <img className="object-scale-down h-96 w-52" */}
+              <img className="object-none object-center "  
                   src={props.portada}  
                   alt="Portada del pdf"   
               />

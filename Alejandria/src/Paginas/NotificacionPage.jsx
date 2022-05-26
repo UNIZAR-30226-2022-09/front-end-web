@@ -60,6 +60,18 @@ function NotificacionPage() {
     }
   }
 
+  const obtenerNotificacionesApi = async () => {
+    try {
+      const urlDatos = 'http://localhost:4000/notificaciones'
+      const resDatos = await fetch(urlDatos)
+      const resultDatos = await resDatos.json()
+      setNotificaciones(resultDatos);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -82,7 +94,7 @@ function NotificacionPage() {
             <div className="ml-3 mr-2 mt-3 items-center justify-center">
               <div className="w-full">
                 {notificaciones.map(myFunct)}
-                {modal && <ModalPubli idPubliAMostrar={idPubliAMostrar} setModal={setModal} tipoPubli={tipoPubli}/>}
+                {modal && <ModalPubli cartelera={cartelera} setModal={setModal} tipo={cartelera.tipo}/>}
               </div>         
             </div>
           </div>
